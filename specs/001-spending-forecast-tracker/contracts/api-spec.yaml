@@ -1,0 +1,961 @@
+openapi: 3.0.3
+info:
+  title: Spending Forecast Tracker API
+  description: |
+    REST API for managing spending forecasts across departments and projects.
+
+    **Features:**
+    - View, create, edit, and filter spending forecasts
+    - Aggregate spending by department and project
+    - Time period organization (monthly, quarterly, yearly)
+    - SSO authentication with JWT tokens
+
+    **Security:**
+    - All endpoints require JWT authentication via SSO
+    - Users can only edit forecasts they created
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@example.com
+
+servers:
+  - url: https://api.example.com/v1
+    description: Production server
+  - url: https://staging-api.example.com/v1
+    description: Staging server
+  - url: http://localhost:8000/v1
+    description: Local development server
+
+security:
+  - BearerAuth: []
+
+paths:
+  # ==================== Forecasts Endpoints ====================
+
+  /forecasts:
+    get:
+      summary: List all forecasts
+      description: Retrieve a paginated list of forecasts with optional filtering
+      operationId: listForecasts
+      tags:
+        - Forecasts
+      parameters:
+        - $ref: '#/components/parameters/DepartmentIdFilter'
+        - $ref: '#/components/parameters/ProjectIdFilter'
+        - $ref: '#/components/parameters/PeriodTypeFilter'
+        - $ref: '#/components/parameters/StartDateFilter'
+        - $ref: '#/components/parameters/EndDateFilter'
+        - $ref: '#/components/parameters/StatusFilter'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    post:
+      summary: Create a new forecast
+      description: Create a new spending forecast for a department and project
+      operationId: createForecast
+      tags:
+        - Forecasts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateForecastRequest'
+      responses:
+        '201':
+          description: Forecast created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /forecasts/{forecastId}:
+    get:
+      summary: Get forecast by ID
+      description: Retrieve a single forecast by its ID
+      operationId: getForecast
+      tags:
+        - Forecasts
+      parameters:
+        - $ref: '#/components/parameters/ForecastId'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    put:
+      summary: Update forecast
+      description: Update an existing forecast (user can only update their own forecasts)
+      operationId: updateForecast
+      tags:
+        - Forecasts
+      parameters:
+        - $ref: '#/components/parameters/ForecastId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateForecastRequest'
+      responses:
+        '200':
+          description: Forecast updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden - user cannot edit this forecast
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    delete:
+      summary: Delete forecast
+      description: Delete a forecast (user can only delete their own forecasts)
+      operationId: deleteForecast
+      tags:
+        - Forecasts
+      parameters:
+        - $ref: '#/components/parameters/ForecastId'
+      responses:
+        '204':
+          description: Forecast deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden - user cannot delete this forecast
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /forecasts/my:
+    get:
+      summary: Get current user's forecasts
+      description: Retrieve all forecasts created by the authenticated user
+      operationId: getMyForecasts
+      tags:
+        - Forecasts
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # ==================== Aggregations Endpoints ====================
+
+  /forecasts/aggregations/by-department:
+    get:
+      summary: Aggregate forecasts by department
+      description: Get total spending aggregated by department
+      operationId: aggregateByDepartment
+      tags:
+        - Aggregations
+      parameters:
+        - $ref: '#/components/parameters/StartDateFilter'
+        - $ref: '#/components/parameters/EndDateFilter'
+        - $ref: '#/components/parameters/PeriodTypeFilter'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartmentAggregationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /forecasts/aggregations/by-project:
+    get:
+      summary: Aggregate forecasts by project
+      description: Get total spending aggregated by project
+      operationId: aggregateByProject
+      tags:
+        - Aggregations
+      parameters:
+        - $ref: '#/components/parameters/StartDateFilter'
+        - $ref: '#/components/parameters/EndDateFilter'
+        - $ref: '#/components/parameters/DepartmentIdFilter'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectAggregationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # ==================== Departments Endpoints ====================
+
+  /departments:
+    get:
+      summary: List all departments
+      description: Retrieve a list of all active departments
+      operationId: listDepartments
+      tags:
+        - Departments
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  departments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Department'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /departments/{departmentId}:
+    get:
+      summary: Get department by ID
+      description: Retrieve a single department by its ID
+      operationId: getDepartment
+      tags:
+        - Departments
+      parameters:
+        - name: departmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: Department ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # ==================== Projects Endpoints ====================
+
+  /projects:
+    get:
+      summary: List all projects
+      description: Retrieve a list of all active projects, optionally filtered by department
+      operationId: listProjects
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/DepartmentIdFilter'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  projects:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /projects/{projectId}:
+    get:
+      summary: Get project by ID
+      description: Retrieve a single project by its ID
+      operationId: getProject
+      tags:
+        - Projects
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: Project ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # ==================== Health Check ====================
+
+  /health:
+    get:
+      summary: Health check
+      description: Check API health status
+      operationId: healthCheck
+      tags:
+        - System
+      security: []
+      responses:
+        '200':
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  timestamp:
+                    type: string
+                    format: date-time
+                  version:
+                    type: string
+                    example: "1.0.0"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token from SSO provider (AWS Cognito)
+
+  parameters:
+    ForecastId:
+      name: forecastId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+      description: Forecast ID
+
+    DepartmentIdFilter:
+      name: department_id
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int64
+      description: Filter by department ID
+
+    ProjectIdFilter:
+      name: project_id
+      in: query
+      required: false
+      schema:
+        type: integer
+        format: int64
+      description: Filter by project ID
+
+    PeriodTypeFilter:
+      name: period_type
+      in: query
+      required: false
+      schema:
+        type: string
+        enum: [MONTHLY, QUARTERLY, YEARLY]
+      description: Filter by period type
+
+    StartDateFilter:
+      name: start_date
+      in: query
+      required: false
+      schema:
+        type: string
+        format: date
+      description: Filter forecasts starting from this date
+      example: "2025-01-01"
+
+    EndDateFilter:
+      name: end_date
+      in: query
+      required: false
+      schema:
+        type: string
+        format: date
+      description: Filter forecasts ending before this date
+      example: "2025-12-31"
+
+    StatusFilter:
+      name: status
+      in: query
+      required: false
+      schema:
+        type: string
+        enum: [DRAFT, SUBMITTED, APPROVED, REJECTED]
+      description: Filter by forecast status
+
+    Page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for pagination
+
+    PageSize:
+      name: page_size
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+      description: Number of items per page
+
+  schemas:
+    # ==================== Forecast Schemas ====================
+
+    CreateForecastRequest:
+      type: object
+      required:
+        - dept_id
+        - proj_id
+        - amount
+        - period_type
+        - period_start_date
+        - period_end_date
+      properties:
+        dept_id:
+          type: integer
+          format: int64
+          description: Department ID
+          example: 1
+        proj_id:
+          type: integer
+          format: int64
+          description: Project ID
+          example: 101
+        amount:
+          type: number
+          format: decimal
+          minimum: 0.01
+          maximum: 9999999999999999.99
+          description: Forecast amount in USD
+          example: 50000.00
+        period_type:
+          type: string
+          enum: [MONTHLY, QUARTERLY, YEARLY]
+          description: Time period type
+          example: "QUARTERLY"
+        period_start_date:
+          type: string
+          format: date
+          description: Period start date
+          example: "2025-01-01"
+        period_end_date:
+          type: string
+          format: date
+          description: Period end date
+          example: "2025-03-31"
+        description:
+          type: string
+          maxLength: 1000
+          description: Optional forecast description
+          example: "Q1 2025 infrastructure spending forecast"
+
+    UpdateForecastRequest:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: decimal
+          minimum: 0.01
+          maximum: 9999999999999999.99
+          description: Forecast amount in USD
+          example: 55000.00
+        period_type:
+          type: string
+          enum: [MONTHLY, QUARTERLY, YEARLY]
+          description: Time period type
+        period_start_date:
+          type: string
+          format: date
+          description: Period start date
+        period_end_date:
+          type: string
+          format: date
+          description: Period end date
+        description:
+          type: string
+          maxLength: 1000
+          description: Forecast description
+
+    ForecastResponse:
+      type: object
+      properties:
+        forecast_id:
+          type: integer
+          format: int64
+          example: 1001
+        dept_id:
+          type: integer
+          format: int64
+          example: 1
+        dept_name:
+          type: string
+          example: "Finance"
+        dept_code:
+          type: string
+          example: "FIN"
+        proj_id:
+          type: integer
+          format: int64
+          example: 101
+        proj_name:
+          type: string
+          example: "Infrastructure Upgrade"
+        proj_code:
+          type: string
+          example: "INFRA2025"
+        amount:
+          type: number
+          format: decimal
+          example: 50000.00
+        period_type:
+          type: string
+          enum: [MONTHLY, QUARTERLY, YEARLY]
+          example: "QUARTERLY"
+        period_start_date:
+          type: string
+          format: date
+          example: "2025-01-01"
+        period_end_date:
+          type: string
+          format: date
+          example: "2025-03-31"
+        description:
+          type: string
+          nullable: true
+          example: "Q1 2025 infrastructure spending forecast"
+        status:
+          type: string
+          enum: [DRAFT, SUBMITTED, APPROVED, REJECTED]
+          example: "APPROVED"
+        created_by:
+          type: object
+          properties:
+            user_id:
+              type: string
+              format: uuid
+            username:
+              type: string
+            full_name:
+              type: string
+          example:
+            user_id: "550e8400-e29b-41d4-a716-446655440000"
+            username: "jdoe"
+            full_name: "John Doe"
+        created_at:
+          type: string
+          format: date-time
+          example: "2025-01-15T10:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2025-01-15T10:30:00Z"
+        updated_by:
+          type: object
+          nullable: true
+          properties:
+            user_id:
+              type: string
+              format: uuid
+            username:
+              type: string
+            full_name:
+              type: string
+
+    ForecastListResponse:
+      type: object
+      properties:
+        forecasts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ForecastResponse'
+        pagination:
+          $ref: '#/components/schemas/PaginationMetadata'
+
+    # ==================== Aggregation Schemas ====================
+
+    DepartmentAggregationResponse:
+      type: object
+      properties:
+        aggregations:
+          type: array
+          items:
+            type: object
+            properties:
+              dept_id:
+                type: integer
+                format: int64
+              dept_name:
+                type: string
+              dept_code:
+                type: string
+              total_amount:
+                type: number
+                format: decimal
+              forecast_count:
+                type: integer
+              avg_amount:
+                type: number
+                format: decimal
+              min_amount:
+                type: number
+                format: decimal
+              max_amount:
+                type: number
+                format: decimal
+              period:
+                type: string
+                description: Time period (month, quarter, year)
+        total:
+          type: object
+          properties:
+            total_amount:
+              type: number
+              format: decimal
+            forecast_count:
+              type: integer
+      example:
+        aggregations:
+          - dept_id: 1
+            dept_name: "Finance"
+            dept_code: "FIN"
+            total_amount: 150000.00
+            forecast_count: 3
+            avg_amount: 50000.00
+            min_amount: 30000.00
+            max_amount: 70000.00
+            period: "2025-Q1"
+        total:
+          total_amount: 500000.00
+          forecast_count: 15
+
+    ProjectAggregationResponse:
+      type: object
+      properties:
+        aggregations:
+          type: array
+          items:
+            type: object
+            properties:
+              proj_id:
+                type: integer
+                format: int64
+              proj_name:
+                type: string
+              proj_code:
+                type: string
+              dept_name:
+                type: string
+              total_amount:
+                type: number
+                format: decimal
+              forecast_count:
+                type: integer
+              period:
+                type: string
+        total:
+          type: object
+          properties:
+            total_amount:
+              type: number
+              format: decimal
+            forecast_count:
+              type: integer
+
+    # ==================== Department/Project Schemas ====================
+
+    Department:
+      type: object
+      properties:
+        dept_id:
+          type: integer
+          format: int64
+          example: 1
+        dept_name:
+          type: string
+          example: "Finance"
+        dept_code:
+          type: string
+          example: "FIN"
+        description:
+          type: string
+          nullable: true
+          example: "Finance and Accounting Department"
+        is_active:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Project:
+      type: object
+      properties:
+        proj_id:
+          type: integer
+          format: int64
+          example: 101
+        proj_name:
+          type: string
+          example: "Infrastructure Upgrade"
+        proj_code:
+          type: string
+          example: "INFRA2025"
+        dept_id:
+          type: integer
+          format: int64
+          example: 1
+        dept_name:
+          type: string
+          example: "Finance"
+        description:
+          type: string
+          nullable: true
+          example: "Upgrade server infrastructure for 2025"
+        status:
+          type: string
+          enum: [ACTIVE, PLANNED, ON_HOLD, COMPLETED, CANCELLED]
+          example: "ACTIVE"
+        start_date:
+          type: string
+          format: date
+          nullable: true
+          example: "2025-01-01"
+        end_date:
+          type: string
+          format: date
+          nullable: true
+          example: "2025-12-31"
+        is_active:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    # ==================== Common Schemas ====================
+
+    PaginationMetadata:
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 1
+        page_size:
+          type: integer
+          example: 20
+        total_items:
+          type: integer
+          example: 150
+        total_pages:
+          type: integer
+          example: 8
+        has_next:
+          type: boolean
+          example: true
+        has_prev:
+          type: boolean
+          example: false
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: "VALIDATION_ERROR"
+            message:
+              type: string
+              example: "Validation failed"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+              example:
+                - field: "amount"
+                  message: "Amount must be positive"
+
+    ValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: "VALIDATION_ERROR"
+            message:
+              type: string
+              example: "Request validation failed"
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                    example: "amount"
+                  message:
+                    type: string
+                    example: "Amount must be a positive number"
+                  value:
+                    type: string
+                    example: "-100"
+
+  responses:
+    BadRequest:
+      description: Bad request - invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+      description: Unauthorized - missing or invalid authentication
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: "UNAUTHORIZED"
+              message: "Authentication required"
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: "NOT_FOUND"
+              message: "Forecast not found"
+
+    ValidationError:
+      description: Validation error - invalid request body
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationErrorResponse'
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: "INTERNAL_ERROR"
+              message: "An unexpected error occurred"
+
+tags:
+  - name: Forecasts
+    description: Forecast CRUD operations
+  - name: Aggregations
+    description: Aggregate forecast data by department or project
+  - name: Departments
+    description: Department information
+  - name: Projects
+    description: Project information
+  - name: System
+    description: System health and status

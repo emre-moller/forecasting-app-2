@@ -1,0 +1,34 @@
+.forecast-modal .modal-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #24292f;
+}
+
+.forecast-form {
+  margin-top: 24px;
+}
+
+.forecast-form .ant-form-item-label > label {
+  font-weight: 600;
+  color: #24292f;
+  font-size: 13px;
+}
+
+.forecast-form .ant-input,
+.forecast-form .ant-input-number,
+.forecast-form .ant-select-selector {
+  border-color: #d0d7de;
+}
+
+.forecast-form .ant-input:hover,
+.forecast-form .ant-input-number:hover,
+.forecast-form .ant-select-selector:hover {
+  border-color: #0969da;
+}
+
+.forecast-form .ant-input:focus,
+.forecast-form .ant-input-number-focused,
+.forecast-form .ant-select-focused .ant-select-selector {
+  border-color: #0969da;
+  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.1);
+}
