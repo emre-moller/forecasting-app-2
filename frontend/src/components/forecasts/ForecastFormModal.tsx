@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Modal, Form, Input, Select, InputNumber } from 'antd';
 import { useForm, Controller } from 'react-hook-form';
-import { Forecast, departments, projects } from '../../utils/mockData';
+import { type Forecast, departments, projects } from '../../utils/mockData';
 import './ForecastFormModal.css';
 
 const { TextArea } = Input;
@@ -82,20 +82,20 @@ export const ForecastFormModal = ({
     <Modal
       title={
         <div className="modal-title">
-          {initialData ? 'Edit Spending Forecast' : 'New Spending Forecast'}
+          {initialData ? 'Rediger Utgiftsprognose' : 'Ny Utgiftsprognose'}
         </div>
       }
       open={open}
       onOk={handleSubmit(handleFormSubmit)}
       onCancel={handleCancel}
       width={600}
-      okText={initialData ? 'Update' : 'Create'}
-      cancelText="Cancel"
+      okText={initialData ? 'Oppdater' : 'Opprett'}
+      cancelText="Avbryt"
       className="forecast-modal"
     >
       <Form layout="vertical" className="forecast-form">
         <Form.Item
-          label="Department"
+          label="Avdeling"
           required
           validateStatus={errors.departmentId ? 'error' : ''}
           help={errors.departmentId?.message}
@@ -103,9 +103,9 @@ export const ForecastFormModal = ({
           <Controller
             name="departmentId"
             control={control}
-            rules={{ required: 'Department is required' }}
+            rules={{ required: 'Avdeling er påkrevd' }}
             render={({ field }) => (
-              <Select {...field} placeholder="Select department" size="large">
+              <Select {...field} placeholder="Velg avdeling" size="large">
                 {departments.map((dept) => (
                   <Option key={dept.id} value={dept.id}>
                     {dept.name} ({dept.code})
@@ -117,7 +117,7 @@ export const ForecastFormModal = ({
         </Form.Item>
 
         <Form.Item
-          label="Project"
+          label="Prosjekt"
           required
           validateStatus={errors.projectId ? 'error' : ''}
           help={errors.projectId?.message}
@@ -125,11 +125,11 @@ export const ForecastFormModal = ({
           <Controller
             name="projectId"
             control={control}
-            rules={{ required: 'Project is required' }}
+            rules={{ required: 'Prosjekt er påkrevd' }}
             render={({ field }) => (
               <Select
                 {...field}
-                placeholder="Select project"
+                placeholder="Velg prosjekt"
                 size="large"
                 disabled={!selectedDepartmentId}
               >
@@ -144,7 +144,7 @@ export const ForecastFormModal = ({
         </Form.Item>
 
         <Form.Item
-          label="Forecast Amount"
+          label="Prognosebeløp"
           required
           validateStatus={errors.amount ? 'error' : ''}
           help={errors.amount?.message}
@@ -153,8 +153,8 @@ export const ForecastFormModal = ({
             name="amount"
             control={control}
             rules={{
-              required: 'Amount is required',
-              min: { value: 1, message: 'Amount must be greater than 0' },
+              required: 'Beløp er påkrevd',
+              min: { value: 1, message: 'Beløp må være større enn 0' },
             }}
             render={({ field }) => (
               <InputNumber
@@ -162,8 +162,8 @@ export const ForecastFormModal = ({
                 style={{ width: '100%' }}
                 size="large"
                 placeholder="0.00"
-                formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={(value) => value?.replace(/\$\s?|(,*)/g, '') as any}
+                formatter={(value) => `${value} kr`.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}
+                parser={(value) => value?.replace(/[\s,]|kr/g, '') as any}
                 min={0}
                 step={1000}
               />
@@ -173,7 +173,7 @@ export const ForecastFormModal = ({
 
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '16px' }}>
           <Form.Item
-            label="Time Period"
+            label="Tidsperiode"
             required
             validateStatus={errors.timePeriod ? 'error' : ''}
             help={errors.timePeriod?.message}
@@ -181,15 +181,15 @@ export const ForecastFormModal = ({
             <Controller
               name="timePeriod"
               control={control}
-              rules={{ required: 'Time period is required' }}
+              rules={{ required: 'Tidsperiode er påkrevd' }}
               render={({ field }) => (
-                <Input {...field} placeholder="e.g., 2025 Q1" size="large" />
+                <Input {...field} placeholder="f.eks., 2025 K1" size="large" />
               )}
             />
           </Form.Item>
 
           <Form.Item
-            label="Period Type"
+            label="Periodetype"
             required
             validateStatus={errors.periodType ? 'error' : ''}
             help={errors.periodType?.message}
@@ -197,26 +197,26 @@ export const ForecastFormModal = ({
             <Controller
               name="periodType"
               control={control}
-              rules={{ required: 'Period type is required' }}
+              rules={{ required: 'Periodetype er påkrevd' }}
               render={({ field }) => (
                 <Select {...field} size="large">
-                  <Option value="monthly">Monthly</Option>
-                  <Option value="quarterly">Quarterly</Option>
-                  <Option value="yearly">Yearly</Option>
+                  <Option value="monthly">Månedlig</Option>
+                  <Option value="quarterly">Kvartalsvis</Option>
+                  <Option value="yearly">Årlig</Option>
                 </Select>
               )}
             />
           </Form.Item>
         </div>
 
-        <Form.Item label="Description">
+        <Form.Item label="Beskrivelse">
           <Controller
             name="description"
             control={control}
             render={({ field }) => (
               <TextArea
                 {...field}
-                placeholder="Enter forecast description..."
+                placeholder="Skriv inn prognosebeskrivelse..."
                 rows={4}
                 size="large"
               />

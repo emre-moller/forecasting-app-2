@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(.env)",
+      "Bash(locales)",
+      "Bash(i18n \")",
+      "Bash(find:*)",
+      "Bash(./venv/Scripts/python.exe -m pip install:*)",
+      "Bash(./venv/bin/python -m pip install:*)",
+      "Bash(../venv/bin/python:*)",
+      "Bash(python3 -m pip install:*)",
+      "Bash(python3:*)",
+      "Bash(chmod:*)",
+      "Bash(curl:*)"
+    ]
+  }
+}

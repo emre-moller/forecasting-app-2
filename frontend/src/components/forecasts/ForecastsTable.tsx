@@ -4,10 +4,10 @@ import {
   getCoreRowModel,
   getSortedRowModel,
   flexRender,
-  ColumnDef,
-  SortingState,
+  type ColumnDef,
+  type SortingState,
 } from '@tanstack/react-table';
-import { Forecast, departments, projects } from '../../utils/mockData';
+import { type Forecast, departments, projects } from '../../utils/mockData';
 import './ForecastsTable.css';
 
 interface ForecastsTableProps {
@@ -29,7 +29,7 @@ export const ForecastsTable = ({ data, onEdit, onDelete }: ForecastsTableProps) 
       },
       {
         accessorKey: 'departmentId',
-        header: 'Department',
+        header: 'Avdeling',
         size: 150,
         cell: (info) => {
           const dept = departments.find((d) => d.id === info.getValue());
@@ -38,7 +38,7 @@ export const ForecastsTable = ({ data, onEdit, onDelete }: ForecastsTableProps) 
       },
       {
         accessorKey: 'projectId',
-        header: 'Project',
+        header: 'Prosjekt',
         size: 200,
         cell: (info) => {
           const proj = projects.find((p) => p.id === info.getValue());
@@ -47,49 +47,58 @@ export const ForecastsTable = ({ data, onEdit, onDelete }: ForecastsTableProps) 
       },
       {
         accessorKey: 'amount',
-        header: 'Amount',
+        header: 'Beløp',
         size: 130,
         cell: (info) => (
           <div className="cell-content cell-number">
-            ${(info.getValue() as number).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+            {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 2 })} kr
           </div>
         ),
       },
       {
         accessorKey: 'timePeriod',
-        header: 'Time Period',
+        header: 'Tidsperiode',
         size: 120,
         cell: (info) => <div className="cell-content">{info.getValue() as string}</div>,
       },
       {
         accessorKey: 'periodType',
-        header: 'Period Type',
+        header: 'Periodetype',
         size: 120,
-        cell: (info) => (
-          <div className="cell-content cell-capitalize">{info.getValue() as string}</div>
-        ),
+        cell: (info) => {
+          const periodTypeMap: Record<string, string> = {
+            monthly: 'Månedlig',
+            quarterly: 'Kvartalsvis',
+            yearly: 'Årlig',
+          };
+          return (
+            <div className="cell-content cell-capitalize">
+              {periodTypeMap[info.getValue() as string] || info.getValue()}
+            </div>
+          );
+        },
       },
       {
         accessorKey: 'description',
-        header: 'Description',
+        header: 'Beskrivelse',
         size: 300,
         cell: (info) => <div className="cell-content">{info.getValue() as string}</div>,
       },
       {
         accessorKey: 'createdBy',
-        header: 'Created By',
+        header: 'Opprettet av',
         size: 130,
         cell: (info) => <div className="cell-content">{info.getValue() as string}</div>,
       },
       {
         accessorKey: 'createdAt',
-        header: 'Created At',
+        header: 'Opprettet dato',
         size: 110,
         cell: (info) => <div className="cell-content">{info.getValue() as string}</div>,
       },
       {
         id: 'actions',
-        header: 'Actions',
+        header: 'Handlinger',
         size: 120,
         cell: (info) => (
           <div className="cell-content cell-actions">
@@ -98,7 +107,7 @@ export const ForecastsTable = ({ data, onEdit, onDelete }: ForecastsTableProps) 
                 className="action-btn action-btn-edit"
                 onClick={() => onEdit(info.row.original)}
               >
-                Edit
+                Rediger
               </button>
             )}
             {onDelete && (
@@ -106,7 +115,7 @@ export const ForecastsTable = ({ data, onEdit, onDelete }: ForecastsTableProps) 
                 className="action-btn action-btn-delete"
                 onClick={() => onDelete(info.row.original.id)}
               >
-                Delete
+                Slett
               </button>
             )}
           </div>
@@ -173,13 +182,13 @@ export const ForecastsTable = ({ data, onEdit, onDelete }: ForecastsTableProps) 
             <tr className="total-row">
               <td colSpan={3}>
                 <div className="cell-content cell-total-label">
-                  <strong>TOTAL ({data.length} records)</strong>
+                  <strong>TOTALT ({data.length} oppføringer)</strong>
                 </div>
               </td>
               <td>
                 <div className="cell-content cell-number">
                   <strong>
-                    ${totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    {totalAmount.toLocaleString('nb-NO', { minimumFractionDigits: 2 })} kr
                   </strong>
                 </div>
               </td>

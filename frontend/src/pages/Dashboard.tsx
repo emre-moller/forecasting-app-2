@@ -1,9 +1,10 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Select, Button, Space, Card, Statistic, Row, Col } from 'antd';
-import { PlusOutlined, DollarOutlined, FundOutlined } from '@ant-design/icons';
+import { PlusOutlined, FundOutlined } from '@ant-design/icons';
 import { ForecastsTable } from '../components/forecasts/ForecastsTable';
 import { ForecastFormModal } from '../components/forecasts/ForecastFormModal';
-import { Forecast, forecasts as initialForecasts, departments, projects } from '../utils/mockData';
+import { type Forecast, type Department, type Project } from '../utils/mockData';
+import { forecastsAPI, departmentsAPI, projectsAPI } from '../services/api';
 import './Dashboard.css';
 
 const { Option } = Select;
@@ -18,11 +19,37 @@ interface ForecastFormData {
 }
 
 export const Dashboard = () => {
-  const [forecasts, setForecasts] = useState<Forecast[]>(initialForecasts);
+  const [forecasts, setForecasts] = useState<Forecast[]>([]);
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingForecast, setEditingForecast] = useState<Forecast | null>(null);
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      const [forecastsData, departmentsData, projectsData] = await Promise.all([
+        forecastsAPI.getAll(),
+        departmentsAPI.getAll(),
+        projectsAPI.getAll(),
+      ]);
+      setForecasts(forecastsData);
+      setDepartments(departmentsData);
+      setProjects(projectsData);
+    } catch (error) {
+      console.error('Failed to load data:', error);
+      alert('Kunne ikke laste data. Sørg for at backend-serveren kjører.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredForecasts = useMemo(() => {
     let filtered = forecasts;
@@ -60,39 +87,44 @@ export const Dashboard = () => {
     return filteredForecasts.reduce((sum, forecast) => sum + forecast.amount, 0);
   }, [filteredForecasts]);
 
-  const handleCreateForecast = (data: ForecastFormData) => {
-    const newForecast: Forecast = {
-      id: (forecasts.length + 1).toString(),
-      ...data,
-      createdBy: 'Current User',
-      createdAt: new Date().toISOString().split('T')[0],
-      updatedAt: new Date().toISOString().split('T')[0],
-    };
-    setForecasts([...forecasts, newForecast]);
-    setIsModalOpen(false);
-    setEditingForecast(null);
+  const handleCreateForecast = async (data: ForecastFormData) => {
+    try {
+      const newForecast = await forecastsAPI.create(data);
+      setForecasts([...forecasts, newForecast]);
+      setIsModalOpen(false);
+      setEditingForecast(null);
+    } catch (error) {
+      console.error('Failed to create forecast:', error);
+      alert('Kunne ikke opprette prognose');
+    }
   };
 
-  const handleEditForecast = (data: ForecastFormData) => {
+  const handleEditForecast = async (data: ForecastFormData) => {
     if (!editingForecast) return;
 
-    const updatedForecasts = forecasts.map((f) =>
-      f.id === editingForecast.id
-        ? {
-            ...f,
-            ...data,
-            updatedAt: new Date().toISOString().split('T')[0],
-          }
-        : f
-    );
-    setForecasts(updatedForecasts);
-    setIsModalOpen(false);
-    setEditingForecast(null);
+    try {
+      const updated = await forecastsAPI.update(editingForecast.id, data);
+      const updatedForecasts = forecasts.map((f) =>
+        f.id === editingForecast.id ? updated : f
+      );
+      setForecasts(updatedForecasts);
+      setIsModalOpen(false);
+      setEditingForecast(null);
+    } catch (error) {
+      console.error('Failed to update forecast:', error);
+      alert('Kunne ikke oppdatere prognose');
+    }
   };
 
-  const handleDeleteForecast = (forecastId: string) => {
-    if (confirm('Are you sure you want to delete this forecast?')) {
-      setForecasts(forecasts.filter((f) => f.id !== forecastId));
+  const handleDeleteForecast = async (forecastId: string) => {
+    if (confirm('Er du sikker på at du vil slette denne prognosen?')) {
+      try {
+        await forecastsAPI.delete(forecastId);
+        setForecasts(forecasts.filter((f) => f.id !== forecastId));
+      } catch (error) {
+        console.error('Failed to delete forecast:', error);
+        alert('Kunne ikke slette prognose');
+      }
     }
   };
 
@@ -120,7 +152,7 @@ export const Dashboard = () => {
         <div className="header-content">
           <div className="header-title">
             <FundOutlined style={{ fontSize: 28, color: '#0969da' }} />
-            <h1>Spending Forecast Tracker</h1>
+            <h1>Spending Forecast</h1>
           </div>
           <Button
             type="primary"
@@ -129,7 +161,7 @@ export const Dashboard = () => {
             onClick={() => handleOpenModal()}
             className="add-button"
           >
-            New Forecast
+            Ny Prognose
           </Button>
         </div>
       </div>
@@ -139,40 +171,39 @@ export const Dashboard = () => {
           <Col span={8}>
             <Card className="stat-card">
               <Statistic
-                title="Total Forecasted"
+                title="Totalt Prognostisert"
                 value={grandTotal}
                 precision={2}
-                prefix={<DollarOutlined />}
                 valueStyle={{ color: '#0969da', fontWeight: 600 }}
               />
-              <div className="stat-subtitle">{filteredForecasts.length} forecasts</div>
+              <div className="stat-subtitle">{filteredForecasts.length} prognoser</div>
             </Card>
           </Col>
           <Col span={8}>
             <Card className="stat-card">
               <Statistic
-                title="Departments"
+                title="Avdelinger"
                 value={totalsByDepartment.size}
                 valueStyle={{ color: '#8250df', fontWeight: 600 }}
               />
               <div className="stat-subtitle">
                 {selectedDepartment
                   ? departments.find((d) => d.id === selectedDepartment)?.name
-                  : 'All departments'}
+                  : 'Alle avdelinger'}
               </div>
             </Card>
           </Col>
           <Col span={8}>
             <Card className="stat-card">
               <Statistic
-                title="Projects"
+                title="Prosjekter"
                 value={totalsByProject.size}
                 valueStyle={{ color: '#1a7f37', fontWeight: 600 }}
               />
               <div className="stat-subtitle">
                 {selectedProject
                   ? projects.find((p) => p.id === selectedProject)?.name
-                  : 'All projects'}
+                  : 'Alle prosjekter'}
               </div>
             </Card>
           </Col>
@@ -182,10 +213,10 @@ export const Dashboard = () => {
       <div className="dashboard-filters">
         <Space size="middle" wrap>
           <div className="filter-group">
-            <label>Department:</label>
+            <label>Avdeling:</label>
             <Select
               style={{ width: 200 }}
-              placeholder="All Departments"
+              placeholder="Alle Avdelinger"
               allowClear
               value={selectedDepartment}
               onChange={setSelectedDepartment}
@@ -200,10 +231,10 @@ export const Dashboard = () => {
           </div>
 
           <div className="filter-group">
-            <label>Project:</label>
+            <label>Prosjekt:</label>
             <Select
               style={{ width: 250 }}
-              placeholder="All Projects"
+              placeholder="Alle Prosjekter"
               allowClear
               value={selectedProject}
               onChange={setSelectedProject}
@@ -220,7 +251,7 @@ export const Dashboard = () => {
 
           {(selectedDepartment || selectedProject) && (
             <Button onClick={handleClearFilters} size="large">
-              Clear Filters
+              Nullstill Filtre
             </Button>
           )}
         </Space>
