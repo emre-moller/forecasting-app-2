@@ -1,4 +1,5 @@
-import { Forecast, Department, Project } from '../utils/mockData';
+import type { Forecast, Department, Project } from '../utils/mockData';
+import { forecasts, departments, projects } from '../utils/mockData';
 
 const API_BASE_URL = 'http://localhost:8000/api';
 
