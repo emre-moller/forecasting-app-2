@@ -10,6 +10,24 @@ const { Option } = Select;
 interface ForecastFormData {
   departmentId: string;
   projectId: string;
+  projectName: string;
+  profitCenter: string;
+  wbs: string;
+  account: string;
+  jan: number;
+  feb: number;
+  mar: number;
+  apr: number;
+  may: number;
+  jun: number;
+  jul: number;
+  aug: number;
+  sep: number;
+  oct: number;
+  nov: number;
+  dec: number;
+  total: number;
+  yearlySum: number;
   amount: number;
   timePeriod: string;
   periodType: 'monthly' | 'quarterly' | 'yearly';
@@ -29,10 +47,28 @@ export const ForecastFormModal = ({
   onSubmit,
   initialData,
 }: ForecastFormModalProps) => {
-  const { control, handleSubmit, reset, watch, formState: { errors } } = useForm<ForecastFormData>({
+  const { control, handleSubmit, reset, watch, setValue, formState: { errors } } = useForm<ForecastFormData>({
     defaultValues: {
       departmentId: '',
       projectId: '',
+      projectName: '',
+      profitCenter: '',
+      wbs: '',
+      account: '',
+      jan: 0,
+      feb: 0,
+      mar: 0,
+      apr: 0,
+      may: 0,
+      jun: 0,
+      jul: 0,
+      aug: 0,
+      sep: 0,
+      oct: 0,
+      nov: 0,
+      dec: 0,
+      total: 0,
+      yearlySum: 0,
       amount: 0,
       timePeriod: '',
       periodType: 'quarterly',
@@ -41,12 +77,38 @@ export const ForecastFormModal = ({
   });
 
   const selectedDepartmentId = watch('departmentId');
+  const monthlyValues = watch(['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']);
+
+  // Auto-calculate totals when monthly values change
+  useEffect(() => {
+    const total = monthlyValues.reduce((sum, val) => sum + (Number(val) || 0), 0);
+    setValue('total', total);
+    setValue('yearlySum', total);
+  }, [monthlyValues, setValue]);
 
   useEffect(() => {
     if (initialData) {
       reset({
         departmentId: initialData.departmentId,
         projectId: initialData.projectId,
+        projectName: initialData.projectName,
+        profitCenter: initialData.profitCenter,
+        wbs: initialData.wbs,
+        account: initialData.account,
+        jan: initialData.jan,
+        feb: initialData.feb,
+        mar: initialData.mar,
+        apr: initialData.apr,
+        may: initialData.may,
+        jun: initialData.jun,
+        jul: initialData.jul,
+        aug: initialData.aug,
+        sep: initialData.sep,
+        oct: initialData.oct,
+        nov: initialData.nov,
+        dec: initialData.dec,
+        total: initialData.total,
+        yearlySum: initialData.yearlySum,
         amount: initialData.amount,
         timePeriod: initialData.timePeriod,
         periodType: initialData.periodType,
@@ -56,6 +118,24 @@ export const ForecastFormModal = ({
       reset({
         departmentId: '',
         projectId: '',
+        projectName: '',
+        profitCenter: '',
+        wbs: '',
+        account: '',
+        jan: 0,
+        feb: 0,
+        mar: 0,
+        apr: 0,
+        may: 0,
+        jun: 0,
+        jul: 0,
+        aug: 0,
+        sep: 0,
+        oct: 0,
+        nov: 0,
+        dec: 0,
+        total: 0,
+        yearlySum: 0,
         amount: 0,
         timePeriod: '',
         periodType: 'quarterly',
@@ -88,10 +168,12 @@ export const ForecastFormModal = ({
       open={open}
       onOk={handleSubmit(handleFormSubmit)}
       onCancel={handleCancel}
-      width={600}
+      width={900}
       okText={initialData ? 'Oppdater' : 'Opprett'}
       cancelText="Avbryt"
       className="forecast-modal"
+      style={{ maxHeight: '90vh' }}
+      bodyStyle={{ maxHeight: 'calc(90vh - 110px)', overflowY: 'auto' }}
     >
       <Form layout="vertical" className="forecast-form">
         <Form.Item
@@ -143,19 +225,302 @@ export const ForecastFormModal = ({
           />
         </Form.Item>
 
+        <Form.Item label="Project Name">
+          <Controller
+            name="projectName"
+            control={control}
+            render={({ field }) => (
+              <Input {...field} placeholder="Enter project name" size="large" />
+            )}
+          />
+        </Form.Item>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
+          <Form.Item label="Profit Center">
+            <Controller
+              name="profitCenter"
+              control={control}
+              render={({ field }) => (
+                <Input {...field} placeholder="e.g. PC001" size="large" />
+              )}
+            />
+          </Form.Item>
+
+          <Form.Item label="WBS">
+            <Controller
+              name="wbs"
+              control={control}
+              render={({ field }) => (
+                <Input {...field} placeholder="e.g. WBS001" size="large" />
+              )}
+            />
+          </Form.Item>
+
+          <Form.Item label="Account">
+            <Controller
+              name="account"
+              control={control}
+              render={({ field }) => (
+                <Input {...field} placeholder="e.g. ACC001" size="large" />
+              )}
+            />
+          </Form.Item>
+        </div>
+
+        <div style={{ marginBottom: '16px', fontWeight: 600, fontSize: '14px' }}>
+          Monthly Forecast Values
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
+          <Form.Item label="January">
+            <Controller
+              name="jan"
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  {...field}
+                  style={{ width: '100%' }}
+                  placeholder="0"
+                  min={0}
+                  formatter={(value) => value ? value.toLocaleString('nb-NO') : ''}
+                  parser={(value) => value?.replace(/\s/g, '') as any}
+                />
+              )}
+            />
+          </Form.Item>
+
+          <Form.Item label="February">
+            <Controller
+              name="feb"
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  {...field}
+                  style={{ width: '100%' }}
+                  placeholder="0"
+                  min={0}
+                  formatter={(value) => value ? value.toLocaleString('nb-NO') : ''}
+                  parser={(value) => value?.replace(/\s/g, '') as any}
+                />
+              )}
+            />
+          </Form.Item>
+
+          <Form.Item label="March">
+            <Controller
+              name="mar"
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  {...field}
+                  style={{ width: '100%' }}
+                  placeholder="0"
+                  min={0}
+                  formatter={(value) => value ? value.toLocaleString('nb-NO') : ''}
+                  parser={(value) => value?.replace(/\s/g, '') as any}
+                />
+              )}
+            />
+          </Form.Item>
+
+          <Form.Item label="April">
+            <Controller
+              name="apr"
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  {...field}
+                  style={{ width: '100%' }}
+                  placeholder="0"
+                  min={0}
+                  formatter={(value) => value ? value.toLocaleString('nb-NO') : ''}
+                  parser={(value) => value?.replace(/\s/g, '') as any}
+                />
+              )}
+            />
+          </Form.Item>
+
+          <Form.Item label="May">
+            <Controller
+              name="may"
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  {...field}
+                  style={{ width: '100%' }}
+                  placeholder="0"
+                  min={0}
+                  formatter={(value) => value ? value.toLocaleString('nb-NO') : ''}
+                  parser={(value) => value?.replace(/\s/g, '') as any}
+                />
+              )}
+            />
+          </Form.Item>
+
+          <Form.Item label="June">
+            <Controller
+              name="jun"
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  {...field}
+                  style={{ width: '100%' }}
+                  placeholder="0"
+                  min={0}
+                  formatter={(value) => value ? value.toLocaleString('nb-NO') : ''}
+                  parser={(value) => value?.replace(/\s/g, '') as any}
+                />
+              )}
+            />
+          </Form.Item>
+
+          <Form.Item label="July">
+            <Controller
+              name="jul"
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  {...field}
+                  style={{ width: '100%' }}
+                  placeholder="0"
+                  min={0}
+                  formatter={(value) => value ? value.toLocaleString('nb-NO') : ''}
+                  parser={(value) => value?.replace(/\s/g, '') as any}
+                />
+              )}
+            />
+          </Form.Item>
+
+          <Form.Item label="August">
+            <Controller
+              name="aug"
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  {...field}
+                  style={{ width: '100%' }}
+                  placeholder="0"
+                  min={0}
+                  formatter={(value) => value ? value.toLocaleString('nb-NO') : ''}
+                  parser={(value) => value?.replace(/\s/g, '') as any}
+                />
+              )}
+            />
+          </Form.Item>
+
+          <Form.Item label="September">
+            <Controller
+              name="sep"
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  {...field}
+                  style={{ width: '100%' }}
+                  placeholder="0"
+                  min={0}
+                  formatter={(value) => value ? value.toLocaleString('nb-NO') : ''}
+                  parser={(value) => value?.replace(/\s/g, '') as any}
+                />
+              )}
+            />
+          </Form.Item>
+
+          <Form.Item label="October">
+            <Controller
+              name="oct"
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  {...field}
+                  style={{ width: '100%' }}
+                  placeholder="0"
+                  min={0}
+                  formatter={(value) => value ? value.toLocaleString('nb-NO') : ''}
+                  parser={(value) => value?.replace(/\s/g, '') as any}
+                />
+              )}
+            />
+          </Form.Item>
+
+          <Form.Item label="November">
+            <Controller
+              name="nov"
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  {...field}
+                  style={{ width: '100%' }}
+                  placeholder="0"
+                  min={0}
+                  formatter={(value) => value ? value.toLocaleString('nb-NO') : ''}
+                  parser={(value) => value?.replace(/\s/g, '') as any}
+                />
+              )}
+            />
+          </Form.Item>
+
+          <Form.Item label="December">
+            <Controller
+              name="dec"
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  {...field}
+                  style={{ width: '100%' }}
+                  placeholder="0"
+                  min={0}
+                  formatter={(value) => value ? value.toLocaleString('nb-NO') : ''}
+                  parser={(value) => value?.replace(/\s/g, '') as any}
+                />
+              )}
+            />
+          </Form.Item>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <Form.Item label="Total (Auto-calculated)">
+            <Controller
+              name="total"
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  {...field}
+                  style={{ width: '100%', fontWeight: 'bold', backgroundColor: '#f5f5f5' }}
+                  placeholder="0"
+                  min={0}
+                  disabled
+                  formatter={(value) => value ? value.toLocaleString('nb-NO') : '0'}
+                />
+              )}
+            />
+          </Form.Item>
+
+          <Form.Item label="Yearly Sum (Auto-calculated)">
+            <Controller
+              name="yearlySum"
+              control={control}
+              render={({ field }) => (
+                <InputNumber
+                  {...field}
+                  style={{ width: '100%', fontWeight: 'bold', backgroundColor: '#f5f5f5' }}
+                  placeholder="0"
+                  min={0}
+                  disabled
+                  formatter={(value) => value ? value.toLocaleString('nb-NO') : '0'}
+                />
+              )}
+            />
+          </Form.Item>
+        </div>
+
         <Form.Item
-          label="Prognosebeløp"
-          required
+          label="Prognosebeløp (Legacy)"
           validateStatus={errors.amount ? 'error' : ''}
           help={errors.amount?.message}
         >
           <Controller
             name="amount"
             control={control}
-            rules={{
-              required: 'Beløp er påkrevd',
-              min: { value: 1, message: 'Beløp må være større enn 0' },
-            }}
             render={({ field }) => (
               <InputNumber
                 {...field}

@@ -1,4 +1,4 @@
-import type { Forecast, Department, Project } from '../utils/mockData';
+import type { Forecast, ForecastSnapshot, Department, Project } from '../utils/mockData';
 import { forecasts, departments, projects } from '../utils/mockData';
 
 const API_BASE_URL = 'http://localhost:8000/api';
@@ -6,6 +6,28 @@ const API_BASE_URL = 'http://localhost:8000/api';
 interface ForecastCreate {
   departmentId: string;
   projectId: string;
+
+  projectName: string;
+  profitCenter: string;
+  wbs: string;
+  account: string;
+
+  jan: number;
+  feb: number;
+  mar: number;
+  apr: number;
+  may: number;
+  jun: number;
+  jul: number;
+  aug: number;
+  sep: number;
+  oct: number;
+  nov: number;
+  dec: number;
+
+  total: number;
+  yearlySum: number;
+
   amount: number;
   timePeriod: string;
   periodType: 'monthly' | 'quarterly' | 'yearly';
@@ -16,6 +38,28 @@ interface ForecastResponse {
   id: number;
   department_id: number;
   project_id: number;
+
+  project_name: string;
+  profit_center: string;
+  wbs: string;
+  account: string;
+
+  jan: number;
+  feb: number;
+  mar: number;
+  apr: number;
+  may: number;
+  jun: number;
+  jul: number;
+  aug: number;
+  sep: number;
+  oct: number;
+  nov: number;
+  dec: number;
+
+  total: number;
+  yearly_sum: number;
+
   amount: number;
   time_period: string;
   period_type: string;
@@ -23,6 +67,39 @@ interface ForecastResponse {
   created_by: string;
   created_at: string;
   updated_at: string;
+}
+
+interface ForecastSnapshotResponse {
+  id: number;
+  forecast_id: number;
+  department_id: number;
+  project_id: number;
+  project_name: string;
+  profit_center: string;
+  wbs: string;
+  account: string;
+
+  jan: number;
+  feb: number;
+  mar: number;
+  apr: number;
+  may: number;
+  jun: number;
+  jul: number;
+  aug: number;
+  sep: number;
+  oct: number;
+  nov: number;
+  dec: number;
+
+  total: number;
+  yearly_sum: number;
+
+  is_approved: boolean;
+  snapshot_date: string;
+  submitted_by: string;
+  approved_by?: string;
+  approved_at?: string;
 }
 
 interface DepartmentResponse {
@@ -43,6 +120,28 @@ function mapForecastFromAPI(data: ForecastResponse): Forecast {
     id: data.id.toString(),
     departmentId: data.department_id.toString(),
     projectId: data.project_id.toString(),
+
+    projectName: data.project_name,
+    profitCenter: data.profit_center,
+    wbs: data.wbs,
+    account: data.account,
+
+    jan: data.jan,
+    feb: data.feb,
+    mar: data.mar,
+    apr: data.apr,
+    may: data.may,
+    jun: data.jun,
+    jul: data.jul,
+    aug: data.aug,
+    sep: data.sep,
+    oct: data.oct,
+    nov: data.nov,
+    dec: data.dec,
+
+    total: data.total,
+    yearlySum: data.yearly_sum,
+
     amount: data.amount,
     timePeriod: data.time_period,
     periodType: data.period_type as 'monthly' | 'quarterly' | 'yearly',
@@ -50,6 +149,41 @@ function mapForecastFromAPI(data: ForecastResponse): Forecast {
     createdBy: data.created_by,
     createdAt: data.created_at,
     updatedAt: data.updated_at,
+  };
+}
+
+function mapForecastSnapshotFromAPI(data: ForecastSnapshotResponse): ForecastSnapshot {
+  return {
+    id: data.id.toString(),
+    forecastId: data.forecast_id.toString(),
+    departmentId: data.department_id.toString(),
+    projectId: data.project_id.toString(),
+    projectName: data.project_name,
+    profitCenter: data.profit_center,
+    wbs: data.wbs,
+    account: data.account,
+
+    jan: data.jan,
+    feb: data.feb,
+    mar: data.mar,
+    apr: data.apr,
+    may: data.may,
+    jun: data.jun,
+    jul: data.jul,
+    aug: data.aug,
+    sep: data.sep,
+    oct: data.oct,
+    nov: data.nov,
+    dec: data.dec,
+
+    total: data.total,
+    yearlySum: data.yearly_sum,
+
+    isApproved: data.is_approved,
+    snapshotDate: data.snapshot_date,
+    submittedBy: data.submitted_by,
+    approvedBy: data.approved_by,
+    approvedAt: data.approved_at,
   };
 }
 
@@ -74,6 +208,28 @@ function mapForecastToAPI(data: ForecastCreate) {
   return {
     department_id: parseInt(data.departmentId),
     project_id: parseInt(data.projectId),
+
+    project_name: data.projectName,
+    profit_center: data.profitCenter,
+    wbs: data.wbs,
+    account: data.account,
+
+    jan: data.jan,
+    feb: data.feb,
+    mar: data.mar,
+    apr: data.apr,
+    may: data.may,
+    jun: data.jun,
+    jul: data.jul,
+    aug: data.aug,
+    sep: data.sep,
+    oct: data.oct,
+    nov: data.nov,
+    dec: data.dec,
+
+    total: data.total,
+    yearly_sum: data.yearlySum,
+
     amount: data.amount,
     time_period: data.timePeriod,
     period_type: data.periodType,
@@ -134,5 +290,43 @@ export const projectsAPI = {
     if (!response.ok) throw new Error('Failed to fetch projects');
     const data: ProjectResponse[] = await response.json();
     return data.map(mapProjectFromAPI);
+  },
+};
+
+export const snapshotsAPI = {
+  async getAll(): Promise<ForecastSnapshot[]> {
+    const response = await fetch(`${API_BASE_URL}/snapshots`);
+    if (!response.ok) throw new Error('Failed to fetch snapshots');
+    const data: ForecastSnapshotResponse[] = await response.json();
+    return data.map(mapForecastSnapshotFromAPI);
+  },
+
+  async create(forecastId: string): Promise<ForecastSnapshot> {
+    const response = await fetch(`${API_BASE_URL}/snapshots`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ forecast_id: parseInt(forecastId) }),
+    });
+    if (!response.ok) throw new Error('Failed to create snapshot');
+    const data: ForecastSnapshotResponse = await response.json();
+    return mapForecastSnapshotFromAPI(data);
+  },
+
+  async approve(snapshotId: string, approvedBy: string): Promise<ForecastSnapshot> {
+    const response = await fetch(`${API_BASE_URL}/snapshots/${snapshotId}/approve`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ approved_by: approvedBy }),
+    });
+    if (!response.ok) throw new Error('Failed to approve snapshot');
+    const data: ForecastSnapshotResponse = await response.json();
+    return mapForecastSnapshotFromAPI(data);
+  },
+
+  async delete(snapshotId: string): Promise<void> {
+    const response = await fetch(`${API_BASE_URL}/snapshots/${snapshotId}`, {
+      method: 'DELETE',
+    });
+    if (!response.ok) throw new Error('Failed to delete snapshot');
   },
 };

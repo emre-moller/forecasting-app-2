@@ -1,10 +1,11 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Select, Button, Space, Card, Statistic, Row, Col } from 'antd';
-import { PlusOutlined, FundOutlined } from '@ant-design/icons';
-import { ForecastsTable } from '../components/forecasts/ForecastsTable';
+import { PlusOutlined, FundOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import { LiveForecastsTable } from '../components/forecasts/LiveForecastsTable';
+import { SnapshotsTable } from '../components/forecasts/SnapshotsTable';
 import { ForecastFormModal } from '../components/forecasts/ForecastFormModal';
-import { type Forecast, type Department, type Project } from '../utils/mockData';
-import { forecastsAPI, departmentsAPI, projectsAPI } from '../services/api';
+import { type Forecast, type ForecastSnapshot, type Department, type Project } from '../utils/mockData';
+import { forecastsAPI, departmentsAPI, projectsAPI, snapshotsAPI } from '../services/api';
 import './Dashboard.css';
 
 const { Option } = Select;
@@ -12,6 +13,24 @@ const { Option } = Select;
 interface ForecastFormData {
   departmentId: string;
   projectId: string;
+  projectName: string;
+  profitCenter: string;
+  wbs: string;
+  account: string;
+  jan: number;
+  feb: number;
+  mar: number;
+  apr: number;
+  may: number;
+  jun: number;
+  jul: number;
+  aug: number;
+  sep: number;
+  oct: number;
+  nov: number;
+  dec: number;
+  total: number;
+  yearlySum: number;
   amount: number;
   timePeriod: string;
   periodType: 'monthly' | 'quarterly' | 'yearly';
@@ -20,6 +39,7 @@ interface ForecastFormData {
 
 export const Dashboard = () => {
   const [forecasts, setForecasts] = useState<Forecast[]>([]);
+  const [snapshots, setSnapshots] = useState<ForecastSnapshot[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,14 +55,16 @@ export const Dashboard = () => {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [forecastsData, departmentsData, projectsData] = await Promise.all([
+      const [forecastsData, departmentsData, projectsData, snapshotsData] = await Promise.all([
         forecastsAPI.getAll(),
         departmentsAPI.getAll(),
         projectsAPI.getAll(),
+        snapshotsAPI.getAll(),
       ]);
       setForecasts(forecastsData);
       setDepartments(departmentsData);
       setProjects(projectsData);
+      setSnapshots(snapshotsData);
     } catch (error) {
       console.error('Failed to load data:', error);
       alert('Kunne ikke laste data. Sørg for at backend-serveren kjører.');
@@ -124,6 +146,44 @@ export const Dashboard = () => {
       } catch (error) {
         console.error('Failed to delete forecast:', error);
         alert('Kunne ikke slette prognose');
+      }
+    }
+  };
+
+  const handleSubmitForApproval = async (forecastId: string) => {
+    if (confirm('Submit this forecast for approval?')) {
+      try {
+        const snapshot = await snapshotsAPI.create(forecastId);
+        setSnapshots([snapshot, ...snapshots]);
+        alert('Forecast submitted for approval successfully!');
+      } catch (error) {
+        console.error('Failed to submit forecast for approval:', error);
+        alert('Kunne ikke sende prognose til godkjenning');
+      }
+    }
+  };
+
+  const handleApproveSnapshot = async (snapshotId: string) => {
+    if (confirm('Approve this forecast snapshot?')) {
+      try {
+        const updatedSnapshot = await snapshotsAPI.approve(snapshotId, 'Current User');
+        setSnapshots(snapshots.map(s => s.id === snapshotId ? updatedSnapshot : s));
+        alert('Forecast snapshot approved successfully!');
+      } catch (error) {
+        console.error('Failed to approve snapshot:', error);
+        alert('Kunne ikke godkjenne prognose');
+      }
+    }
+  };
+
+  const handleDeleteSnapshot = async (snapshotId: string) => {
+    if (confirm('Delete this snapshot?')) {
+      try {
+        await snapshotsAPI.delete(snapshotId);
+        setSnapshots(snapshots.filter(s => s.id !== snapshotId));
+      } catch (error) {
+        console.error('Failed to delete snapshot:', error);
+        alert('Kunne ikke slette snapshot');
       }
     }
   };
@@ -257,11 +317,50 @@ export const Dashboard = () => {
         </Space>
       </div>
 
-      <div className="dashboard-table">
-        <ForecastsTable
+      <div className="dashboard-section" style={{ marginBottom: '40px' }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          padding: '16px 24px',
+          backgroundColor: '#f0f9ff',
+          borderLeft: '4px solid #0969da',
+          marginBottom: '16px'
+        }}>
+          <CheckCircleOutlined style={{ fontSize: '24px', color: '#1a7f37' }} />
+          <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 600 }}>FORECAST SNAPSHOTS</h2>
+        </div>
+        <SnapshotsTable
+          data={snapshots}
+          onApprove={handleApproveSnapshot}
+          onDelete={handleDeleteSnapshot}
+        />
+      </div>
+
+      <div className="dashboard-section">
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '16px 24px',
+          backgroundColor: '#f0f9ff',
+          borderLeft: '4px solid #0969da',
+          marginBottom: '16px'
+        }}>
+          <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 600 }}>LIVE FORECASTS</h2>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => handleOpenModal()}
+          >
+            ADD ROW
+          </Button>
+        </div>
+        <LiveForecastsTable
           data={filteredForecasts}
           onEdit={handleOpenModal}
           onDelete={handleDeleteForecast}
+          onSubmitForApproval={handleSubmitForApproval}
         />
       </div>
 

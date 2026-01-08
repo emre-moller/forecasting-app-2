@@ -15,13 +15,74 @@ export interface Forecast {
   id: string;
   departmentId: string;
   projectId: string;
+
+  // New detailed fields
+  projectName: string;
+  profitCenter: string;
+  wbs: string;
+  account: string;
+
+  // Monthly values
+  jan: number;
+  feb: number;
+  mar: number;
+  apr: number;
+  may: number;
+  jun: number;
+  jul: number;
+  aug: number;
+  sep: number;
+  oct: number;
+  nov: number;
+  dec: number;
+
+  // Totals
+  total: number;
+  yearlySum: number;
+
+  // Legacy fields
   amount: number;
   timePeriod: string;
   periodType: 'monthly' | 'quarterly' | 'yearly';
   description: string;
+
   createdBy: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ForecastSnapshot {
+  id: string;
+  forecastId: string;
+  departmentId: string;
+  projectId: string;
+  projectName: string;
+  profitCenter: string;
+  wbs: string;
+  account: string;
+
+  // Monthly values
+  jan: number;
+  feb: number;
+  mar: number;
+  apr: number;
+  may: number;
+  jun: number;
+  jul: number;
+  aug: number;
+  sep: number;
+  oct: number;
+  nov: number;
+  dec: number;
+
+  total: number;
+  yearlySum: number;
+
+  isApproved: boolean;
+  snapshotDate: string;
+  submittedBy: string;
+  approvedBy?: string;
+  approvedAt?: string;
 }
 
 export const departments: Department[] = [

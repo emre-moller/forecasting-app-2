@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.routes import departments, forecasts, projects
+from api.routes import departments, forecasts, projects, snapshots
 
 app = FastAPI(title="Spending Forecast Tracker API", version="0.1.0")
 
@@ -16,6 +16,7 @@ app.add_middleware(
 app.include_router(forecasts.router)
 app.include_router(departments.router)
 app.include_router(projects.router)
+app.include_router(snapshots.router)
 
 
 @app.get("/")
