@@ -1,7 +1,26 @@
 {
   "permissions": {
     "allow": [
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(npm install:*)",
+      "Bash(npx playwright install chromium)",
+      "Bash(poetry run pytest:*)",
+      "Bash(source:*)",
+      "Bash(python -m pytest:*)",
+      "Bash(pip install:*)",
+      "Bash(npm test)",
+      "Bash(npx playwright test:*)",
+      "Bash(curl:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(npm run dev:*)",
+      "Bash(python -m uvicorn:*)",
+      "Bash(sqlite3:*)",
+      "Bash(python:*)",
+      "Bash(dir:*)",
+      "Bash(cat:*)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

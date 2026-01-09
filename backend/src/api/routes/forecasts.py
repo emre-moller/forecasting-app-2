@@ -3,9 +3,10 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from config.database import get_db
-from models import schemas
-from repositories.forecast_repository import ForecastRepository
+from src.config.database import get_db
+from src.models import schemas
+from src.models import database
+from src.repositories.forecast_repository import ForecastRepository
 
 router = APIRouter(prefix="/api/forecasts", tags=["forecasts"])
 
@@ -30,6 +31,16 @@ def create_forecast(
     forecast: schemas.ForecastCreate,
     db: Session = Depends(get_db)
 ):
+    # Validate department exists
+    department = db.query(database.Department).filter(database.Department.id == forecast.department_id).first()
+    if not department:
+        raise HTTPException(status_code=404, detail="Department not found")
+
+    # Validate project exists
+    project = db.query(database.Project).filter(database.Project.id == forecast.project_id).first()
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+
     repo = ForecastRepository(db)
     return repo.create(forecast, created_by="Current User")
 

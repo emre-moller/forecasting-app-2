@@ -1,0 +1,146 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - img "fund" [ref=e7]:
+        - img [ref=e8]
+      - heading "Spending Forecast" [level=1] [ref=e10]
+    - button "plus Ny Prognose" [ref=e11] [cursor=pointer]:
+      - img "plus" [ref=e13]:
+        - img [ref=e14]
+      - generic [ref=e17]: Ny Prognose
+  - generic [ref=e19]:
+    - generic [ref=e22]:
+      - generic [ref=e23]:
+        - generic [ref=e25]: Totalt Prognostisert
+        - generic [ref=e27]: "0.00"
+      - generic [ref=e28]: 1 prognoser
+    - generic [ref=e31]:
+      - generic [ref=e32]:
+        - generic [ref=e34]: Avdelinger
+        - generic [ref=e36]: "1"
+      - generic [ref=e37]: Alle avdelinger
+    - generic [ref=e40]:
+      - generic [ref=e41]:
+        - generic [ref=e43]: Prosjekter
+        - generic [ref=e45]: "1"
+      - generic [ref=e46]: Alle prosjekter
+  - generic [ref=e48]:
+    - generic [ref=e50]:
+      - generic [ref=e51]: "Avdeling:"
+      - generic [ref=e52] [cursor=pointer]:
+        - generic [ref=e53]:
+          - generic: Alle Avdelinger
+          - combobox [ref=e54]
+        - img "down" [ref=e56]:
+          - img [ref=e57]
+    - generic [ref=e60]:
+      - generic [ref=e61]: "Prosjekt:"
+      - generic [ref=e62]:
+        - generic [ref=e63]:
+          - generic: Alle Prosjekter
+          - combobox [disabled] [ref=e64]
+        - img "down" [ref=e66]:
+          - img [ref=e67]
+  - generic [ref=e69]:
+    - generic [ref=e70]:
+      - img "check-circle" [ref=e71]:
+        - img [ref=e72]
+      - heading "FORECAST SNAPSHOTS" [level=2] [ref=e75]
+    - generic [ref=e77]:
+      - generic [ref=e78]: ✓
+      - generic [ref=e79]: No approved forecasts yet
+  - generic [ref=e80]:
+    - generic [ref=e81]:
+      - heading "LIVE FORECASTS" [level=2] [ref=e82]
+      - button "plus ADD ROW" [ref=e83] [cursor=pointer]:
+        - img "plus" [ref=e85]:
+          - img [ref=e86]
+        - generic [ref=e89]: ADD ROW
+    - table [ref=e92]:
+      - rowgroup [ref=e93]:
+        - row "PROJECT NAME PROFIT CENTER WBS ACCOUNT JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC TOTAL YEARLY SUM ACTIONS" [ref=e94]:
+          - columnheader "PROJECT NAME" [ref=e95] [cursor=pointer]:
+            - generic [ref=e96]: PROJECT NAME
+          - columnheader "PROFIT CENTER" [ref=e97] [cursor=pointer]:
+            - generic [ref=e98]: PROFIT CENTER
+          - columnheader "WBS" [ref=e99] [cursor=pointer]:
+            - generic [ref=e100]: WBS
+          - columnheader "ACCOUNT" [ref=e101] [cursor=pointer]:
+            - generic [ref=e102]: ACCOUNT
+          - columnheader "JAN" [ref=e103] [cursor=pointer]:
+            - generic [ref=e104]: JAN
+          - columnheader "FEB" [ref=e105] [cursor=pointer]:
+            - generic [ref=e106]: FEB
+          - columnheader "MAR" [ref=e107] [cursor=pointer]:
+            - generic [ref=e108]: MAR
+          - columnheader "APR" [ref=e109] [cursor=pointer]:
+            - generic [ref=e110]: APR
+          - columnheader "MAY" [ref=e111] [cursor=pointer]:
+            - generic [ref=e112]: MAY
+          - columnheader "JUN" [ref=e113] [cursor=pointer]:
+            - generic [ref=e114]: JUN
+          - columnheader "JUL" [ref=e115] [cursor=pointer]:
+            - generic [ref=e116]: JUL
+          - columnheader "AUG" [ref=e117] [cursor=pointer]:
+            - generic [ref=e118]: AUG
+          - columnheader "SEP" [ref=e119] [cursor=pointer]:
+            - generic [ref=e120]: SEP
+          - columnheader "OCT" [ref=e121] [cursor=pointer]:
+            - generic [ref=e122]: OCT
+          - columnheader "NOV" [ref=e123] [cursor=pointer]:
+            - generic [ref=e124]: NOV
+          - columnheader "DEC" [ref=e125] [cursor=pointer]:
+            - generic [ref=e126]: DEC
+          - columnheader "TOTAL" [ref=e127] [cursor=pointer]:
+            - generic [ref=e128]: TOTAL
+          - columnheader "YEARLY SUM" [ref=e129] [cursor=pointer]:
+            - generic [ref=e130]: YEARLY SUM
+          - columnheader "ACTIONS" [ref=e131]:
+            - generic [ref=e132]: ACTIONS
+      - rowgroup [ref=e133]:
+        - row "E2E Test Cloud Migration PC-TEST-001 WBS-TEST-001 5000 100 000 150 000 200 000 180 000 160 000 140 000 120 000 130 000 140 000 150 000 160 000 170 000 1 800 000 1 800 000 Edit Submit for Approval Delete" [ref=e134]:
+          - cell "E2E Test Cloud Migration" [ref=e135]:
+            - generic [ref=e136]: E2E Test Cloud Migration
+          - cell "PC-TEST-001" [ref=e137]:
+            - generic [ref=e138]: PC-TEST-001
+          - cell "WBS-TEST-001" [ref=e139]:
+            - generic [ref=e140]: WBS-TEST-001
+          - cell "5000" [ref=e141]:
+            - generic [ref=e142]: "5000"
+          - cell "100 000" [ref=e143]:
+            - generic [ref=e144]: 100 000
+          - cell "150 000" [ref=e145]:
+            - generic [ref=e146]: 150 000
+          - cell "200 000" [ref=e147]:
+            - generic [ref=e148]: 200 000
+          - cell "180 000" [ref=e149]:
+            - generic [ref=e150]: 180 000
+          - cell "160 000" [ref=e151]:
+            - generic [ref=e152]: 160 000
+          - cell "140 000" [ref=e153]:
+            - generic [ref=e154]: 140 000
+          - cell "120 000" [ref=e155]:
+            - generic [ref=e156]: 120 000
+          - cell "130 000" [ref=e157]:
+            - generic [ref=e158]: 130 000
+          - cell "140 000" [ref=e159]:
+            - generic [ref=e160]: 140 000
+          - cell "150 000" [ref=e161]:
+            - generic [ref=e162]: 150 000
+          - cell "160 000" [ref=e163]:
+            - generic [ref=e164]: 160 000
+          - cell "170 000" [ref=e165]:
+            - generic [ref=e166]: 170 000
+          - cell "1 800 000" [ref=e167]:
+            - strong [ref=e169]: 1 800 000
+          - cell "1 800 000" [ref=e170]:
+            - strong [ref=e172]: 1 800 000
+          - cell "Edit Submit for Approval Delete" [ref=e173]:
+            - generic [ref=e174]:
+              - button "Edit" [ref=e175] [cursor=pointer]
+              - button "Submit for Approval" [ref=e176] [cursor=pointer]
+              - button "Delete" [ref=e177] [cursor=pointer]
+```

@@ -15,15 +15,83 @@ interface LiveForecastsTableProps {
   onEdit?: (forecast: Forecast) => void;
   onDelete?: (forecastId: string) => void;
   onSubmitForApproval?: (forecastId: string) => void;
+  onUpdate?: (forecastId: string, field: string, value: any) => void;
 }
 
 export const LiveForecastsTable = ({
   data,
   onEdit,
   onDelete,
-  onSubmitForApproval
+  onSubmitForApproval,
+  onUpdate
 }: LiveForecastsTableProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [editingCell, setEditingCell] = useState<{ rowId: string; columnId: string } | null>(null);
+
+  const handleCellClick = (rowId: string, columnId: string) => {
+    setEditingCell({ rowId, columnId });
+  };
+
+  const handleCellBlur = (rowId: string, columnId: string, value: string, originalValue: any) => {
+    setEditingCell(null);
+
+    // Only update if value has changed
+    const numValue = parseFloat(value);
+    if (!isNaN(numValue) && numValue !== originalValue && onUpdate) {
+      onUpdate(rowId, columnId, numValue);
+    } else if (value !== originalValue && onUpdate) {
+      onUpdate(rowId, columnId, value);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, rowId: string, columnId: string, value: string, originalValue: any) => {
+    if (e.key === 'Enter') {
+      e.currentTarget.blur();
+    } else if (e.key === 'Escape') {
+      setEditingCell(null);
+    }
+  };
+
+  const renderEditableCell = (info: any, columnId: string, isNumeric = true) => {
+    const rowId = info.row.original.id;
+    const value = info.getValue();
+    const isEditing = editingCell?.rowId === rowId && editingCell?.columnId === columnId;
+
+    if (isEditing) {
+      return (
+        <input
+          type={isNumeric ? 'number' : 'text'}
+          defaultValue={value}
+          autoFocus
+          onBlur={(e) => handleCellBlur(rowId, columnId, e.target.value, value)}
+          onKeyDown={(e) => handleKeyDown(e, rowId, columnId, e.currentTarget.value, value)}
+          style={{
+            width: '100%',
+            padding: '8px 12px',
+            border: '2px solid #0969da',
+            borderRadius: '2px',
+            fontSize: '13px',
+            fontFamily: isNumeric ? "'Consolas', 'Monaco', monospace" : 'inherit',
+            textAlign: isNumeric ? 'right' : 'left',
+            outline: 'none'
+          }}
+        />
+      );
+    }
+
+    return (
+      <div
+        className={`cell-content ${isNumeric ? 'cell-number' : ''}`}
+        onClick={() => onUpdate && handleCellClick(rowId, columnId)}
+        style={{ cursor: onUpdate ? 'pointer' : 'default' }}
+        title={onUpdate ? 'Click to edit' : ''}
+      >
+        {isNumeric && typeof value === 'number'
+          ? value.toLocaleString('nb-NO', { minimumFractionDigits: 0 })
+          : (value || '-')}
+      </div>
+    );
+  };
 
   const columns = useMemo<ColumnDef<Forecast>[]>(
     () => [
@@ -31,145 +99,97 @@ export const LiveForecastsTable = ({
         accessorKey: 'projectName',
         header: 'PROJECT NAME',
         size: 200,
-        cell: (info) => <div className="cell-content">{info.getValue() as string || '-'}</div>,
+        cell: (info) => renderEditableCell(info, 'projectName', false),
       },
       {
         accessorKey: 'profitCenter',
         header: 'PROFIT CENTER',
         size: 150,
-        cell: (info) => <div className="cell-content">{info.getValue() as string || '-'}</div>,
+        cell: (info) => renderEditableCell(info, 'profitCenter', false),
       },
       {
         accessorKey: 'wbs',
         header: 'WBS',
         size: 120,
-        cell: (info) => <div className="cell-content">{info.getValue() as string || '-'}</div>,
+        cell: (info) => renderEditableCell(info, 'wbs', false),
       },
       {
         accessorKey: 'account',
         header: 'ACCOUNT',
         size: 120,
-        cell: (info) => <div className="cell-content">{info.getValue() as string || '-'}</div>,
+        cell: (info) => renderEditableCell(info, 'account', false),
       },
       {
         accessorKey: 'jan',
         header: 'JAN',
         size: 100,
-        cell: (info) => (
-          <div className="cell-content cell-number">
-            {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
-          </div>
-        ),
+        cell: (info) => renderEditableCell(info, 'jan', true),
       },
       {
         accessorKey: 'feb',
         header: 'FEB',
         size: 100,
-        cell: (info) => (
-          <div className="cell-content cell-number">
-            {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
-          </div>
-        ),
+        cell: (info) => renderEditableCell(info, 'feb', true),
       },
       {
         accessorKey: 'mar',
         header: 'MAR',
         size: 100,
-        cell: (info) => (
-          <div className="cell-content cell-number">
-            {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
-          </div>
-        ),
+        cell: (info) => renderEditableCell(info, 'mar', true),
       },
       {
         accessorKey: 'apr',
         header: 'APR',
         size: 100,
-        cell: (info) => (
-          <div className="cell-content cell-number">
-            {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
-          </div>
-        ),
+        cell: (info) => renderEditableCell(info, 'apr', true),
       },
       {
         accessorKey: 'may',
         header: 'MAY',
         size: 100,
-        cell: (info) => (
-          <div className="cell-content cell-number">
-            {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
-          </div>
-        ),
+        cell: (info) => renderEditableCell(info, 'may', true),
       },
       {
         accessorKey: 'jun',
         header: 'JUN',
         size: 100,
-        cell: (info) => (
-          <div className="cell-content cell-number">
-            {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
-          </div>
-        ),
+        cell: (info) => renderEditableCell(info, 'jun', true),
       },
       {
         accessorKey: 'jul',
         header: 'JUL',
         size: 100,
-        cell: (info) => (
-          <div className="cell-content cell-number">
-            {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
-          </div>
-        ),
+        cell: (info) => renderEditableCell(info, 'jul', true),
       },
       {
         accessorKey: 'aug',
         header: 'AUG',
         size: 100,
-        cell: (info) => (
-          <div className="cell-content cell-number">
-            {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
-          </div>
-        ),
+        cell: (info) => renderEditableCell(info, 'aug', true),
       },
       {
         accessorKey: 'sep',
         header: 'SEP',
         size: 100,
-        cell: (info) => (
-          <div className="cell-content cell-number">
-            {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
-          </div>
-        ),
+        cell: (info) => renderEditableCell(info, 'sep', true),
       },
       {
         accessorKey: 'oct',
         header: 'OCT',
         size: 100,
-        cell: (info) => (
-          <div className="cell-content cell-number">
-            {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
-          </div>
-        ),
+        cell: (info) => renderEditableCell(info, 'oct', true),
       },
       {
         accessorKey: 'nov',
         header: 'NOV',
         size: 100,
-        cell: (info) => (
-          <div className="cell-content cell-number">
-            {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
-          </div>
-        ),
+        cell: (info) => renderEditableCell(info, 'nov', true),
       },
       {
         accessorKey: 'dec',
         header: 'DEC',
         size: 100,
-        cell: (info) => (
-          <div className="cell-content cell-number">
-            {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
-          </div>
-        ),
+        cell: (info) => renderEditableCell(info, 'dec', true),
       },
       {
         accessorKey: 'total',
@@ -230,7 +250,7 @@ export const LiveForecastsTable = ({
         ),
       },
     ],
-    [onEdit, onDelete, onSubmitForApproval]
+    [onEdit, onDelete, onSubmitForApproval, onUpdate, editingCell]
   );
 
   const table = useReactTable({

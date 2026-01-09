@@ -150,6 +150,21 @@ export const Dashboard = () => {
     }
   };
 
+  const handleUpdateForecastField = async (forecastId: string, field: string, value: any) => {
+    try {
+      const forecast = forecasts.find(f => f.id === forecastId);
+      if (!forecast) return;
+
+      const updatedData = { ...forecast, [field]: value };
+      const updated = await forecastsAPI.update(forecastId, updatedData as any);
+
+      setForecasts(forecasts.map((f) => (f.id === forecastId ? updated : f)));
+    } catch (error) {
+      console.error('Failed to update forecast field:', error);
+      alert('Kunne ikke oppdatere prognose');
+    }
+  };
+
   const handleSubmitForApproval = async (forecastId: string) => {
     if (confirm('Submit this forecast for approval?')) {
       try {
@@ -361,6 +376,7 @@ export const Dashboard = () => {
           onEdit={handleOpenModal}
           onDelete={handleDeleteForecast}
           onSubmitForApproval={handleSubmitForApproval}
+          onUpdate={handleUpdateForecastField}
         />
       </div>
 

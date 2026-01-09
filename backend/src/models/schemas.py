@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from typing import Literal, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class DepartmentBase(BaseModel):
@@ -11,9 +11,7 @@ class DepartmentBase(BaseModel):
 
 class Department(DepartmentBase):
     id: int
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ProjectBase(BaseModel):
@@ -24,9 +22,7 @@ class ProjectBase(BaseModel):
 
 class Project(ProjectBase):
     id: int
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ForecastBase(BaseModel):
@@ -34,10 +30,10 @@ class ForecastBase(BaseModel):
     project_id: int
 
     # New detailed fields
-    project_name: str = ""
-    profit_center: str = ""
-    wbs: str = ""
-    account: str = ""
+    project_name: str
+    profit_center: str
+    wbs: str
+    account: str
 
     # Monthly values
     jan: float = 0.0
@@ -77,9 +73,7 @@ class Forecast(ForecastBase):
     created_by: str
     created_at: date
     updated_at: date
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ForecastSnapshotBase(BaseModel):
@@ -110,6 +104,7 @@ class ForecastSnapshotBase(BaseModel):
 
 class ForecastSnapshotCreate(BaseModel):
     forecast_id: int
+    submitted_by: str = "Current User"
 
 
 class ForecastSnapshot(ForecastSnapshotBase):
@@ -120,9 +115,7 @@ class ForecastSnapshot(ForecastSnapshotBase):
     submitted_by: str
     approved_by: Optional[str] = None
     approved_at: Optional[datetime] = None
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ForecastSnapshotApprove(BaseModel):

@@ -3,9 +3,9 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from config.database import get_db
-from models import schemas
-from repositories.forecast_repository import ForecastRepository, ForecastSnapshotRepository
+from src.config.database import get_db
+from src.models import schemas
+from src.repositories.forecast_repository import ForecastRepository, ForecastSnapshotRepository
 
 router = APIRouter(prefix="/api/snapshots", tags=["snapshots"])
 
@@ -44,7 +44,7 @@ def create_snapshot(
     # Create the snapshot
     snapshot = snapshot_repo.create_from_forecast(
         forecast=forecast,
-        submitted_by="Current User"  # In a real app, this would come from auth
+        submitted_by=snapshot_data.submitted_by
     )
     return snapshot
 

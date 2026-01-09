@@ -187,7 +187,7 @@ export const ForecastFormModal = ({
             control={control}
             rules={{ required: 'Avdeling er påkrevd' }}
             render={({ field }) => (
-              <Select {...field} placeholder="Velg avdeling" size="large">
+              <Select {...field} placeholder="Velg avdeling" size="large" data-testid="department-select">
                 {departments.map((dept) => (
                   <Option key={dept.id} value={dept.id}>
                     {dept.name} ({dept.code})
@@ -214,6 +214,7 @@ export const ForecastFormModal = ({
                 placeholder="Velg prosjekt"
                 size="large"
                 disabled={!selectedDepartmentId}
+                data-testid="project-select"
               >
                 {filteredProjects.map((proj) => (
                   <Option key={proj.id} value={proj.id}>
@@ -284,6 +285,7 @@ export const ForecastFormModal = ({
                   min={0}
                   formatter={(value) => value ? value.toLocaleString('nb-NO') : ''}
                   parser={(value) => value?.replace(/\s/g, '') as any}
+                  data-testid="month-jan"
                 />
               )}
             />

@@ -182,3 +182,19 @@
 .excel-table-wrapper::-webkit-scrollbar-corner {
   background: #f6f8fa;
 }
+
+/* Editable cell styling */
+.cell-content[style*="cursor: pointer"]:hover {
+  background: #e6f2ff;
+  border-radius: 2px;
+  transition: background 0.15s ease;
+}
+
+.excel-table td input {
+  box-sizing: border-box;
+}
+
+.excel-table td input:focus {
+  background: white;
+  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.15);
+}

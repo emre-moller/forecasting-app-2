@@ -1,9 +1,9 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import List, Optional
 
 from sqlalchemy.orm import Session
 
-from models import database, schemas
+from src.models import database, schemas
 
 
 class ForecastRepository:
@@ -97,7 +97,7 @@ class ForecastSnapshotRepository:
         if snapshot:
             snapshot.is_approved = True
             snapshot.approved_by = approved_by
-            snapshot.approved_at = datetime.utcnow()
+            snapshot.approved_at = datetime.now(UTC)
             self.db.commit()
             self.db.refresh(snapshot)
         return snapshot
