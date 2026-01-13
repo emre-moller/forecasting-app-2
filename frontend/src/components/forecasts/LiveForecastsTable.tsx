@@ -16,6 +16,7 @@ interface LiveForecastsTableProps {
   onDelete?: (forecastId: string) => void;
   onSubmitForApproval?: (forecastId: string) => void;
   onUpdate?: (forecastId: string, field: string, value: any) => void;
+  onAddRow?: () => void;
 }
 
 export const LiveForecastsTable = ({
@@ -23,7 +24,8 @@ export const LiveForecastsTable = ({
   onEdit,
   onDelete,
   onSubmitForApproval,
-  onUpdate
+  onUpdate,
+  onAddRow
 }: LiveForecastsTableProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [editingCell, setEditingCell] = useState<{ rowId: string; columnId: string } | null>(null);
@@ -98,103 +100,103 @@ export const LiveForecastsTable = ({
       {
         accessorKey: 'projectName',
         header: 'PROJECT NAME',
-        size: 200,
+        size: 140,
         cell: (info) => renderEditableCell(info, 'projectName', false),
       },
       {
         accessorKey: 'profitCenter',
         header: 'PROFIT CENTER',
-        size: 150,
+        size: 110,
         cell: (info) => renderEditableCell(info, 'profitCenter', false),
       },
       {
         accessorKey: 'wbs',
         header: 'WBS',
-        size: 120,
+        size: 100,
         cell: (info) => renderEditableCell(info, 'wbs', false),
       },
       {
         accessorKey: 'account',
         header: 'ACCOUNT',
-        size: 120,
+        size: 100,
         cell: (info) => renderEditableCell(info, 'account', false),
       },
       {
         accessorKey: 'jan',
         header: 'JAN',
-        size: 100,
+        size: 75,
         cell: (info) => renderEditableCell(info, 'jan', true),
       },
       {
         accessorKey: 'feb',
         header: 'FEB',
-        size: 100,
+        size: 75,
         cell: (info) => renderEditableCell(info, 'feb', true),
       },
       {
         accessorKey: 'mar',
         header: 'MAR',
-        size: 100,
+        size: 75,
         cell: (info) => renderEditableCell(info, 'mar', true),
       },
       {
         accessorKey: 'apr',
         header: 'APR',
-        size: 100,
+        size: 75,
         cell: (info) => renderEditableCell(info, 'apr', true),
       },
       {
         accessorKey: 'may',
         header: 'MAY',
-        size: 100,
+        size: 75,
         cell: (info) => renderEditableCell(info, 'may', true),
       },
       {
         accessorKey: 'jun',
         header: 'JUN',
-        size: 100,
+        size: 75,
         cell: (info) => renderEditableCell(info, 'jun', true),
       },
       {
         accessorKey: 'jul',
         header: 'JUL',
-        size: 100,
+        size: 75,
         cell: (info) => renderEditableCell(info, 'jul', true),
       },
       {
         accessorKey: 'aug',
         header: 'AUG',
-        size: 100,
+        size: 75,
         cell: (info) => renderEditableCell(info, 'aug', true),
       },
       {
         accessorKey: 'sep',
         header: 'SEP',
-        size: 100,
+        size: 75,
         cell: (info) => renderEditableCell(info, 'sep', true),
       },
       {
         accessorKey: 'oct',
         header: 'OCT',
-        size: 100,
+        size: 75,
         cell: (info) => renderEditableCell(info, 'oct', true),
       },
       {
         accessorKey: 'nov',
         header: 'NOV',
-        size: 100,
+        size: 75,
         cell: (info) => renderEditableCell(info, 'nov', true),
       },
       {
         accessorKey: 'dec',
         header: 'DEC',
-        size: 100,
+        size: 75,
         cell: (info) => renderEditableCell(info, 'dec', true),
       },
       {
         accessorKey: 'total',
         header: 'TOTAL',
-        size: 120,
+        size: 90,
         cell: (info) => (
           <div className="cell-content cell-number">
             <strong>
@@ -206,7 +208,7 @@ export const LiveForecastsTable = ({
       {
         accessorKey: 'yearlySum',
         header: 'YEARLY SUM',
-        size: 120,
+        size: 95,
         cell: (info) => (
           <div className="cell-content cell-number">
             <strong>
@@ -218,7 +220,7 @@ export const LiveForecastsTable = ({
       {
         id: 'actions',
         header: 'ACTIONS',
-        size: 200,
+        size: 180,
         cell: (info) => (
           <div className="cell-content cell-actions">
             {onEdit && (
@@ -292,6 +294,67 @@ export const LiveForecastsTable = ({
             ))}
           </thead>
           <tbody>
+            {onAddRow && (
+              <tr className="add-row" onClick={onAddRow}>
+                <td style={{ width: 140 }}>
+                  <div className="cell-content placeholder-cell">Project Name</div>
+                </td>
+                <td style={{ width: 110 }}>
+                  <div className="cell-content placeholder-cell">Profit Center</div>
+                </td>
+                <td style={{ width: 100 }}>
+                  <div className="cell-content placeholder-cell">WBS</div>
+                </td>
+                <td style={{ width: 100 }}>
+                  <div className="cell-content placeholder-cell">Account</div>
+                </td>
+                <td style={{ width: 75 }}>
+                  <div className="cell-content cell-number placeholder-cell">0</div>
+                </td>
+                <td style={{ width: 75 }}>
+                  <div className="cell-content cell-number placeholder-cell">0</div>
+                </td>
+                <td style={{ width: 75 }}>
+                  <div className="cell-content cell-number placeholder-cell">0</div>
+                </td>
+                <td style={{ width: 75 }}>
+                  <div className="cell-content cell-number placeholder-cell">0</div>
+                </td>
+                <td style={{ width: 75 }}>
+                  <div className="cell-content cell-number placeholder-cell">0</div>
+                </td>
+                <td style={{ width: 75 }}>
+                  <div className="cell-content cell-number placeholder-cell">0</div>
+                </td>
+                <td style={{ width: 75 }}>
+                  <div className="cell-content cell-number placeholder-cell">0</div>
+                </td>
+                <td style={{ width: 75 }}>
+                  <div className="cell-content cell-number placeholder-cell">0</div>
+                </td>
+                <td style={{ width: 75 }}>
+                  <div className="cell-content cell-number placeholder-cell">0</div>
+                </td>
+                <td style={{ width: 75 }}>
+                  <div className="cell-content cell-number placeholder-cell">0</div>
+                </td>
+                <td style={{ width: 75 }}>
+                  <div className="cell-content cell-number placeholder-cell">0</div>
+                </td>
+                <td style={{ width: 75 }}>
+                  <div className="cell-content cell-number placeholder-cell">0</div>
+                </td>
+                <td style={{ width: 90 }}>
+                  <div className="cell-content cell-number placeholder-cell">0</div>
+                </td>
+                <td style={{ width: 95 }}>
+                  <div className="cell-content cell-number placeholder-cell">0</div>
+                </td>
+                <td style={{ width: 180 }}>
+                  <div className="cell-content placeholder-cell">Click to add</div>
+                </td>
+              </tr>
+            )}
             {table.getRowModel().rows.map((row) => (
               <tr key={row.id}>
                 {row.getVisibleCells().map((cell) => (

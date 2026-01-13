@@ -178,6 +178,43 @@ export const Dashboard = () => {
     }
   };
 
+  const handleAddRow = async () => {
+    try {
+      const newForecastData: ForecastFormData = {
+        departmentId: selectedDepartment || '',
+        projectId: selectedProject || '',
+        projectName: '',
+        profitCenter: '',
+        wbs: '',
+        account: '',
+        jan: 0,
+        feb: 0,
+        mar: 0,
+        apr: 0,
+        may: 0,
+        jun: 0,
+        jul: 0,
+        aug: 0,
+        sep: 0,
+        oct: 0,
+        nov: 0,
+        dec: 0,
+        total: 0,
+        yearlySum: 0,
+        amount: 0,
+        timePeriod: '',
+        periodType: 'monthly',
+        description: ''
+      };
+
+      const newForecast = await forecastsAPI.create(newForecastData);
+      setForecasts([newForecast, ...forecasts]);
+    } catch (error) {
+      console.error('Failed to create forecast:', error);
+      alert('Kunne ikke opprette prognose');
+    }
+  };
+
   const handleApproveSnapshot = async (snapshotId: string) => {
     if (confirm('Approve this forecast snapshot?')) {
       try {
@@ -363,13 +400,6 @@ export const Dashboard = () => {
           marginBottom: '16px'
         }}>
           <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 600 }}>LIVE FORECASTS</h2>
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={() => handleOpenModal()}
-          >
-            ADD ROW
-          </Button>
         </div>
         <LiveForecastsTable
           data={filteredForecasts}
@@ -377,6 +407,7 @@ export const Dashboard = () => {
           onDelete={handleDeleteForecast}
           onSubmitForApproval={handleSubmitForApproval}
           onUpdate={handleUpdateForecastField}
+          onAddRow={handleAddRow}
         />
       </div>
 

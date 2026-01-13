@@ -28,7 +28,7 @@
 }
 
 .excel-table th {
-  padding: 8px 12px;
+  padding: 6px 8px;
   text-align: left;
   font-weight: 600;
   color: #24292f;
@@ -80,8 +80,8 @@
 }
 
 .cell-content {
-  padding: 8px 12px;
-  min-height: 32px;
+  padding: 6px 8px;
+  min-height: 30px;
   display: flex;
   align-items: center;
   color: #24292f;
@@ -197,4 +197,24 @@
 .excel-table td input:focus {
   background: white;
   box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.15);
+}
+
+/* Add row styling */
+.excel-table .add-row {
+  cursor: pointer;
+  background: #f6f8fa;
+}
+
+.excel-table .add-row:hover {
+  background: #ddf4ff;
+}
+
+.excel-table .add-row td {
+  border-style: dashed;
+  border-color: #d0d7de;
+}
+
+.placeholder-cell {
+  color: #6e7781;
+  font-style: italic;
 }
