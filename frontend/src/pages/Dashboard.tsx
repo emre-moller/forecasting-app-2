@@ -91,7 +91,7 @@ export const Dashboard = () => {
     const totals = new Map<string, number>();
     filteredForecasts.forEach((forecast) => {
       const current = totals.get(forecast.departmentId) || 0;
-      totals.set(forecast.departmentId, current + forecast.amount);
+      totals.set(forecast.departmentId, current + (forecast.total || forecast.amount || 0));
     });
     return totals;
   }, [filteredForecasts]);
@@ -100,13 +100,13 @@ export const Dashboard = () => {
     const totals = new Map<string, number>();
     filteredForecasts.forEach((forecast) => {
       const current = totals.get(forecast.projectId) || 0;
-      totals.set(forecast.projectId, current + forecast.amount);
+      totals.set(forecast.projectId, current + (forecast.total || forecast.amount || 0));
     });
     return totals;
   }, [filteredForecasts]);
 
   const grandTotal = useMemo(() => {
-    return filteredForecasts.reduce((sum, forecast) => sum + forecast.amount, 0);
+    return filteredForecasts.reduce((sum, forecast) => sum + (forecast.total || forecast.amount || 0), 0);
   }, [filteredForecasts]);
 
   const handleCreateForecast = async (data: ForecastFormData) => {
@@ -242,14 +242,14 @@ export const Dashboard = () => {
       </div>
 
       <div className="dashboard-stats">
-        <Row gutter={16}>
+        <Row gutter={8}>
           <Col span={8}>
             <Card className="stat-card">
               <Statistic
                 title="Totalt Prognostisert"
                 value={grandTotal}
                 precision={2}
-                valueStyle={{ color: '#0969da', fontWeight: 600 }}
+                valueStyle={{ color: '#0969da', fontWeight: 600, fontSize: '24px' }}
               />
               <div className="stat-subtitle">{filteredForecasts.length} prognoser</div>
             </Card>
@@ -259,7 +259,7 @@ export const Dashboard = () => {
               <Statistic
                 title="Avdelinger"
                 value={totalsByDepartment.size}
-                valueStyle={{ color: '#8250df', fontWeight: 600 }}
+                valueStyle={{ color: '#8250df', fontWeight: 600, fontSize: '24px' }}
               />
               <div className="stat-subtitle">
                 {selectedDepartment
@@ -273,7 +273,7 @@ export const Dashboard = () => {
               <Statistic
                 title="Prosjekter"
                 value={totalsByProject.size}
-                valueStyle={{ color: '#1a7f37', fontWeight: 600 }}
+                valueStyle={{ color: '#1a7f37', fontWeight: 600, fontSize: '24px' }}
               />
               <div className="stat-subtitle">
                 {selectedProject

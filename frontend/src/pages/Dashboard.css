@@ -47,29 +47,35 @@
 
 .dashboard-stats {
   max-width: 1600px;
-  margin: 24px auto;
+  margin: 12px auto;
   padding: 0 32px;
 }
 
 .stat-card {
   border: 1px solid #d0d7de;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 8px 12px !important;
+}
+
+.stat-card .ant-card-body {
+  padding: 0 !important;
 }
 
 .stat-card .ant-statistic-title {
-  font-size: 14px;
+  font-size: 11px;
   color: #57606a;
   font-weight: 600;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .stat-card .ant-statistic-content {
-  font-size: 32px;
+  font-size: 24px;
+  line-height: 1;
 }
 
 .stat-subtitle {
-  margin-top: 8px;
-  font-size: 13px;
+  margin-top: 4px;
+  font-size: 11px;
   color: #57606a;
 }
 
