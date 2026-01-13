@@ -194,18 +194,6 @@ export const LiveForecastsTable = ({
         cell: (info) => renderEditableCell(info, 'dec', true),
       },
       {
-        accessorKey: 'total',
-        header: 'TOTAL',
-        size: 90,
-        cell: (info) => (
-          <div className="cell-content cell-number">
-            <strong>
-              {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
-            </strong>
-          </div>
-        ),
-      },
-      {
         accessorKey: 'yearlySum',
         header: 'YEARLY SUM',
         size: 95,
@@ -223,21 +211,13 @@ export const LiveForecastsTable = ({
         size: 180,
         cell: (info) => (
           <div className="cell-content cell-actions">
-            {onEdit && (
-              <button
-                className="action-btn action-btn-edit"
-                onClick={() => onEdit(info.row.original)}
-              >
-                Edit
-              </button>
-            )}
             {onSubmitForApproval && (
               <button
                 className="action-btn action-btn-submit"
                 onClick={() => onSubmitForApproval(info.row.original.id)}
                 style={{ backgroundColor: '#0969da', color: 'white' }}
               >
-                Submit for Approval
+                Submit
               </button>
             )}
             {onDelete && (
@@ -342,9 +322,6 @@ export const LiveForecastsTable = ({
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
                 <td style={{ width: 75 }}>
-                  <div className="cell-content cell-number placeholder-cell">0</div>
-                </td>
-                <td style={{ width: 90 }}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
                 <td style={{ width: 95 }}>

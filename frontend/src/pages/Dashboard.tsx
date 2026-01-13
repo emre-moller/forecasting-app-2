@@ -278,50 +278,6 @@ export const Dashboard = () => {
         </div>
       </div>
 
-      <div className="dashboard-stats">
-        <Row gutter={8}>
-          <Col span={8}>
-            <Card className="stat-card">
-              <Statistic
-                title="Totalt Prognostisert"
-                value={grandTotal}
-                precision={2}
-                valueStyle={{ color: '#0969da', fontWeight: 600, fontSize: '24px' }}
-              />
-              <div className="stat-subtitle">{filteredForecasts.length} prognoser</div>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card className="stat-card">
-              <Statistic
-                title="Avdelinger"
-                value={totalsByDepartment.size}
-                valueStyle={{ color: '#8250df', fontWeight: 600, fontSize: '24px' }}
-              />
-              <div className="stat-subtitle">
-                {selectedDepartment
-                  ? departments.find((d) => d.id === selectedDepartment)?.name
-                  : 'Alle avdelinger'}
-              </div>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card className="stat-card">
-              <Statistic
-                title="Prosjekter"
-                value={totalsByProject.size}
-                valueStyle={{ color: '#1a7f37', fontWeight: 600, fontSize: '24px' }}
-              />
-              <div className="stat-subtitle">
-                {selectedProject
-                  ? projects.find((p) => p.id === selectedProject)?.name
-                  : 'Alle prosjekter'}
-              </div>
-            </Card>
-          </Col>
-        </Row>
-      </div>
-
       <div className="dashboard-filters">
         <Space size="middle" wrap>
           <div className="filter-group">
