@@ -233,7 +233,7 @@ class TestSnapshotsAPI:
     def test_snapshot_with_nonexistent_forecast(self, client):
         """Test creating a snapshot with non-existent forecast ID"""
         payload = {
-            "forecast_id": 99999,  # Non-existent
+            "forecast_id": "99999_2026",  # Non-existent
             "submitted_by": "test-user",
         }
 

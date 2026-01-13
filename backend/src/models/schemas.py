@@ -26,16 +26,20 @@ class Project(ProjectBase):
 
 
 class ForecastBase(BaseModel):
+    """
+    External API schema for forecasts - maintains yearly view with 12 month fields.
+    This schema is used for API requests/responses to maintain backward compatibility.
+    """
     department_id: int
     project_id: int
 
-    # New detailed fields
+    # Detailed fields
     project_name: str
     profit_center: str
     wbs: str
     account: str
 
-    # Monthly values
+    # Monthly values (yearly API contract)
     jan: float = 0.0
     feb: float = 0.0
     mar: float = 0.0
@@ -49,15 +53,9 @@ class ForecastBase(BaseModel):
     nov: float = 0.0
     dec: float = 0.0
 
-    # Totals
+    # Totals (calculated from monthly values)
     total: float = 0.0
     yearly_sum: float = 0.0
-
-    # Legacy fields (keeping for backwards compatibility)
-    amount: float = 0.0
-    time_period: str = ""
-    period_type: Literal["monthly", "quarterly", "yearly"] = "monthly"
-    description: str = ""
 
 
 class ForecastCreate(ForecastBase):
@@ -69,7 +67,7 @@ class ForecastUpdate(ForecastBase):
 
 
 class Forecast(ForecastBase):
-    id: int
+    id: str  # Encoded as "project_id_year" (e.g., "1_2026")
     created_by: str
     created_at: date
     updated_at: date
@@ -103,13 +101,14 @@ class ForecastSnapshotBase(BaseModel):
 
 
 class ForecastSnapshotCreate(BaseModel):
-    forecast_id: int
+    forecast_id: str  # Encoded as "project_id_year"
     submitted_by: str = "Current User"
 
 
 class ForecastSnapshot(ForecastSnapshotBase):
     id: int
-    forecast_id: int
+    forecast_id: str  # Encoded as "project_id_year"
+    year: int  # The year of the forecast
     is_approved: bool
     snapshot_date: datetime
     submitted_by: str
@@ -120,3 +119,51 @@ class ForecastSnapshot(ForecastSnapshotBase):
 
 class ForecastSnapshotApprove(BaseModel):
     approved_by: str
+
+
+# Internal database schemas (not exposed via API)
+# These schemas map directly to the normalized database tables
+
+class ForecastMonthBase(BaseModel):
+    """Internal schema for monthly forecast records in the database."""
+    department_id: int
+    project_id: int
+    year: int
+    month: int  # 1-12
+    amount: float
+    project_name: str
+    profit_center: str
+    wbs: str
+    account: str
+
+
+class ForecastMonthDB(ForecastMonthBase):
+    """Internal schema with database metadata."""
+    id: int
+    created_by: str
+    created_at: date
+    updated_at: date
+    model_config = ConfigDict(from_attributes=True)
+
+
+class SnapshotHeaderBase(BaseModel):
+    """Internal schema for snapshot header records."""
+    department_id: int
+    project_id: int
+    year: int
+    is_approved: bool
+    snapshot_date: datetime
+    submitted_by: str
+    approved_by: Optional[str] = None
+    approved_at: Optional[datetime] = None
+
+
+class SnapshotMonthBase(BaseModel):
+    """Internal schema for monthly snapshot records."""
+    snapshot_header_id: int
+    month: int  # 1-12
+    amount: float
+    project_name: str
+    profit_center: str
+    wbs: str
+    account: str

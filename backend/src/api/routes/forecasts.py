@@ -18,7 +18,8 @@ def get_forecasts(db: Session = Depends(get_db)):
 
 
 @router.get("/{forecast_id}", response_model=schemas.Forecast)
-def get_forecast(forecast_id: int, db: Session = Depends(get_db)):
+def get_forecast(forecast_id: str, db: Session = Depends(get_db)):
+    """Get forecast by encoded ID (e.g., '1_2026')"""
     repo = ForecastRepository(db)
     forecast = repo.get_by_id(forecast_id)
     if not forecast:
@@ -47,10 +48,11 @@ def create_forecast(
 
 @router.put("/{forecast_id}", response_model=schemas.Forecast)
 def update_forecast(
-    forecast_id: int,
+    forecast_id: str,
     forecast: schemas.ForecastUpdate,
     db: Session = Depends(get_db)
 ):
+    """Update forecast by encoded ID (e.g., '1_2026')"""
     repo = ForecastRepository(db)
     updated_forecast = repo.update(forecast_id, forecast)
     if not updated_forecast:
@@ -59,7 +61,8 @@ def update_forecast(
 
 
 @router.delete("/{forecast_id}", status_code=204)
-def delete_forecast(forecast_id: int, db: Session = Depends(get_db)):
+def delete_forecast(forecast_id: str, db: Session = Depends(get_db)):
+    """Delete forecast by encoded ID (e.g., '1_2026')"""
     repo = ForecastRepository(db)
     if not repo.delete(forecast_id):
         raise HTTPException(status_code=404, detail="Forecast not found")

@@ -20,7 +20,15 @@
       "Bash(python:*)",
       "Bash(dir:*)",
       "Bash(cat:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(timeout 5 python:*)",
+      "Bash(npm run test:*)",
+      "Bash(tasklist:*)",
+      "Bash(kill:*)",
+      "Bash(powershell -Command \"Stop-Process -Id 22108 -Force\")",
+      "Bash(timeout 240 npx playwright test:*)",
+      "Bash(xargs:*)",
+      "Bash(tee:*)"
     ]
   }
 }

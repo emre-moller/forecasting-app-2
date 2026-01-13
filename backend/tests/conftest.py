@@ -119,10 +119,6 @@ def sample_forecast(client, sample_department, sample_project):
             "dec": 170000,
             "total": 1800000,
             "yearly_sum": 1800000,
-            "time_period": "2026",
-            "period_type": "monthly",
-            "description": "Test forecast",
-            "created_by": "test-user",
         },
     )
     return response.json()

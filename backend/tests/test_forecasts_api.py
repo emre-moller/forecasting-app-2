@@ -32,10 +32,6 @@ class TestForecastsAPI:
             "dec": 160000,
             "total": 1260000,
             "yearly_sum": 1260000,
-            "time_period": "2026",
-            "period_type": "monthly",
-            "description": "Integration test forecast",
-            "created_by": "api-test-user",
         }
 
         response = client.post("/api/forecasts", json=payload)
@@ -80,7 +76,7 @@ class TestForecastsAPI:
 
     def test_get_nonexistent_forecast(self, client):
         """Test retrieving a forecast that doesn't exist"""
-        response = client.get("/api/forecasts/99999")
+        response = client.get("/api/forecasts/99999_2026")
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
@@ -119,7 +115,7 @@ class TestForecastsAPI:
             "yearly_sum": 100000,
         }
 
-        response = client.put("/api/forecasts/99999", json=payload)
+        response = client.put("/api/forecasts/99999_2026", json=payload)
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
@@ -137,7 +133,7 @@ class TestForecastsAPI:
 
     def test_delete_nonexistent_forecast(self, client):
         """Test deleting a forecast that doesn't exist"""
-        response = client.delete("/api/forecasts/99999")
+        response = client.delete("/api/forecasts/99999_2026")
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
@@ -233,29 +229,40 @@ class TestForecastsAPI:
         assert data["total"] == total
         assert data["yearly_sum"] == total
 
-    def test_create_multiple_forecasts(self, client, sample_department, sample_project):
-        """Test creating multiple forecasts"""
-        for i in range(5):
-            payload = {
-                "department_id": sample_department["id"],
-                "project_id": sample_project["id"],
-                "project_name": f"Test Project {i}",
-                "profit_center": f"PC-{i:03d}",
-                "wbs": f"WBS-{i:03d}",
-                "account": f"{5000 + i}",
-                "jan": 100000 * (i + 1),
-                "total": 1200000 * (i + 1),
-                "yearly_sum": 1200000 * (i + 1),
-            }
+    def test_create_forecast_for_project(self, client, sample_department, sample_project):
+        """Test creating a forecast for a specific project"""
+        # Note: Each project can only have one forecast per year in the normalized structure
+        payload = {
+            "department_id": sample_department["id"],
+            "project_id": sample_project["id"],
+            "project_name": "Test Project 1",
+            "profit_center": "PC-001",
+            "wbs": "WBS-001",
+            "account": "5001",
+            "jan": 100000,
+            "feb": 110000,
+            "mar": 120000,
+            "apr": 130000,
+            "may": 140000,
+            "jun": 150000,
+            "jul": 160000,
+            "aug": 170000,
+            "sep": 180000,
+            "oct": 190000,
+            "nov": 200000,
+            "dec": 210000,
+            "total": 1860000,
+            "yearly_sum": 1860000,
+        }
 
-            response = client.post("/api/forecasts", json=payload)
-            assert response.status_code == status.HTTP_201_CREATED
+        response = client.post("/api/forecasts", json=payload)
+        assert response.status_code == status.HTTP_201_CREATED
 
-        # Verify all forecasts exist
-        response = client.get("/api/forecasts")
-        data = response.json()
-
-        assert len(data) >= 5
+        # Verify forecast was created and can be retrieved
+        forecast_id = response.json()["id"]
+        get_response = client.get(f"/api/forecasts/{forecast_id}")
+        assert get_response.status_code == status.HTTP_200_OK
+        assert get_response.json()["project_name"] == "Test Project 1"
 
     def test_forecast_timestamps(self, client, sample_forecast):
         """Test that created_at and updated_at timestamps are set"""

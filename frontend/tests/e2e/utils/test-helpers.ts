@@ -29,6 +29,7 @@ export async function createTestForecast(data: {
   wbs: string;
   account: string;
   monthlyValues?: number[];
+  year?: number;
 }) {
   const monthlyValues = data.monthlyValues || Array(12).fill(100000);
   const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
@@ -53,29 +54,50 @@ export async function createTestForecast(data: {
       ...monthlyData,
       total,
       yearly_sum: total,
-      time_period: '2026',
-      period_type: 'monthly',
-      description: 'E2E Test Forecast',
-      created_by: 'test-user',
     }),
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to create test forecast: ${response.statusText}`);
+    const errorText = await response.text();
+    console.error('Failed to create test forecast:', {
+      status: response.status,
+      statusText: response.statusText,
+      body: errorText
+    });
+    throw new Error(`Failed to create test forecast: ${response.status} ${response.statusText} - ${errorText}`);
   }
 
-  return response.json();
+  const result = await response.json();
+  console.log('Created forecast:', result);
+  return result;
 }
 
 /**
  * Delete all test forecasts (clean up)
+ * Cleans up forecasts for test project IDs (9, 10, and any with test-related names)
  */
 export async function cleanupTestForecasts() {
   const response = await fetch(`${API_BASE_URL}/forecasts`);
   const forecasts = await response.json();
 
   for (const forecast of forecasts) {
-    if (forecast.created_by === 'test-user' || forecast.description?.includes('E2E Test')) {
+    // Identify test forecasts by project ID (9, 10 are test projects) or name patterns
+    const isTestProject = forecast.project_id === 9 || forecast.project_id === 10;
+    const hasTestPattern = forecast.wbs?.includes('TEST') ||
+        forecast.wbs?.includes('SNAP') ||
+        forecast.wbs?.includes('TECH') ||
+        forecast.wbs?.includes('MARK') ||
+        forecast.wbs?.includes('ORIG') ||
+        forecast.wbs?.includes('DEL') ||
+        forecast.wbs?.includes('MONTH') ||
+        forecast.wbs?.includes('CALC') ||
+        forecast.wbs?.includes('PERSIST') ||
+        forecast.project_name?.includes('Test') ||
+        forecast.project_name?.includes('E2E') ||
+        forecast.project_name?.includes('Tech Project') ||
+        forecast.project_name?.includes('Marketing Project');
+
+    if (isTestProject || hasTestPattern) {
       await fetch(`${API_BASE_URL}/forecasts/${forecast.id}`, {
         method: 'DELETE',
       });
@@ -169,9 +191,6 @@ export async function fillForecastForm(page: Page, data: {
     await monthInputs.nth(i).fill(monthlyValues[i].toString());
     await page.waitForTimeout(50); // Small delay between fills
   }
-
-  // Fill legacy fields that are required
-  await page.locator('input[placeholder="f.eks., 2025 K1"]').fill('2025 Q1');
 }
 
 /**

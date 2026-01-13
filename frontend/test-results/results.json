@@ -76,748 +76,6 @@
           "column": 6,
           "specs": [
             {
-              "title": "should filter forecasts by department",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 1562,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m3\u001b[39m\nReceived:    \u001b[31m0\u001b[39m",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m3\u001b[39m\nReceived:    \u001b[31m0\u001b[39m\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts:84:26",
-                        "location": {
-                          "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts",
-                          "column": 26,
-                          "line": 84
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 82 |\u001b[39m     \u001b[90m// Verify initial state shows all forecasts\u001b[39m\n \u001b[90m 83 |\u001b[39m     \u001b[36mconst\u001b[39m initialCount \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m getForecastCount(page\u001b[33m,\u001b[39m \u001b[32m'live'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 84 |\u001b[39m     expect(initialCount)\u001b[33m.\u001b[39mtoBeGreaterThanOrEqual(\u001b[35m3\u001b[39m)\u001b[33m;\u001b[39m \u001b[90m// At least our 3 test forecasts\u001b[39m\n \u001b[90m    |\u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 85 |\u001b[39m\n \u001b[90m 86 |\u001b[39m     \u001b[90m// Open department filter dropdown\u001b[39m\n \u001b[90m 87 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'label:has-text(\"Filtrer etter Avdeling\")'\u001b[39m)\u001b[33m.\u001b[39mlocator(\u001b[32m'..'\u001b[39m)\u001b[33m.\u001b[39mlocator(\u001b[32m'.ant-select'\u001b[39m)\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts",
-                            "column": 26,
-                            "line": 84
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThanOrEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: >= \u001b[32m3\u001b[39m\nReceived:    \u001b[31m0\u001b[39m\n\n  82 |     // Verify initial state shows all forecasts\n  83 |     const initialCount = await getForecastCount(page, 'live');\n> 84 |     expect(initialCount).toBeGreaterThanOrEqual(3); // At least our 3 test forecasts\n     |                          ^\n  85 |\n  86 |     // Open department filter dropdown\n  87 |     await page.locator('label:has-text(\"Filtrer etter Avdeling\")').locator('..').locator('.ant-select').click();\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts:84:26"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:03:25.467Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-d9222-ter-forecasts-by-department-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-d9222-ter-forecasts-by-department-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-d9222-ter-forecasts-by-department-chromium\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts",
-                        "column": 26,
-                        "line": 84
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "6232643549ad99baacbe-af63c5e495185f509dc1",
-              "file": "filtering-aggregation.spec.ts",
-              "line": 65,
-              "column": 3
-            },
-            {
-              "title": "should filter forecasts by project",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 31299,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts",
-                            "column": 105,
-                            "line": 115
-                          },
-                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('label:has-text(\"Filtrer etter Avdeling\")').locator('..').locator('.ant-select')\u001b[22m\n\n\n  113 |   test('should filter forecasts by project', async ({ page }) => {\n  114 |     // Select department first\n> 115 |     await page.locator('label:has-text(\"Filtrer etter Avdeling\")').locator('..').locator('.ant-select').click();\n      |                                                                                                         ^\n  116 |     await page.locator('.ant-select-item-option:has-text(\"Teknologi\")').click();\n  117 |\n  118 |     await page.waitForTimeout(500);\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts:115:105"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:03:27.872Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-5a46c-filter-forecasts-by-project-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-5a46c-filter-forecasts-by-project-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-5a46c-filter-forecasts-by-project-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "6232643549ad99baacbe-e2b88a8b6eb39957424e",
-              "file": "filtering-aggregation.spec.ts",
-              "line": 97,
-              "column": 3
-            },
-            {
-              "title": "should reset filters when \"Nullstill Filtre\" is clicked",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 31302,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts",
-                            "column": 105,
-                            "line": 138
-                          },
-                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('label:has-text(\"Filtrer etter Avdeling\")').locator('..').locator('.ant-select')\u001b[22m\n\n\n  136 |   test('should reset filters when \"Nullstill Filtre\" is clicked', async ({ page }) => {\n  137 |     // Apply department filter\n> 138 |     await page.locator('label:has-text(\"Filtrer etter Avdeling\")').locator('..').locator('.ant-select').click();\n      |                                                                                                         ^\n  139 |     await page.locator('.ant-select-item-option:has-text(\"Teknologi\")').click();\n  140 |\n  141 |     await page.waitForTimeout(500);\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts:138:105"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:04:00.058Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-bddec-Nullstill-Filtre-is-clicked-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-bddec-Nullstill-Filtre-is-clicked-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-bddec-Nullstill-Filtre-is-clicked-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "6232643549ad99baacbe-9c140f9bda5b36dbd9e4",
-              "file": "filtering-aggregation.spec.ts",
-              "line": 119,
-              "column": 3
-            },
-            {
-              "title": "should update project dropdown when department changes",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 31319,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts",
-                            "column": 105,
-                            "line": 168
-                          },
-                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('label:has-text(\"Filtrer etter Avdeling\")').locator('..').locator('.ant-select')\u001b[22m\n\n\n  166 |   test('should update project dropdown when department changes', async ({ page }) => {\n  167 |     // Select Teknologi department\n> 168 |     await page.locator('label:has-text(\"Filtrer etter Avdeling\")').locator('..').locator('.ant-select').click();\n      |                                                                                                         ^\n  169 |     await page.locator('.ant-select-item-option:has-text(\"Teknologi\")').click();\n  170 |\n  171 |     await page.waitForTimeout(500);\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts:168:105"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:04:32.200Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-c4336-own-when-department-changes-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-c4336-own-when-department-changes-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-c4336-own-when-department-changes-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "6232643549ad99baacbe-cb1eaf7ab7968ac44fa6",
-              "file": "filtering-aggregation.spec.ts",
-              "line": 146,
-              "column": 3
-            },
-            {
-              "title": "should display correct department count in statistics",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 31328,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts",
-                            "column": 83,
-                            "line": 202
-                          },
-                          "message": "Error: locator.textContent: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.ant-statistic-title:has-text(\"Avdelinger\")').locator('..').locator('.ant-statistic-content-value')\u001b[22m\n\n\n  200 |     // Get the department count from the statistics card\n  201 |     const deptCountCard = page.locator('.ant-statistic-title:has-text(\"Avdelinger\")').locator('..');\n> 202 |     const deptCount = await deptCountCard.locator('.ant-statistic-content-value').textContent();\n      |                                                                                   ^\n  203 |\n  204 |     // Should match the number of departments from API\n  205 |     expect(parseInt(deptCount || '0')).toBe(testDepartments.length);\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts:202:83"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:05:04.381Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-0b4e0-artment-count-in-statistics-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-0b4e0-artment-count-in-statistics-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-0b4e0-artment-count-in-statistics-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "6232643549ad99baacbe-260af4265985ad9d7220",
-              "file": "filtering-aggregation.spec.ts",
-              "line": 178,
-              "column": 3
-            },
-            {
-              "title": "should display correct project count in statistics",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 31298,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts",
-                            "column": 89,
-                            "line": 211
-                          },
-                          "message": "Error: locator.textContent: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.ant-statistic-title:has-text(\"Prosjekter\")').locator('..').locator('.ant-statistic-content-value')\u001b[22m\n\n\n  209 |     // Get the project count from the statistics card\n  210 |     const projectCountCard = page.locator('.ant-statistic-title:has-text(\"Prosjekter\")').locator('..');\n> 211 |     const projectCount = await projectCountCard.locator('.ant-statistic-content-value').textContent();\n      |                                                                                         ^\n  212 |\n  213 |     // Should match the number of projects from API\n  214 |     expect(parseInt(projectCount || '0')).toBe(testProjects.length);\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts:211:89"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:05:36.544Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-e4e9a-project-count-in-statistics-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-e4e9a-project-count-in-statistics-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-e4e9a-project-count-in-statistics-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "6232643549ad99baacbe-5c83dc72499a1f8ab78e",
-              "file": "filtering-aggregation.spec.ts",
-              "line": 188,
-              "column": 3
-            },
-            {
-              "title": "should calculate total forecast amount correctly",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 31284,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts",
-                            "column": 79,
-                            "line": 220
-                          },
-                          "message": "Error: locator.textContent: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.ant-statistic-title:has-text(\"Totalt Prognostisert\")').locator('..').locator('.ant-statistic-content-value')\u001b[22m\n\n\n  218 |     // Get the total forecast amount from statistics\n  219 |     const totalCard = page.locator('.ant-statistic-title:has-text(\"Totalt Prognostisert\")').locator('..');\n> 220 |     const totalText = await totalCard.locator('.ant-statistic-content-value').textContent();\n      |                                                                               ^\n  221 |\n  222 |     // Should be a valid number in Norwegian format\n  223 |     expect(totalText).toBeTruthy();\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts:220:79"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:06:08.694Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-fc9c8-l-forecast-amount-correctly-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-fc9c8-l-forecast-amount-correctly-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-fc9c8-l-forecast-amount-correctly-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "6232643549ad99baacbe-8529e179a60086677675",
-              "file": "filtering-aggregation.spec.ts",
-              "line": 198,
-              "column": 3
-            },
-            {
-              "title": "should update total when filtering",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 7,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 31294,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts",
-                            "column": 86,
-                            "line": 233
-                          },
-                          "message": "Error: locator.textContent: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.ant-statistic-title:has-text(\"Totalt Prognostisert\")').locator('..').locator('.ant-statistic-content-value')\u001b[22m\n\n\n  231 |     // Get initial total\n  232 |     const totalCard = page.locator('.ant-statistic-title:has-text(\"Totalt Prognostisert\")').locator('..');\n> 233 |     const initialTotalText = await totalCard.locator('.ant-statistic-content-value').textContent();\n      |                                                                                      ^\n  234 |     const initialTotal = parseInt(initialTotalText?.replace(/[^\\d]/g, '') || '0');\n  235 |\n  236 |     // Apply department filter\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts:233:86"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:06:40.834Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-778c0-update-total-when-filtering-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-778c0-update-total-when-filtering-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-778c0-update-total-when-filtering-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "6232643549ad99baacbe-36ab40a713fada299576",
-              "file": "filtering-aggregation.spec.ts",
-              "line": 212,
-              "column": 3
-            },
-            {
-              "title": "should show forecasts sorted correctly",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 8,
-                      "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 1558,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts:258:19",
-                        "location": {
-                          "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts",
-                          "column": 19,
-                          "line": 258
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 256 |\u001b[39m\n \u001b[90m 257 |\u001b[39m     \u001b[90m// Verify we have multiple rows to check sorting\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 258 |\u001b[39m     expect(count)\u001b[33m.\u001b[39mtoBeGreaterThan(\u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 259 |\u001b[39m\n \u001b[90m 260 |\u001b[39m     \u001b[90m// Note: Actual sorting order depends on implementation\u001b[39m\n \u001b[90m 261 |\u001b[39m     \u001b[90m// This test just verifies data is displayed consistently\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts",
-                            "column": 19,
-                            "line": 258
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\n  256 |\n  257 |     // Verify we have multiple rows to check sorting\n> 258 |     expect(count).toBeGreaterThan(0);\n      |                   ^\n  259 |\n  260 |     // Note: Actual sorting order depends on implementation\n  261 |     // This test just verifies data is displayed consistently\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts:258:19"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:07:12.969Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-92611--forecasts-sorted-correctly-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-92611--forecasts-sorted-correctly-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-92611--forecasts-sorted-correctly-chromium\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts",
-                        "column": 19,
-                        "line": 258
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "6232643549ad99baacbe-b82524db62b3c1d2bb1a",
-              "file": "filtering-aggregation.spec.ts",
-              "line": 233,
-              "column": 3
-            },
-            {
-              "title": "should maintain filter state when creating new forecast",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 9,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 31345,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts",
-                            "column": 105,
-                            "line": 266
-                          },
-                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('label:has-text(\"Filtrer etter Avdeling\")').locator('..').locator('.ant-select')\u001b[22m\n\n\n  264 |   test('should maintain filter state when creating new forecast', async ({ page }) => {\n  265 |     // Apply department filter\n> 266 |     await page.locator('label:has-text(\"Filtrer etter Avdeling\")').locator('..').locator('.ant-select').click();\n      |                                                                                                         ^\n  267 |     await page.locator('.ant-select-item-option:has-text(\"Teknologi\")').click();\n  268 |\n  269 |     await page.waitForTimeout(500);\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts:266:105"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:07:15.368Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-afd6c--when-creating-new-forecast-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-afd6c--when-creating-new-forecast-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-afd6c--when-creating-new-forecast-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "6232643549ad99baacbe-637e23519f7a404b5b73",
-              "file": "filtering-aggregation.spec.ts",
-              "line": 246,
-              "column": 3
-            },
-            {
-              "title": "should handle empty filter results gracefully",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 31290,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts",
-                            "column": 22,
-                            "line": 306
-                          },
-                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('label:has-text(\"Filtrer etter Avdeling\")').locator('..').locator('.ant-select')\u001b[22m\n\n\n  304 |     const deptSelect = page.locator('label:has-text(\"Filtrer etter Avdeling\")').locator('..').locator('.ant-select');\n  305 |\n> 306 |     await deptSelect.click();\n      |                      ^\n  307 |\n  308 |     // Select first available department\n  309 |     await page.locator('.ant-select-item-option').first().click();\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\filtering-aggregation.spec.ts:306:22"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:07:47.568Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-5a385-y-filter-results-gracefully-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-5a385-y-filter-results-gracefully-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\filtering-aggregation-Filt-5a385-y-filter-results-gracefully-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "6232643549ad99baacbe-6af5889e40beccd9a93a",
-              "file": "filtering-aggregation.spec.ts",
-              "line": 272,
-              "column": 3
-            },
-            {
               "title": "should display department totals correctly",
               "ok": true,
               "tags": [],
@@ -830,15 +88,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 11,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1590,
+                      "duration": 1715,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-01-09T09:08:19.704Z",
+                      "startTime": "2026-01-12T18:08:41.663Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -848,7 +106,7 @@
               ],
               "id": "6232643549ad99baacbe-c60e5245810ddc58a238",
               "file": "filtering-aggregation.spec.ts",
-              "line": 296,
+              "line": 22,
               "column": 3
             },
             {
@@ -864,15 +122,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 11,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1544,
+                      "duration": 1521,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-01-09T09:08:21.429Z",
+                      "startTime": "2026-01-12T18:08:44.550Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -882,7 +140,7 @@
               ],
               "id": "6232643549ad99baacbe-60bd1ae6c5950947b75e",
               "file": "filtering-aggregation.spec.ts",
-              "line": 311,
+              "line": 37,
               "column": 3
             }
           ]
@@ -915,15 +173,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 11,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1454,
+                      "duration": 1535,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-01-09T09:08:23.000Z",
+                      "startTime": "2026-01-12T18:08:46.107Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -933,229 +191,7 @@
               ],
               "id": "b069b7b70f9d4473966f-c8fc80e9797a9759a6a1",
               "file": "forecast-crud.spec.ts",
-              "line": 33,
-              "column": 3
-            },
-            {
-              "title": "should create a new forecast",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 11,
-                      "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 7894,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts:91:22",
-                        "location": {
-                          "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts",
-                          "column": 22,
-                          "line": 91
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 89 |\u001b[39m\n \u001b[90m 90 |\u001b[39m     \u001b[36mconst\u001b[39m newCount \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m getForecastCount(page\u001b[33m,\u001b[39m \u001b[32m'live'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 91 |\u001b[39m     expect(newCount)\u001b[33m.\u001b[39mtoBe(initialCount \u001b[33m+\u001b[39m \u001b[35m1\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 92 |\u001b[39m\n \u001b[90m 93 |\u001b[39m     \u001b[90m// Verify the data is correct in the table\u001b[39m\n \u001b[90m 94 |\u001b[39m     \u001b[36mconst\u001b[39m rowCount \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m tableRowExists(page\u001b[33m,\u001b[39m {\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts",
-                            "column": 22,
-                            "line": 91
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\n\n  89 |\n  90 |     const newCount = await getForecastCount(page, 'live');\n> 91 |     expect(newCount).toBe(initialCount + 1);\n     |                      ^\n  92 |\n  93 |     // Verify the data is correct in the table\n  94 |     const rowCount = await tableRowExists(page, {\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts:91:22"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:08:24.480Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\forecast-crud-Forecast-CRU-505dd-hould-create-a-new-forecast-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\forecast-crud-Forecast-CRU-505dd-hould-create-a-new-forecast-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\forecast-crud-Forecast-CRU-505dd-hould-create-a-new-forecast-chromium\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts",
-                        "column": 22,
-                        "line": 91
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "b069b7b70f9d4473966f-0885f4e5e51efd29d857",
-              "file": "forecast-crud.spec.ts",
-              "line": 48,
-              "column": 3
-            },
-            {
-              "title": "should edit an existing forecast",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 12,
-                      "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 7789,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=Rediger Prognose')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Rediger Prognose')\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=Rediger Prognose')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Rediger Prognose')\u001b[22m\n\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts:132:57",
-                        "location": {
-                          "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts",
-                          "column": 57,
-                          "line": 132
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 130 |\u001b[39m\n \u001b[90m 131 |\u001b[39m     \u001b[90m// Verify modal is open\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 132 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=Rediger Prognose'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 133 |\u001b[39m\n \u001b[90m 134 |\u001b[39m     \u001b[90m// Verify form is pre-filled\u001b[39m\n \u001b[90m 135 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'input[placeholder=\"Prosjektnavn\"]'\u001b[39m))\u001b[33m.\u001b[39mtoHaveValue(\u001b[32m'Original Project Name'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts",
-                            "column": 57,
-                            "line": 132
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=Rediger Prognose')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Rediger Prognose')\u001b[22m\n\n\n  130 |\n  131 |     // Verify modal is open\n> 132 |     await expect(page.locator('text=Rediger Prognose')).toBeVisible();\n      |                                                         ^\n  133 |\n  134 |     // Verify form is pre-filled\n  135 |     await expect(page.locator('input[placeholder=\"Prosjektnavn\"]')).toHaveValue('Original Project Name');\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts:132:57"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:08:33.086Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\forecast-crud-Forecast-CRU-eb5a6-d-edit-an-existing-forecast-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\forecast-crud-Forecast-CRU-eb5a6-d-edit-an-existing-forecast-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\forecast-crud-Forecast-CRU-eb5a6-d-edit-an-existing-forecast-chromium\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts",
-                        "column": 57,
-                        "line": 132
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "b069b7b70f9d4473966f-83fa8ed5f1ef94c0362d",
-              "file": "forecast-crud.spec.ts",
-              "line": 96,
-              "column": 3
-            },
-            {
-              "title": "should delete a forecast",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 13,
-                      "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 3354,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m-1\u001b[39m\nReceived: \u001b[31m0\u001b[39m",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m-1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts:206:22",
-                        "location": {
-                          "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts",
-                          "column": 22,
-                          "line": 206
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 204 |\u001b[39m     \u001b[90m// Verify forecast count decreased\u001b[39m\n \u001b[90m 205 |\u001b[39m     \u001b[36mconst\u001b[39m newCount \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m getForecastCount(page\u001b[33m,\u001b[39m \u001b[32m'live'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 206 |\u001b[39m     expect(newCount)\u001b[33m.\u001b[39mtoBe(initialCount \u001b[33m-\u001b[39m \u001b[35m1\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 207 |\u001b[39m\n \u001b[90m 208 |\u001b[39m     \u001b[90m// Verify the forecast is no longer in the table\u001b[39m\n \u001b[90m 209 |\u001b[39m     \u001b[36mconst\u001b[39m rowCount \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m tableRowExists(page\u001b[33m,\u001b[39m {\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts",
-                            "column": 22,
-                            "line": 206
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m-1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\n\n  204 |     // Verify forecast count decreased\n  205 |     const newCount = await getForecastCount(page, 'live');\n> 206 |     expect(newCount).toBe(initialCount - 1);\n      |                      ^\n  207 |\n  208 |     // Verify the forecast is no longer in the table\n  209 |     const rowCount = await tableRowExists(page, {\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts:206:22"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:08:41.723Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\forecast-crud-Forecast-CRU-e31fa-ns-should-delete-a-forecast-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\forecast-crud-Forecast-CRU-e31fa-ns-should-delete-a-forecast-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\forecast-crud-Forecast-CRU-e31fa-ns-should-delete-a-forecast-chromium\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts",
-                        "column": 22,
-                        "line": 206
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "b069b7b70f9d4473966f-291987fdfa03017d152a",
-              "file": "forecast-crud.spec.ts",
-              "line": 159,
+              "line": 23,
               "column": 3
             },
             {
@@ -1171,15 +207,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 14,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2374,
+                      "duration": 1579,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-01-09T09:08:45.927Z",
+                      "startTime": "2026-01-12T18:08:47.683Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1189,81 +225,7 @@
               ],
               "id": "b069b7b70f9d4473966f-6513192dd610d352ba99",
               "file": "forecast-crud.spec.ts",
-              "line": 203,
-              "column": 3
-            },
-            {
-              "title": "should calculate total and yearly sum correctly",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 14,
-                      "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 7502,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('tr:has-text(\"WBS-CALC-001\")').first().locator('text=4 500 000 kr').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('tr:has-text(\"WBS-CALC-001\")').first().locator('text=4 500 000 kr').first()\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('tr:has-text(\"WBS-CALC-001\")').first().locator('text=4 500 000 kr').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('tr:has-text(\"WBS-CALC-001\")').first().locator('text=4 500 000 kr').first()\u001b[22m\n\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts:272:65",
-                        "location": {
-                          "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts",
-                          "column": 65,
-                          "line": 272
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 270 |\u001b[39m     \u001b[90m// The yearly sum should be visible in the row\u001b[39m\n \u001b[90m 271 |\u001b[39m     \u001b[36mconst\u001b[39m formattedTotal \u001b[33m=\u001b[39m formatNOK(expectedTotal)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 272 |\u001b[39m     \u001b[36mawait\u001b[39m expect(row\u001b[33m.\u001b[39mlocator(\u001b[32m`text=${formattedTotal}`\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 273 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 274 |\u001b[39m\n \u001b[90m 275 |\u001b[39m   test(\u001b[32m'should show empty state when no forecasts exist'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts",
-                            "column": 65,
-                            "line": 272
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('tr:has-text(\"WBS-CALC-001\")').first().locator('text=4 500 000 kr').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('tr:has-text(\"WBS-CALC-001\")').first().locator('text=4 500 000 kr').first()\u001b[22m\n\n\n  270 |     // The yearly sum should be visible in the row\n  271 |     const formattedTotal = formatNOK(expectedTotal);\n> 272 |     await expect(row.locator(`text=${formattedTotal}`).first()).toBeVisible();\n      |                                                                 ^\n  273 |   });\n  274 |\n  275 |   test('should show empty state when no forecasts exist', async ({ page }) => {\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts:272:65"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:08:48.443Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\forecast-crud-Forecast-CRU-83832-al-and-yearly-sum-correctly-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\forecast-crud-Forecast-CRU-83832-al-and-yearly-sum-correctly-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\forecast-crud-Forecast-CRU-83832-al-and-yearly-sum-correctly-chromium\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\forecast-crud.spec.ts",
-                        "column": 65,
-                        "line": 272
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "b069b7b70f9d4473966f-8d8bcb811d8f032bd7d5",
-              "file": "forecast-crud.spec.ts",
-              "line": 231,
+              "line": 38,
               "column": 3
             },
             {
@@ -1279,15 +241,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 15,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2247,
+                      "duration": 1514,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-01-09T09:08:56.673Z",
+                      "startTime": "2026-01-12T18:08:49.277Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1297,7 +259,7 @@
               ],
               "id": "b069b7b70f9d4473966f-e2f49556fedbb020032e",
               "file": "forecast-crud.spec.ts",
-              "line": 259,
+              "line": 51,
               "column": 3
             },
             {
@@ -1313,15 +275,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 15,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3010,
+                      "duration": 2356,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-01-09T09:08:59.064Z",
+                      "startTime": "2026-01-12T18:08:50.800Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1331,7 +293,7 @@
               ],
               "id": "b069b7b70f9d4473966f-393702affb19a990d2ff",
               "file": "forecast-crud.spec.ts",
-              "line": 274,
+              "line": 61,
               "column": 3
             }
           ]
@@ -1352,154 +314,6 @@
           "column": 6,
           "specs": [
             {
-              "title": "should open forecast form modal when clicking Ny Prognose",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 15,
-                      "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 1824,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('label:has-text(\"Avdeling\")')\nExpected: visible\nError: strict mode violation: locator('label:has-text(\"Avdeling\")') resolved to 2 elements:\n    1) <label>Avdeling:</label> aka getByText('Avdeling:')\n    2) <label title=\"Avdeling\" class=\"ant-form-item-required\">Avdeling</label> aka getByText('Avdeling', { exact: true })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('label:has-text(\"Avdeling\")')\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('label:has-text(\"Avdeling\")')\nExpected: visible\nError: strict mode violation: locator('label:has-text(\"Avdeling\")') resolved to 2 elements:\n    1) <label>Avdeling:</label> aka getByText('Avdeling:')\n    2) <label title=\"Avdeling\" class=\"ant-form-item-required\">Avdeling</label> aka getByText('Avdeling', { exact: true })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('label:has-text(\"Avdeling\")')\u001b[22m\n\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts:34:62",
-                        "location": {
-                          "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts",
-                          "column": 62,
-                          "line": 34
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 32 |\u001b[39m\n \u001b[90m 33 |\u001b[39m     \u001b[90m// Verify all form fields are present\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 34 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'label:has-text(\"Avdeling\")'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 35 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'label:has-text(\"Prosjekt\")'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 36 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'input[placeholder=\"Enter project name\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 37 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'input[placeholder=\"e.g. PC001\"]'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts",
-                            "column": 62,
-                            "line": 34
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('label:has-text(\"Avdeling\")')\nExpected: visible\nError: strict mode violation: locator('label:has-text(\"Avdeling\")') resolved to 2 elements:\n    1) <label>Avdeling:</label> aka getByText('Avdeling:')\n    2) <label title=\"Avdeling\" class=\"ant-form-item-required\">Avdeling</label> aka getByText('Avdeling', { exact: true })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('label:has-text(\"Avdeling\")')\u001b[22m\n\n\n  32 |\n  33 |     // Verify all form fields are present\n> 34 |     await expect(page.locator('label:has-text(\"Avdeling\")')).toBeVisible();\n     |                                                              ^\n  35 |     await expect(page.locator('label:has-text(\"Prosjekt\")')).toBeVisible();\n  36 |     await expect(page.locator('input[placeholder=\"Enter project name\"]')).toBeVisible();\n  37 |     await expect(page.locator('input[placeholder=\"e.g. PC001\"]')).toBeVisible();\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts:34:62"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:09:02.095Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-96d5c-l-when-clicking-Ny-Prognose-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-96d5c-l-when-clicking-Ny-Prognose-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-96d5c-l-when-clicking-Ny-Prognose-chromium\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts",
-                        "column": 62,
-                        "line": 34
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f2616960333ca455c24f-e9d625fc2a3b1eaa37de",
-              "file": "form-validation.spec.ts",
-              "line": 22,
-              "column": 3
-            },
-            {
-              "title": "should close modal when clicking cancel or escape",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 16,
-                      "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 6942,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('text=Ny Utgiftsprognose')\nExpected: not visible\nReceived: visible\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Ny Utgiftsprognose')\u001b[22m\n\u001b[2m    9 × locator resolved to <div class=\"modal-title\">Ny Utgiftsprognose</div>\u001b[22m\n\u001b[2m      - unexpected value \"visible\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('text=Ny Utgiftsprognose')\nExpected: not visible\nReceived: visible\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Ny Utgiftsprognose')\u001b[22m\n\u001b[2m    9 × locator resolved to <div class=\"modal-title\">Ny Utgiftsprognose</div>\u001b[22m\n\u001b[2m      - unexpected value \"visible\"\u001b[22m\n\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts:57:63",
-                        "location": {
-                          "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts",
-                          "column": 63,
-                          "line": 57
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 55 |\u001b[39m\n \u001b[90m 56 |\u001b[39m     \u001b[90m// Modal should close\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 57 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=Ny Utgiftsprognose'\u001b[39m))\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 58 |\u001b[39m\n \u001b[90m 59 |\u001b[39m     \u001b[90m// Open again and click cancel\u001b[39m\n \u001b[90m 60 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'button:has-text(\"Ny Prognose\")'\u001b[39m)\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts",
-                            "column": 63,
-                            "line": 57
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).not.\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('text=Ny Utgiftsprognose')\nExpected: not visible\nReceived: visible\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Ny Utgiftsprognose')\u001b[22m\n\u001b[2m    9 × locator resolved to <div class=\"modal-title\">Ny Utgiftsprognose</div>\u001b[22m\n\u001b[2m      - unexpected value \"visible\"\u001b[22m\n\n\n  55 |\n  56 |     // Modal should close\n> 57 |     await expect(page.locator('text=Ny Utgiftsprognose')).not.toBeVisible();\n     |                                                               ^\n  58 |\n  59 |     // Open again and click cancel\n  60 |     await page.locator('button:has-text(\"Ny Prognose\")').click();\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts:57:63"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:09:04.668Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-d2e72-n-clicking-cancel-or-escape-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-d2e72-n-clicking-cancel-or-escape-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-d2e72-n-clicking-cancel-or-escape-chromium\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts",
-                        "column": 63,
-                        "line": 57
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f2616960333ca455c24f-7abd6be775f4576af17e",
-              "file": "form-validation.spec.ts",
-              "line": 44,
-              "column": 3
-            },
-            {
               "title": "should validate required fields",
               "ok": true,
               "tags": [],
@@ -1512,15 +326,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 17,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2436,
+                      "duration": 2481,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-01-09T09:09:12.459Z",
+                      "startTime": "2026-01-12T18:08:53.189Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1530,469 +344,7 @@
               ],
               "id": "f2616960333ca455c24f-ac8ef337f25700d50ab4",
               "file": "form-validation.spec.ts",
-              "line": 67,
-              "column": 3
-            },
-            {
-              "title": "should accept numeric input for monthly values",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 17,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 31104,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts",
-                            "column": 84,
-                            "line": 88
-                          },
-                          "message": "Error: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('label:has-text(\"January\")').locator('..').locator('input')\u001b[22m\n\n\n  86 |\n  87 |     // Fill a month field with a number\n> 88 |     await page.locator('label:has-text(\"January\")').locator('..').locator('input').fill('100000');\n     |                                                                                    ^\n  89 |\n  90 |     const value = await page.locator('label:has-text(\"January\")').locator('..').locator('input').inputValue();\n  91 |     expect(value).toBe('100000');\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts:88:84"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:09:15.011Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-63ad7-ic-input-for-monthly-values-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-63ad7-ic-input-for-monthly-values-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-63ad7-ic-input-for-monthly-values-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f2616960333ca455c24f-a6e562724aa44bb5e5d9",
-              "file": "form-validation.spec.ts",
-              "line": 81,
-              "column": 3
-            },
-            {
-              "title": "should handle decimal values in monthly fields",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 18,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 31085,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts",
-                            "column": 84,
-                            "line": 98
-                          },
-                          "message": "Error: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('label:has-text(\"January\")').locator('..').locator('input')\u001b[22m\n\n\n   96 |\n   97 |     // Try to enter decimal\n>  98 |     await page.locator('label:has-text(\"January\")').locator('..').locator('input').fill('100000.50');\n      |                                                                                    ^\n   99 |\n  100 |     const value = await page.locator('label:has-text(\"January\")').locator('..').locator('input').inputValue();\n  101 |\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts:98:84"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:09:46.832Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-1c1bf-al-values-in-monthly-fields-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-1c1bf-al-values-in-monthly-fields-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-1c1bf-al-values-in-monthly-fields-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f2616960333ca455c24f-e3fa97c340abbbaecfe6",
-              "file": "form-validation.spec.ts",
-              "line": 91,
-              "column": 3
-            },
-            {
-              "title": "should handle negative values in monthly fields",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 19,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 31122,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts",
-                            "column": 84,
-                            "line": 111
-                          },
-                          "message": "Error: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('label:has-text(\"January\")').locator('..').locator('input')\u001b[22m\n\n\n  109 |\n  110 |     // Try to enter negative value\n> 111 |     await page.locator('label:has-text(\"January\")').locator('..').locator('input').fill('-50000');\n      |                                                                                    ^\n  112 |\n  113 |     const value = await page.locator('label:has-text(\"January\")').locator('..').locator('input').inputValue();\n  114 |\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts:111:84"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:10:18.740Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-9b6fd-ve-values-in-monthly-fields-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-9b6fd-ve-values-in-monthly-fields-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-9b6fd-ve-values-in-monthly-fields-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f2616960333ca455c24f-c2946795b88a0fbaec5c",
-              "file": "form-validation.spec.ts",
-              "line": 104,
-              "column": 3
-            },
-            {
-              "title": "should handle very large numbers in monthly fields",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 20,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 31104,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts",
-                            "column": 84,
-                            "line": 123
-                          },
-                          "message": "Error: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('label:has-text(\"January\")').locator('..').locator('input')\u001b[22m\n\n\n  121 |\n  122 |     // Enter a very large number\n> 123 |     await page.locator('label:has-text(\"January\")').locator('..').locator('input').fill('999999999999');\n      |                                                                                    ^\n  124 |\n  125 |     const value = await page.locator('label:has-text(\"January\")').locator('..').locator('input').inputValue();\n  126 |     expect(value).toBe('999999999999');\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts:123:84"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:10:50.648Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-ec173-e-numbers-in-monthly-fields-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-ec173-e-numbers-in-monthly-fields-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-ec173-e-numbers-in-monthly-fields-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f2616960333ca455c24f-d7a32a7855ebe48acb56",
-              "file": "form-validation.spec.ts",
-              "line": 116,
-              "column": 3
-            },
-            {
-              "title": "should handle zero values in monthly fields",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 21,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 31075,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts",
-                            "column": 84,
-                            "line": 133
-                          },
-                          "message": "Error: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('label:has-text(\"January\")').locator('..').locator('input')\u001b[22m\n\n\n  131 |\n  132 |     // Enter zero\n> 133 |     await page.locator('label:has-text(\"January\")').locator('..').locator('input').fill('0');\n      |                                                                                    ^\n  134 |\n  135 |     const value = await page.locator('label:has-text(\"January\")').locator('..').locator('input').inputValue();\n  136 |     expect(value).toBe('0');\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts:133:84"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:11:22.571Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-1b1c8-ro-values-in-monthly-fields-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-1b1c8-ro-values-in-monthly-fields-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-1b1c8-ro-values-in-monthly-fields-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f2616960333ca455c24f-4ad8f43296ad30c8dc92",
-              "file": "form-validation.spec.ts",
-              "line": 126,
-              "column": 3
-            },
-            {
-              "title": "should reject non-numeric input in monthly fields",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 22,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 31135,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts",
-                            "column": 84,
-                            "line": 143
-                          },
-                          "message": "Error: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('label:has-text(\"January\")').locator('..').locator('input')\u001b[22m\n\n\n  141 |\n  142 |     // Try to enter text\n> 143 |     await page.locator('label:has-text(\"January\")').locator('..').locator('input').fill('abc');\n      |                                                                                    ^\n  144 |\n  145 |     const value = await page.locator('label:has-text(\"January\")').locator('..').locator('input').inputValue();\n  146 |\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts:143:84"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:11:54.449Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-07832-ric-input-in-monthly-fields-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-07832-ric-input-in-monthly-fields-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-07832-ric-input-in-monthly-fields-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f2616960333ca455c24f-53e4c26dea96ca5eee1c",
-              "file": "form-validation.spec.ts",
-              "line": 136,
-              "column": 3
-            },
-            {
-              "title": "should update project dropdown when department is selected",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 23,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 30203,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts",
-                            "column": 91,
-                            "line": 156
-                          },
-                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('label:has-text(\"Avdeling\")').locator('..').locator('.ant-select')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var ant-select-single ant-select-show-arrow\">…</div>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div tabindex=\"-1\" class=\"ant-modal-wrap\">…</div> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div tabindex=\"-1\" class=\"ant-modal-wrap\">…</div> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    13 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <div tabindex=\"-1\" class=\"ant-modal-wrap\">…</div> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <input readonly disabled value=\"\" id=\"_r_7_\" type=\"search\" role=\"combobox\" autocomplete=\"off\" aria-expanded=\"false\" aria-owns=\"_r_7__list\" aria-haspopup=\"listbox\" class=\"ant-select-input\" aria-autocomplete=\"list\" aria-controls=\"_r_7__list\"/> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <input readonly disabled value=\"\" id=\"_r_7_\" type=\"search\" role=\"combobox\" autocomplete=\"off\" aria-expanded=\"false\" aria-owns=\"_r_7__list\" aria-haspopup=\"listbox\" class=\"ant-select-input\" aria-autocomplete=\"list\" aria-controls=\"_r_7__list\"/> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <div tabindex=\"-1\" class=\"ant-modal-wrap\">…</div> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <div tabindex=\"-1\" class=\"ant-modal-wrap\">…</div> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\n\n  154 |\n  155 |     // Select a department\n> 156 |     await page.locator('label:has-text(\"Avdeling\")').locator('..').locator('.ant-select').click();\n      |                                                                                           ^\n  157 |     await page.locator('.ant-select-item-option:has-text(\"Teknologi\")').click();\n  158 |\n  159 |     // Project dropdown should now be populated with Teknologi projects\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts:156:91"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:12:26.377Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-baed6-when-department-is-selected-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-baed6-when-department-is-selected-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-baed6-when-department-is-selected-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f2616960333ca455c24f-d73a59c589b445db0499",
-              "file": "form-validation.spec.ts",
-              "line": 149,
+              "line": 16,
               "column": 3
             },
             {
@@ -2008,15 +360,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 24,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1878,
+                      "duration": 1894,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-01-09T09:12:57.386Z",
+                      "startTime": "2026-01-12T18:08:55.680Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2026,7 +378,7 @@
               ],
               "id": "f2616960333ca455c24f-301ea66a1aabe9d45618",
               "file": "form-validation.spec.ts",
-              "line": 165,
+              "line": 30,
               "column": 3
             },
             {
@@ -2042,15 +394,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 24,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1789,
+                      "duration": 1915,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-01-09T09:12:59.364Z",
+                      "startTime": "2026-01-12T18:08:57.583Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2060,7 +412,7 @@
               ],
               "id": "f2616960333ca455c24f-377c01b120e3f1f87e1b",
               "file": "form-validation.spec.ts",
-              "line": 177,
+              "line": 42,
               "column": 3
             },
             {
@@ -2076,15 +428,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 24,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1782,
+                      "duration": 1866,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-01-09T09:13:01.164Z",
+                      "startTime": "2026-01-12T18:08:59.509Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2094,7 +446,7 @@
               ],
               "id": "f2616960333ca455c24f-76b689c9f89bfc99d723",
               "file": "form-validation.spec.ts",
-              "line": 188,
+              "line": 53,
               "column": 3
             },
             {
@@ -2110,15 +462,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 24,
+                      "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2321,
+                      "duration": 2486,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-01-09T09:13:02.958Z",
+                      "startTime": "2026-01-12T18:09:01.384Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2128,728 +480,7 @@
               ],
               "id": "f2616960333ca455c24f-e4842859a0d9107c87a8",
               "file": "form-validation.spec.ts",
-              "line": 200,
-              "column": 3
-            },
-            {
-              "title": "should preserve form data when switching between fields",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 24,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 30183,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts",
-                            "column": 84,
-                            "line": 227
-                          },
-                          "message": "Error: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('label:has-text(\"January\")').locator('..').locator('input')\u001b[22m\n\n\n  225 |     await page.locator('input[placeholder=\"Enter project name\"]').fill('Test Project');\n  226 |     await page.locator('input[placeholder=\"e.g. PC001\"]').fill('PC-001');\n> 227 |     await page.locator('label:has-text(\"January\")').locator('..').locator('input').fill('100000');\n      |                                                                                    ^\n  228 |\n  229 |     // Click to another field\n  230 |     await page.locator('label:has-text(\"February\")').locator('..').locator('input').click();\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts:227:84"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:13:05.288Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-1e3be-en-switching-between-fields-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-1e3be-en-switching-between-fields-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-1e3be-en-switching-between-fields-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f2616960333ca455c24f-8617e2e419f5161dc328",
-              "file": "form-validation.spec.ts",
-              "line": 222,
-              "column": 3
-            },
-            {
-              "title": "should handle form submission with minimal valid data",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 25,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 30484,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts",
-                            "column": 91,
-                            "line": 242
-                          },
-                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('label:has-text(\"Avdeling\")').locator('..').locator('.ant-select')\u001b[22m\n\u001b[2m    - locator resolved to <div class=\"ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var ant-select-single ant-select-show-arrow\">…</div>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div tabindex=\"-1\" class=\"ant-modal-wrap\">…</div> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <div class=\"ant-modal-container\">…</div> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  2 × retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m      - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div tabindex=\"-1\" class=\"ant-modal-wrap\">…</div> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  13 × retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <input readonly disabled value=\"\" id=\"_r_7_\" type=\"search\" role=\"combobox\" autocomplete=\"off\" aria-expanded=\"false\" aria-owns=\"_r_7__list\" aria-haspopup=\"listbox\" class=\"ant-select-input\" aria-autocomplete=\"list\" aria-controls=\"_r_7__list\"/> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <input readonly disabled value=\"\" id=\"_r_7_\" type=\"search\" role=\"combobox\" autocomplete=\"off\" aria-expanded=\"false\" aria-owns=\"_r_7__list\" aria-haspopup=\"listbox\" class=\"ant-select-input\" aria-autocomplete=\"list\" aria-controls=\"_r_7__list\"/> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <div tabindex=\"-1\" class=\"ant-modal-wrap\">…</div> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <div tabindex=\"-1\" class=\"ant-modal-wrap\">…</div> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <input readonly disabled value=\"\" id=\"_r_7_\" type=\"search\" role=\"combobox\" autocomplete=\"off\" aria-expanded=\"false\" aria-owns=\"_r_7__list\" aria-haspopup=\"listbox\" class=\"ant-select-input\" aria-autocomplete=\"list\" aria-controls=\"_r_7__list\"/> from <div>…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 500ms\u001b[22m\n\n\n  240 |\n  241 |     // Fill only required fields\n> 242 |     await page.locator('label:has-text(\"Avdeling\")').locator('..').locator('.ant-select').click();\n      |                                                                                           ^\n  243 |     await page.locator('.ant-select-item-option:has-text(\"Teknologi\")').click();\n  244 |\n  245 |     await page.locator('label:has-text(\"Prosjekt\")').locator('..').locator('.ant-select').click();\n    at C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\form-validation.spec.ts:242:91"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:13:36.217Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-25cfa-ion-with-minimal-valid-data-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-25cfa-ion-with-minimal-valid-data-chromium\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Dev\\forecasting-app-2\\frontend\\test-results\\form-validation-Form-Valid-25cfa-ion-with-minimal-valid-data-chromium\\error-context.md"
-                        }
-                      ]
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f2616960333ca455c24f-80924b722df2e77a0ba9",
-              "file": "form-validation.spec.ts",
-              "line": 240,
-              "column": 3
-            },
-            {
-              "title": "should show loading state during API calls",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "failed",
-                      "duration": 0,
-                      "error": {
-                        "message": "Error: worker process exited unexpectedly (code=3221225794, signal=null)"
-                      },
-                      "errors": [
-                        {
-                          "message": "Error: worker process exited unexpectedly (code=3221225794, signal=null)"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:14:06.941Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f2616960333ca455c24f-012bda6f691b43f1d0b5",
-              "file": "form-validation.spec.ts",
-              "line": 267,
-              "column": 3
-            },
-            {
-              "title": "should handle API errors gracefully",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "failed",
-                      "duration": 0,
-                      "error": {
-                        "message": "Error: worker process exited unexpectedly (code=3221225794, signal=null)"
-                      },
-                      "errors": [
-                        {
-                          "message": "Error: worker process exited unexpectedly (code=3221225794, signal=null)"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:14:06.942Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f2616960333ca455c24f-d644c0a3ccf33ba3fe3d",
-              "file": "form-validation.spec.ts",
-              "line": 297,
-              "column": 3
-            },
-            {
-              "title": "should display validation errors inline",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "failed",
-                      "duration": 0,
-                      "error": {
-                        "message": "Error: worker process exited unexpectedly (code=3221225794, signal=null)"
-                      },
-                      "errors": [
-                        {
-                          "message": "Error: worker process exited unexpectedly (code=3221225794, signal=null)"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:14:06.953Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "f2616960333ca455c24f-580c5185dcd126964180",
-              "file": "form-validation.spec.ts",
-              "line": 324,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "snapshot-approval.spec.ts",
-      "file": "snapshot-approval.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "Snapshot and Approval Workflow",
-          "file": "snapshot-approval.spec.ts",
-          "line": 9,
-          "column": 6,
-          "specs": [
-            {
-              "title": "should submit forecast for approval (create snapshot)",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "failed",
-                      "duration": 0,
-                      "error": {
-                        "message": "Error: worker process exited unexpectedly (code=3221225794, signal=null)"
-                      },
-                      "errors": [
-                        {
-                          "message": "Error: worker process exited unexpectedly (code=3221225794, signal=null)"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:14:06.954Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "5bec90188da137b1ba28-e395c9efd7c5dbe70353",
-              "file": "snapshot-approval.spec.ts",
-              "line": 42,
-              "column": 3
-            },
-            {
-              "title": "should display snapshot with correct data",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:14:06.954Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5bec90188da137b1ba28-3118438080fbe411af5e",
-              "file": "snapshot-approval.spec.ts",
-              "line": 66,
-              "column": 3
-            },
-            {
-              "title": "should approve a snapshot",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:14:06.954Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5bec90188da137b1ba28-e85e4512d3ae1ec4015a",
-              "file": "snapshot-approval.spec.ts",
-              "line": 90,
-              "column": 3
-            },
-            {
-              "title": "should delete a snapshot",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:14:06.954Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5bec90188da137b1ba28-b126b0bfd0cc66c228c1",
-              "file": "snapshot-approval.spec.ts",
-              "line": 113,
-              "column": 3
-            },
-            {
-              "title": "should create multiple snapshots from same forecast",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:14:06.954Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5bec90188da137b1ba28-cdd4d94ad0057203c055",
-              "file": "snapshot-approval.spec.ts",
-              "line": 141,
-              "column": 3
-            },
-            {
-              "title": "should preserve snapshot data when original forecast is edited",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:14:06.954Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5bec90188da137b1ba28-972b10d1eb1883269ca9",
-              "file": "snapshot-approval.spec.ts",
-              "line": 166,
-              "column": 3
-            },
-            {
-              "title": "should show snapshot timestamp",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:14:06.954Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5bec90188da137b1ba28-9e200b1c067dd3c7c28b",
-              "file": "snapshot-approval.spec.ts",
-              "line": 200,
-              "column": 3
-            },
-            {
-              "title": "should show submitted by user in snapshot",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:14:06.954Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5bec90188da137b1ba28-2581cd8ad5eac521496b",
-              "file": "snapshot-approval.spec.ts",
-              "line": 216,
-              "column": 3
-            },
-            {
-              "title": "should show approved by user after approval",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:14:06.954Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5bec90188da137b1ba28-bda1e2a4dd7ad689bac3",
-              "file": "snapshot-approval.spec.ts",
-              "line": 231,
-              "column": 3
-            },
-            {
-              "title": "should allow deleting approved snapshot",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:14:06.954Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5bec90188da137b1ba28-76436570a1ef18f5ef43",
-              "file": "snapshot-approval.spec.ts",
-              "line": 249,
-              "column": 3
-            },
-            {
-              "title": "should show empty state when no snapshots exist",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:14:06.954Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5bec90188da137b1ba28-288958044df97d5f6506",
-              "file": "snapshot-approval.spec.ts",
-              "line": 273,
-              "column": 3
-            },
-            {
-              "title": "should preserve monthly values in snapshot",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:14:06.954Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5bec90188da137b1ba28-3df5daa2dde566fbab85",
-              "file": "snapshot-approval.spec.ts",
-              "line": 293,
-              "column": 3
-            },
-            {
-              "title": "should handle rapid submit/approve actions",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-09T09:14:06.954Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5bec90188da137b1ba28-753e743b9e55de6f1d7d",
-              "file": "snapshot-approval.spec.ts",
-              "line": 319,
+              "line": 65,
               "column": 3
             }
           ]
@@ -2859,11 +490,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-01-09T09:03:23.925Z",
-    "duration": 643028.048,
+    "startTime": "2026-01-12T18:08:40.062Z",
+    "duration": 23916.952999999998,
     "expected": 11,
-    "skipped": 12,
-    "unexpected": 30,
+    "skipped": 0,
+    "unexpected": 0,
     "flaky": 0
   }
 }

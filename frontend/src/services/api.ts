@@ -142,10 +142,11 @@ function mapForecastFromAPI(data: ForecastResponse): Forecast {
     total: data.total,
     yearlySum: data.yearly_sum,
 
-    amount: data.amount,
-    timePeriod: data.time_period,
-    periodType: data.period_type as 'monthly' | 'quarterly' | 'yearly',
-    description: data.description,
+    // Legacy fields - provide defaults since they're no longer in backend
+    amount: data.amount || 0,
+    timePeriod: data.time_period || '2026',
+    periodType: (data.period_type as 'monthly' | 'quarterly' | 'yearly') || 'monthly',
+    description: data.description || '',
     createdBy: data.created_by,
     createdAt: data.created_at,
     updatedAt: data.updated_at,
@@ -229,11 +230,7 @@ function mapForecastToAPI(data: ForecastCreate) {
 
     total: data.total,
     yearly_sum: data.yearlySum,
-
-    amount: data.amount,
-    time_period: data.timePeriod,
-    period_type: data.periodType,
-    description: data.description,
+    // Legacy fields removed - no longer accepted by backend
   };
 }
 
@@ -305,7 +302,7 @@ export const snapshotsAPI = {
     const response = await fetch(`${API_BASE_URL}/snapshots`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ forecast_id: parseInt(forecastId) }),
+      body: JSON.stringify({ forecast_id: forecastId, submitted_by: 'test-user' }),
     });
     if (!response.ok) throw new Error('Failed to create snapshot');
     const data: ForecastSnapshotResponse = await response.json();

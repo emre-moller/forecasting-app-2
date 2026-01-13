@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from src.config.database import get_db
 from src.models import schemas
 from src.repositories.forecast_repository import ForecastRepository, ForecastSnapshotRepository
+from src.services.forecast_transformation import decode_forecast_id
 
 router = APIRouter(prefix="/api/snapshots", tags=["snapshots"])
 
@@ -36,14 +37,21 @@ def create_snapshot(
     forecast_repo = ForecastRepository(db)
     snapshot_repo = ForecastSnapshotRepository(db)
 
-    # Get the forecast to snapshot
+    # Decode forecast_id to get project_id and year
+    try:
+        project_id, year = decode_forecast_id(snapshot_data.forecast_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid forecast_id format")
+
+    # Verify the forecast exists
     forecast = forecast_repo.get_by_id(snapshot_data.forecast_id)
     if not forecast:
         raise HTTPException(status_code=404, detail="Forecast not found")
 
-    # Create the snapshot
+    # Create the snapshot from project_id and year
     snapshot = snapshot_repo.create_from_forecast(
-        forecast=forecast,
+        project_id=project_id,
+        year=year,
         submitted_by=snapshot_data.submitted_by
     )
     return snapshot

@@ -1,0 +1,1965 @@
+
+Running 53 tests using 1 worker
+
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Tech Project 1'[39m,
+  profit_center: [32m'PC-TECH-001'[39m,
+  wbs: [32m'WBS-TECH-001'[39m,
+  account: [32m'5000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Tech Project 2'[39m,
+  profit_center: [32m'PC-TECH-002'[39m,
+  wbs: [32m'WBS-TECH-002'[39m,
+  account: [32m'5001'[39m,
+  jan: [33m150000[39m,
+  feb: [33m150000[39m,
+  mar: [33m150000[39m,
+  apr: [33m150000[39m,
+  may: [33m150000[39m,
+  jun: [33m150000[39m,
+  jul: [33m150000[39m,
+  aug: [33m150000[39m,
+  sep: [33m150000[39m,
+  oct: [33m150000[39m,
+  nov: [33m150000[39m,
+  dec: [33m150000[39m,
+  total: [33m1800000[39m,
+  yearly_sum: [33m1800000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  x   1 [chromium] › tests\e2e\filtering-aggregation.spec.ts:73:3 › Filtering and Aggregation › should filter forecasts by department (1.7s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Tech Project 1'[39m,
+  profit_center: [32m'PC-TECH-001'[39m,
+  wbs: [32m'WBS-TECH-001'[39m,
+  account: [32m'5000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Tech Project 2'[39m,
+  profit_center: [32m'PC-TECH-002'[39m,
+  wbs: [32m'WBS-TECH-002'[39m,
+  account: [32m'5001'[39m,
+  jan: [33m150000[39m,
+  feb: [33m150000[39m,
+  mar: [33m150000[39m,
+  apr: [33m150000[39m,
+  may: [33m150000[39m,
+  jun: [33m150000[39m,
+  jul: [33m150000[39m,
+  aug: [33m150000[39m,
+  sep: [33m150000[39m,
+  oct: [33m150000[39m,
+  nov: [33m150000[39m,
+  dec: [33m150000[39m,
+  total: [33m1800000[39m,
+  yearly_sum: [33m1800000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  x   2 [chromium] › tests\e2e\filtering-aggregation.spec.ts:105:3 › Filtering and Aggregation › should filter forecasts by project (31.9s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Tech Project 1'[39m,
+  profit_center: [32m'PC-TECH-001'[39m,
+  wbs: [32m'WBS-TECH-001'[39m,
+  account: [32m'5000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Tech Project 2'[39m,
+  profit_center: [32m'PC-TECH-002'[39m,
+  wbs: [32m'WBS-TECH-002'[39m,
+  account: [32m'5001'[39m,
+  jan: [33m150000[39m,
+  feb: [33m150000[39m,
+  mar: [33m150000[39m,
+  apr: [33m150000[39m,
+  may: [33m150000[39m,
+  jun: [33m150000[39m,
+  jul: [33m150000[39m,
+  aug: [33m150000[39m,
+  sep: [33m150000[39m,
+  oct: [33m150000[39m,
+  nov: [33m150000[39m,
+  dec: [33m150000[39m,
+  total: [33m1800000[39m,
+  yearly_sum: [33m1800000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  x   3 [chromium] › tests\e2e\filtering-aggregation.spec.ts:127:3 › Filtering and Aggregation › should reset filters when "Nullstill Filtre" is clicked (31.9s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Tech Project 1'[39m,
+  profit_center: [32m'PC-TECH-001'[39m,
+  wbs: [32m'WBS-TECH-001'[39m,
+  account: [32m'5000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Tech Project 2'[39m,
+  profit_center: [32m'PC-TECH-002'[39m,
+  wbs: [32m'WBS-TECH-002'[39m,
+  account: [32m'5001'[39m,
+  jan: [33m150000[39m,
+  feb: [33m150000[39m,
+  mar: [33m150000[39m,
+  apr: [33m150000[39m,
+  may: [33m150000[39m,
+  jun: [33m150000[39m,
+  jul: [33m150000[39m,
+  aug: [33m150000[39m,
+  sep: [33m150000[39m,
+  oct: [33m150000[39m,
+  nov: [33m150000[39m,
+  dec: [33m150000[39m,
+  total: [33m1800000[39m,
+  yearly_sum: [33m1800000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  x   4 [chromium] › tests\e2e\filtering-aggregation.spec.ts:154:3 › Filtering and Aggregation › should update project dropdown when department changes (31.9s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Tech Project 1'[39m,
+  profit_center: [32m'PC-TECH-001'[39m,
+  wbs: [32m'WBS-TECH-001'[39m,
+  account: [32m'5000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Tech Project 2'[39m,
+  profit_center: [32m'PC-TECH-002'[39m,
+  wbs: [32m'WBS-TECH-002'[39m,
+  account: [32m'5001'[39m,
+  jan: [33m150000[39m,
+  feb: [33m150000[39m,
+  mar: [33m150000[39m,
+  apr: [33m150000[39m,
+  may: [33m150000[39m,
+  jun: [33m150000[39m,
+  jul: [33m150000[39m,
+  aug: [33m150000[39m,
+  sep: [33m150000[39m,
+  oct: [33m150000[39m,
+  nov: [33m150000[39m,
+  dec: [33m150000[39m,
+  total: [33m1800000[39m,
+  yearly_sum: [33m1800000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  x   5 [chromium] › tests\e2e\filtering-aggregation.spec.ts:186:3 › Filtering and Aggregation › should display correct department count in statistics (32.1s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Tech Project 1'[39m,
+  profit_center: [32m'PC-TECH-001'[39m,
+  wbs: [32m'WBS-TECH-001'[39m,
+  account: [32m'5000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Tech Project 2'[39m,
+  profit_center: [32m'PC-TECH-002'[39m,
+  wbs: [32m'WBS-TECH-002'[39m,
+  account: [32m'5001'[39m,
+  jan: [33m150000[39m,
+  feb: [33m150000[39m,
+  mar: [33m150000[39m,
+  apr: [33m150000[39m,
+  may: [33m150000[39m,
+  jun: [33m150000[39m,
+  jul: [33m150000[39m,
+  aug: [33m150000[39m,
+  sep: [33m150000[39m,
+  oct: [33m150000[39m,
+  nov: [33m150000[39m,
+  dec: [33m150000[39m,
+  total: [33m1800000[39m,
+  yearly_sum: [33m1800000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  x   6 [chromium] › tests\e2e\filtering-aggregation.spec.ts:196:3 › Filtering and Aggregation › should display correct project count in statistics (32.0s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Tech Project 1'[39m,
+  profit_center: [32m'PC-TECH-001'[39m,
+  wbs: [32m'WBS-TECH-001'[39m,
+  account: [32m'5000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Tech Project 2'[39m,
+  profit_center: [32m'PC-TECH-002'[39m,
+  wbs: [32m'WBS-TECH-002'[39m,
+  account: [32m'5001'[39m,
+  jan: [33m150000[39m,
+  feb: [33m150000[39m,
+  mar: [33m150000[39m,
+  apr: [33m150000[39m,
+  may: [33m150000[39m,
+  jun: [33m150000[39m,
+  jul: [33m150000[39m,
+  aug: [33m150000[39m,
+  sep: [33m150000[39m,
+  oct: [33m150000[39m,
+  nov: [33m150000[39m,
+  dec: [33m150000[39m,
+  total: [33m1800000[39m,
+  yearly_sum: [33m1800000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  x   7 [chromium] › tests\e2e\filtering-aggregation.spec.ts:206:3 › Filtering and Aggregation › should calculate total forecast amount correctly (32.1s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Tech Project 1'[39m,
+  profit_center: [32m'PC-TECH-001'[39m,
+  wbs: [32m'WBS-TECH-001'[39m,
+  account: [32m'5000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Tech Project 2'[39m,
+  profit_center: [32m'PC-TECH-002'[39m,
+  wbs: [32m'WBS-TECH-002'[39m,
+  account: [32m'5001'[39m,
+  jan: [33m150000[39m,
+  feb: [33m150000[39m,
+  mar: [33m150000[39m,
+  apr: [33m150000[39m,
+  may: [33m150000[39m,
+  jun: [33m150000[39m,
+  jul: [33m150000[39m,
+  aug: [33m150000[39m,
+  sep: [33m150000[39m,
+  oct: [33m150000[39m,
+  nov: [33m150000[39m,
+  dec: [33m150000[39m,
+  total: [33m1800000[39m,
+  yearly_sum: [33m1800000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  x   8 [chromium] › tests\e2e\filtering-aggregation.spec.ts:220:3 › Filtering and Aggregation › should update total when filtering (31.9s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Tech Project 1'[39m,
+  profit_center: [32m'PC-TECH-001'[39m,
+  wbs: [32m'WBS-TECH-001'[39m,
+  account: [32m'5000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Tech Project 2'[39m,
+  profit_center: [32m'PC-TECH-002'[39m,
+  wbs: [32m'WBS-TECH-002'[39m,
+  account: [32m'5001'[39m,
+  jan: [33m150000[39m,
+  feb: [33m150000[39m,
+  mar: [33m150000[39m,
+  apr: [33m150000[39m,
+  may: [33m150000[39m,
+  jun: [33m150000[39m,
+  jul: [33m150000[39m,
+  aug: [33m150000[39m,
+  sep: [33m150000[39m,
+  oct: [33m150000[39m,
+  nov: [33m150000[39m,
+  dec: [33m150000[39m,
+  total: [33m1800000[39m,
+  yearly_sum: [33m1800000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  x   9 [chromium] › tests\e2e\filtering-aggregation.spec.ts:241:3 › Filtering and Aggregation › should show forecasts sorted correctly (1.9s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Tech Project 1'[39m,
+  profit_center: [32m'PC-TECH-001'[39m,
+  wbs: [32m'WBS-TECH-001'[39m,
+  account: [32m'5000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Tech Project 2'[39m,
+  profit_center: [32m'PC-TECH-002'[39m,
+  wbs: [32m'WBS-TECH-002'[39m,
+  account: [32m'5001'[39m,
+  jan: [33m150000[39m,
+  feb: [33m150000[39m,
+  mar: [33m150000[39m,
+  apr: [33m150000[39m,
+  may: [33m150000[39m,
+  jun: [33m150000[39m,
+  jul: [33m150000[39m,
+  aug: [33m150000[39m,
+  sep: [33m150000[39m,
+  oct: [33m150000[39m,
+  nov: [33m150000[39m,
+  dec: [33m150000[39m,
+  total: [33m1800000[39m,
+  yearly_sum: [33m1800000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  x  10 [chromium] › tests\e2e\filtering-aggregation.spec.ts:254:3 › Filtering and Aggregation › should maintain filter state when creating new forecast (31.9s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Tech Project 1'[39m,
+  profit_center: [32m'PC-TECH-001'[39m,
+  wbs: [32m'WBS-TECH-001'[39m,
+  account: [32m'5000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Tech Project 2'[39m,
+  profit_center: [32m'PC-TECH-002'[39m,
+  wbs: [32m'WBS-TECH-002'[39m,
+  account: [32m'5001'[39m,
+  jan: [33m150000[39m,
+  feb: [33m150000[39m,
+  mar: [33m150000[39m,
+  apr: [33m150000[39m,
+  may: [33m150000[39m,
+  jun: [33m150000[39m,
+  jul: [33m150000[39m,
+  aug: [33m150000[39m,
+  sep: [33m150000[39m,
+  oct: [33m150000[39m,
+  nov: [33m150000[39m,
+  dec: [33m150000[39m,
+  total: [33m1800000[39m,
+  yearly_sum: [33m1800000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  x  11 [chromium] › tests\e2e\filtering-aggregation.spec.ts:280:3 › Filtering and Aggregation › should handle empty filter results gracefully (31.9s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Tech Project 1'[39m,
+  profit_center: [32m'PC-TECH-001'[39m,
+  wbs: [32m'WBS-TECH-001'[39m,
+  account: [32m'5000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Tech Project 2'[39m,
+  profit_center: [32m'PC-TECH-002'[39m,
+  wbs: [32m'WBS-TECH-002'[39m,
+  account: [32m'5001'[39m,
+  jan: [33m150000[39m,
+  feb: [33m150000[39m,
+  mar: [33m150000[39m,
+  apr: [33m150000[39m,
+  may: [33m150000[39m,
+  jun: [33m150000[39m,
+  jul: [33m150000[39m,
+  aug: [33m150000[39m,
+  sep: [33m150000[39m,
+  oct: [33m150000[39m,
+  nov: [33m150000[39m,
+  dec: [33m150000[39m,
+  total: [33m1800000[39m,
+  yearly_sum: [33m1800000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  ok 12 [chromium] › tests\e2e\filtering-aggregation.spec.ts:304:3 › Filtering and Aggregation › should display department totals correctly (1.9s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Tech Project 1'[39m,
+  profit_center: [32m'PC-TECH-001'[39m,
+  wbs: [32m'WBS-TECH-001'[39m,
+  account: [32m'5000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Tech Project 2'[39m,
+  profit_center: [32m'PC-TECH-002'[39m,
+  wbs: [32m'WBS-TECH-002'[39m,
+  account: [32m'5001'[39m,
+  jan: [33m150000[39m,
+  feb: [33m150000[39m,
+  mar: [33m150000[39m,
+  apr: [33m150000[39m,
+  may: [33m150000[39m,
+  jun: [33m150000[39m,
+  jul: [33m150000[39m,
+  aug: [33m150000[39m,
+  sep: [33m150000[39m,
+  oct: [33m150000[39m,
+  nov: [33m150000[39m,
+  dec: [33m150000[39m,
+  total: [33m1800000[39m,
+  yearly_sum: [33m1800000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  ok 13 [chromium] › tests\e2e\filtering-aggregation.spec.ts:319:3 › Filtering and Aggregation › should display project totals correctly (1.7s)
+  ok 14 [chromium] › tests\e2e\forecast-crud.spec.ts:33:3 › Forecast CRUD Operations › should display the dashboard with statistics (1.7s)
+  x  15 [chromium] › tests\e2e\forecast-crud.spec.ts:48:3 › Forecast CRUD Operations › should create a new forecast (12.3s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Original Project Name'[39m,
+  profit_center: [32m'PC-ORIG-001'[39m,
+  wbs: [32m'WBS-ORIG-001'[39m,
+  account: [32m'6000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  x  16 [chromium] › tests\e2e\forecast-crud.spec.ts:96:3 › Forecast CRUD Operations › should edit an existing forecast (8.4s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Forecast to Delete'[39m,
+  profit_center: [32m'PC-DEL-001'[39m,
+  wbs: [32m'WBS-DEL-001'[39m,
+  account: [32m'7000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  x  17 [chromium] › tests\e2e\forecast-crud.spec.ts:162:3 › Forecast CRUD Operations › should delete a forecast (3.9s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Monthly Columns Test'[39m,
+  profit_center: [32m'PC-MONTH-001'[39m,
+  wbs: [32m'WBS-MONTH-001'[39m,
+  account: [32m'8000'[39m,
+  jan: [33m10000[39m,
+  feb: [33m20000[39m,
+  mar: [33m30000[39m,
+  apr: [33m40000[39m,
+  may: [33m50000[39m,
+  jun: [33m60000[39m,
+  jul: [33m70000[39m,
+  aug: [33m80000[39m,
+  sep: [33m90000[39m,
+  oct: [33m100000[39m,
+  nov: [33m110000[39m,
+  dec: [33m120000[39m,
+  total: [33m780000[39m,
+  yearly_sum: [33m780000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  ok 18 [chromium] › tests\e2e\forecast-crud.spec.ts:208:3 › Forecast CRUD Operations › should display all 12 monthly columns in the table (2.8s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Calculation Test'[39m,
+  profit_center: [32m'PC-CALC-001'[39m,
+  wbs: [32m'WBS-CALC-001'[39m,
+  account: [32m'9000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m150000[39m,
+  mar: [33m200000[39m,
+  apr: [33m250000[39m,
+  may: [33m300000[39m,
+  jun: [33m350000[39m,
+  jul: [33m400000[39m,
+  aug: [33m450000[39m,
+  sep: [33m500000[39m,
+  oct: [33m550000[39m,
+  nov: [33m600000[39m,
+  dec: [33m650000[39m,
+  total: [33m4500000[39m,
+  yearly_sum: [33m4500000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  x  19 [chromium] › tests\e2e\forecast-crud.spec.ts:238:3 › Forecast CRUD Operations › should calculate total and yearly sum correctly (8.1s)
+  ok 20 [chromium] › tests\e2e\forecast-crud.spec.ts:268:3 › Forecast CRUD Operations › should show empty state when no forecasts exist (2.8s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Persistence Test'[39m,
+  profit_center: [32m'PC-PERSIST-001'[39m,
+  wbs: [32m'WBS-PERSIST-001'[39m,
+  account: [32m'5500'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  ok 21 [chromium] › tests\e2e\forecast-crud.spec.ts:283:3 › Forecast CRUD Operations › should persist data after page reload (3.6s)
+  x  22 [chromium] › tests\e2e\form-validation.spec.ts:22:3 › Form Validation and Error Handling › should open forecast form modal when clicking Ny Prognose (2.3s)
+  x  23 [chromium] › tests\e2e\form-validation.spec.ts:44:3 › Form Validation and Error Handling › should close modal when clicking cancel or escape (7.4s)
+  ok 24 [chromium] › tests\e2e\form-validation.spec.ts:67:3 › Form Validation and Error Handling › should validate required fields (3.1s)
+  x  25 [chromium] › tests\e2e\form-validation.spec.ts:81:3 › Form Validation and Error Handling › should accept numeric input for monthly values (31.7s)
+  x  26 [chromium] › tests\e2e\form-validation.spec.ts:91:3 › Form Validation and Error Handling › should handle decimal values in monthly fields (31.7s)
+  x  27 [chromium] › tests\e2e\form-validation.spec.ts:104:3 › Form Validation and Error Handling › should handle negative values in monthly fields (31.6s)
+  x  28 [chromium] › tests\e2e\form-validation.spec.ts:116:3 › Form Validation and Error Handling › should handle very large numbers in monthly fields (31.6s)
+  x  29 [chromium] › tests\e2e\form-validation.spec.ts:126:3 › Form Validation and Error Handling › should handle zero values in monthly fields (31.7s)
+  x  30 [chromium] › tests\e2e\form-validation.spec.ts:136:3 › Form Validation and Error Handling › should reject non-numeric input in monthly fields (31.7s)
+  x  31 [chromium] › tests\e2e\form-validation.spec.ts:149:3 › Form Validation and Error Handling › should update project dropdown when department is selected (30.3s)
+  ok 32 [chromium] › tests\e2e\form-validation.spec.ts:165:3 › Form Validation and Error Handling › should handle special characters in text fields (2.4s)
+  ok 33 [chromium] › tests\e2e\form-validation.spec.ts:177:3 › Form Validation and Error Handling › should handle very long text in text fields (2.3s)
+  ok 34 [chromium] › tests\e2e\form-validation.spec.ts:188:3 › Form Validation and Error Handling › should trim whitespace from text inputs (2.2s)
+  ok 35 [chromium] › tests\e2e\form-validation.spec.ts:200:3 › Form Validation and Error Handling › should handle clicking outside modal (2.8s)
+  x  36 [chromium] › tests\e2e\form-validation.spec.ts:222:3 › Form Validation and Error Handling › should preserve form data when switching between fields (30.3s)
+  x  37 [chromium] › tests\e2e\form-validation.spec.ts:240:3 › Form Validation and Error Handling › should handle form submission with minimal valid data (30.3s)
+  x  38 [chromium] › tests\e2e\form-validation.spec.ts:267:3 › Form Validation and Error Handling › should show loading state during API calls (30.3s)
+  x  39 [chromium] › tests\e2e\form-validation.spec.ts:297:3 › Form Validation and Error Handling › should handle API errors gracefully (30.3s)
+  ok 40 [chromium] › tests\e2e\form-validation.spec.ts:324:3 › Form Validation and Error Handling › should display validation errors inline (3.4s)
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Snapshot Test Project'[39m,
+  profit_center: [32m'PC-SNAP-001'[39m,
+  wbs: [32m'WBS-SNAP-001'[39m,
+  account: [32m'5000'[39m,
+  jan: [33m100000[39m,
+  feb: [33m150000[39m,
+  mar: [33m200000[39m,
+  apr: [33m180000[39m,
+  may: [33m160000[39m,
+  jun: [33m140000[39m,
+  jul: [33m120000[39m,
+  aug: [33m130000[39m,
+  sep: [33m140000[39m,
+  oct: [33m150000[39m,
+  nov: [33m160000[39m,
+  dec: [33m170000[39m,
+  total: [33m1800000[39m,
+  yearly_sum: [33m1800000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-12'[39m,
+  updated_at: [32m'2026-01-12'[39m
+}
+  x  41 [chromium] › tests\e2e\snapshot-approval.spec.ts:45:3 › Snapshot and Approval Workflow › should submit forecast for approval (create snapshot) (2.8s)
+  -  42 [chromium] › tests\e2e\snapshot-approval.spec.ts:69:3 › Snapshot and Approval Workflow › should display snapshot with correct data
+  -  43 [chromium] › tests\e2e\snapshot-approval.spec.ts:93:3 › Snapshot and Approval Workflow › should approve a snapshot
+  -  44 [chromium] › tests\e2e\snapshot-approval.spec.ts:116:3 › Snapshot and Approval Workflow › should delete a snapshot
+  -  45 [chromium] › tests\e2e\snapshot-approval.spec.ts:144:3 › Snapshot and Approval Workflow › should create multiple snapshots from same forecast
+  -  46 [chromium] › tests\e2e\snapshot-approval.spec.ts:169:3 › Snapshot and Approval Workflow › should preserve snapshot data when original forecast is edited
+  -  47 [chromium] › tests\e2e\snapshot-approval.spec.ts:203:3 › Snapshot and Approval Workflow › should show snapshot timestamp
+  -  48 [chromium] › tests\e2e\snapshot-approval.spec.ts:219:3 › Snapshot and Approval Workflow › should show submitted by user in snapshot
+  -  49 [chromium] › tests\e2e\snapshot-approval.spec.ts:234:3 › Snapshot and Approval Workflow › should show approved by user after approval
+  -  50 [chromium] › tests\e2e\snapshot-approval.spec.ts:252:3 › Snapshot and Approval Workflow › should allow deleting approved snapshot
+  -  51 [chromium] › tests\e2e\snapshot-approval.spec.ts:276:3 › Snapshot and Approval Workflow › should show empty state when no snapshots exist
+  -  52 [chromium] › tests\e2e\snapshot-approval.spec.ts:296:3 › Snapshot and Approval Workflow › should preserve monthly values in snapshot
+  -  53 [chromium] › tests\e2e\snapshot-approval.spec.ts:322:3 › Snapshot and Approval Workflow › should handle rapid submit/approve actions
+
+
+  1) [chromium] › tests\e2e\filtering-aggregation.spec.ts:73:3 › Filtering and Aggregation › should filter forecasts by department 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: >= [32m3[39m
+    Received:    [31m0[39m
+
+      88 |     // Verify initial state shows all forecasts
+      89 |     const initialCount = await getForecastCount(page, 'live');
+    > 90 |     expect(initialCount).toBeGreaterThanOrEqual(3); // At least our 3 test forecasts
+         |                          ^
+      91 |
+      92 |     // Open department filter dropdown
+      93 |     await page.locator('label:has-text("Filtrer etter Avdeling")').locator('..').locator('.ant-select').click();
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\filtering-aggregation.spec.ts:90:26
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-d9222-ter-forecasts-by-department-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-d9222-ter-forecasts-by-department-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\filtering-aggregation-Filt-d9222-ter-forecasts-by-department-chromium\error-context.md
+
+  2) [chromium] › tests\e2e\filtering-aggregation.spec.ts:105:3 › Filtering and Aggregation › should filter forecasts by project 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("Filtrer etter Avdeling")').locator('..').locator('.ant-select')[22m
+
+
+      119 |   test('should filter forecasts by project', async ({ page }) => {
+      120 |     // Select department first
+    > 121 |     await page.locator('label:has-text("Filtrer etter Avdeling")').locator('..').locator('.ant-select').click();
+          |                                                                                                         ^
+      122 |     await page.locator('.ant-select-item-option:has-text("Teknologi")').click();
+      123 |
+      124 |     await page.waitForTimeout(500);
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\filtering-aggregation.spec.ts:121:105
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-5a46c-filter-forecasts-by-project-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-5a46c-filter-forecasts-by-project-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\filtering-aggregation-Filt-5a46c-filter-forecasts-by-project-chromium\error-context.md
+
+  3) [chromium] › tests\e2e\filtering-aggregation.spec.ts:127:3 › Filtering and Aggregation › should reset filters when "Nullstill Filtre" is clicked 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("Filtrer etter Avdeling")').locator('..').locator('.ant-select')[22m
+
+
+      142 |   test('should reset filters when "Nullstill Filtre" is clicked', async ({ page }) => {
+      143 |     // Apply department filter
+    > 144 |     await page.locator('label:has-text("Filtrer etter Avdeling")').locator('..').locator('.ant-select').click();
+          |                                                                                                         ^
+      145 |     await page.locator('.ant-select-item-option:has-text("Teknologi")').click();
+      146 |
+      147 |     await page.waitForTimeout(500);
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\filtering-aggregation.spec.ts:144:105
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-bddec-Nullstill-Filtre-is-clicked-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-bddec-Nullstill-Filtre-is-clicked-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\filtering-aggregation-Filt-bddec-Nullstill-Filtre-is-clicked-chromium\error-context.md
+
+  4) [chromium] › tests\e2e\filtering-aggregation.spec.ts:154:3 › Filtering and Aggregation › should update project dropdown when department changes 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("Filtrer etter Avdeling")').locator('..').locator('.ant-select')[22m
+
+
+      172 |   test('should update project dropdown when department changes', async ({ page }) => {
+      173 |     // Select Teknologi department
+    > 174 |     await page.locator('label:has-text("Filtrer etter Avdeling")').locator('..').locator('.ant-select').click();
+          |                                                                                                         ^
+      175 |     await page.locator('.ant-select-item-option:has-text("Teknologi")').click();
+      176 |
+      177 |     await page.waitForTimeout(500);
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\filtering-aggregation.spec.ts:174:105
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-c4336-own-when-department-changes-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-c4336-own-when-department-changes-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\filtering-aggregation-Filt-c4336-own-when-department-changes-chromium\error-context.md
+
+  5) [chromium] › tests\e2e\filtering-aggregation.spec.ts:186:3 › Filtering and Aggregation › should display correct department count in statistics 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.textContent: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.ant-statistic-title:has-text("Avdelinger")').locator('..').locator('.ant-statistic-content-value')[22m
+
+
+      206 |     // Get the department count from the statistics card
+      207 |     const deptCountCard = page.locator('.ant-statistic-title:has-text("Avdelinger")').locator('..');
+    > 208 |     const deptCount = await deptCountCard.locator('.ant-statistic-content-value').textContent();
+          |                                                                                   ^
+      209 |
+      210 |     // Should match the number of departments from API
+      211 |     expect(parseInt(deptCount || '0')).toBe(testDepartments.length);
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\filtering-aggregation.spec.ts:208:83
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-0b4e0-artment-count-in-statistics-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-0b4e0-artment-count-in-statistics-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\filtering-aggregation-Filt-0b4e0-artment-count-in-statistics-chromium\error-context.md
+
+  6) [chromium] › tests\e2e\filtering-aggregation.spec.ts:196:3 › Filtering and Aggregation › should display correct project count in statistics 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.textContent: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.ant-statistic-title:has-text("Prosjekter")').locator('..').locator('.ant-statistic-content-value')[22m
+
+
+      215 |     // Get the project count from the statistics card
+      216 |     const projectCountCard = page.locator('.ant-statistic-title:has-text("Prosjekter")').locator('..');
+    > 217 |     const projectCount = await projectCountCard.locator('.ant-statistic-content-value').textContent();
+          |                                                                                         ^
+      218 |
+      219 |     // Should match the number of projects from API
+      220 |     expect(parseInt(projectCount || '0')).toBe(testProjects.length);
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\filtering-aggregation.spec.ts:217:89
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-e4e9a-project-count-in-statistics-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-e4e9a-project-count-in-statistics-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\filtering-aggregation-Filt-e4e9a-project-count-in-statistics-chromium\error-context.md
+
+  7) [chromium] › tests\e2e\filtering-aggregation.spec.ts:206:3 › Filtering and Aggregation › should calculate total forecast amount correctly 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.textContent: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.ant-statistic-title:has-text("Totalt Prognostisert")').locator('..').locator('.ant-statistic-content-value')[22m
+
+
+      224 |     // Get the total forecast amount from statistics
+      225 |     const totalCard = page.locator('.ant-statistic-title:has-text("Totalt Prognostisert")').locator('..');
+    > 226 |     const totalText = await totalCard.locator('.ant-statistic-content-value').textContent();
+          |                                                                               ^
+      227 |
+      228 |     // Should be a valid number in Norwegian format
+      229 |     expect(totalText).toBeTruthy();
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\filtering-aggregation.spec.ts:226:79
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-fc9c8-l-forecast-amount-correctly-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-fc9c8-l-forecast-amount-correctly-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\filtering-aggregation-Filt-fc9c8-l-forecast-amount-correctly-chromium\error-context.md
+
+  8) [chromium] › tests\e2e\filtering-aggregation.spec.ts:220:3 › Filtering and Aggregation › should update total when filtering 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.textContent: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('.ant-statistic-title:has-text("Totalt Prognostisert")').locator('..').locator('.ant-statistic-content-value')[22m
+
+
+      237 |     // Get initial total
+      238 |     const totalCard = page.locator('.ant-statistic-title:has-text("Totalt Prognostisert")').locator('..');
+    > 239 |     const initialTotalText = await totalCard.locator('.ant-statistic-content-value').textContent();
+          |                                                                                      ^
+      240 |     const initialTotal = parseInt(initialTotalText?.replace(/[^\d]/g, '') || '0');
+      241 |
+      242 |     // Apply department filter
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\filtering-aggregation.spec.ts:239:86
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-778c0-update-total-when-filtering-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-778c0-update-total-when-filtering-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\filtering-aggregation-Filt-778c0-update-total-when-filtering-chromium\error-context.md
+
+  9) [chromium] › tests\e2e\filtering-aggregation.spec.ts:241:3 › Filtering and Aggregation › should show forecasts sorted correctly 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThan[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: > [32m0[39m
+    Received:   [31m0[39m
+
+      262 |
+      263 |     // Verify we have multiple rows to check sorting
+    > 264 |     expect(count).toBeGreaterThan(0);
+          |                   ^
+      265 |
+      266 |     // Note: Actual sorting order depends on implementation
+      267 |     // This test just verifies data is displayed consistently
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\filtering-aggregation.spec.ts:264:19
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-92611--forecasts-sorted-correctly-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-92611--forecasts-sorted-correctly-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\filtering-aggregation-Filt-92611--forecasts-sorted-correctly-chromium\error-context.md
+
+  10) [chromium] › tests\e2e\filtering-aggregation.spec.ts:254:3 › Filtering and Aggregation › should maintain filter state when creating new forecast 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("Filtrer etter Avdeling")').locator('..').locator('.ant-select')[22m
+
+
+      270 |   test('should maintain filter state when creating new forecast', async ({ page }) => {
+      271 |     // Apply department filter
+    > 272 |     await page.locator('label:has-text("Filtrer etter Avdeling")').locator('..').locator('.ant-select').click();
+          |                                                                                                         ^
+      273 |     await page.locator('.ant-select-item-option:has-text("Teknologi")').click();
+      274 |
+      275 |     await page.waitForTimeout(500);
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\filtering-aggregation.spec.ts:272:105
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-afd6c--when-creating-new-forecast-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-afd6c--when-creating-new-forecast-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\filtering-aggregation-Filt-afd6c--when-creating-new-forecast-chromium\error-context.md
+
+  11) [chromium] › tests\e2e\filtering-aggregation.spec.ts:280:3 › Filtering and Aggregation › should handle empty filter results gracefully 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("Filtrer etter Avdeling")').locator('..').locator('.ant-select')[22m
+
+
+      310 |     const deptSelect = page.locator('label:has-text("Filtrer etter Avdeling")').locator('..').locator('.ant-select');
+      311 |
+    > 312 |     await deptSelect.click();
+          |                      ^
+      313 |
+      314 |     // Select first available department
+      315 |     await page.locator('.ant-select-item-option').first().click();
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\filtering-aggregation.spec.ts:312:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-5a385-y-filter-results-gracefully-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-5a385-y-filter-results-gracefully-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\filtering-aggregation-Filt-5a385-y-filter-results-gracefully-chromium\error-context.md
+
+  12) [chromium] › tests\e2e\forecast-crud.spec.ts:48:3 › Forecast CRUD Operations › should create a new forecast 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).not.[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator:  locator('text=Ny Utgiftsprognose')
+    Expected: not visible
+    Received: visible
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - Expect "not toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('text=Ny Utgiftsprognose')[22m
+    [2m    9 × locator resolved to <div class="modal-title">Ny Utgiftsprognose</div>[22m
+    [2m      - unexpected value "visible"[22m
+
+
+      83 |
+      84 |     // Wait for modal to close
+    > 85 |     await expect(page.locator('text=Ny Utgiftsprognose')).not.toBeVisible();
+         |                                                               ^
+      86 |
+      87 |     // Verify forecast appears in table
+      88 |     await page.waitForTimeout(1000); // Wait for table to update
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\forecast-crud.spec.ts:85:63
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\forecast-crud-Forecast-CRU-505dd-hould-create-a-new-forecast-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\forecast-crud-Forecast-CRU-505dd-hould-create-a-new-forecast-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\forecast-crud-Forecast-CRU-505dd-hould-create-a-new-forecast-chromium\error-context.md
+
+  13) [chromium] › tests\e2e\forecast-crud.spec.ts:96:3 › Forecast CRUD Operations › should edit an existing forecast 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('text=Rediger Prognose')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('text=Rediger Prognose')[22m
+
+
+      132 |
+      133 |     // Verify modal is open
+    > 134 |     await expect(page.locator('text=Rediger Prognose')).toBeVisible();
+          |                                                         ^
+      135 |
+      136 |     // Verify form is pre-filled
+      137 |     await expect(page.locator('input[placeholder="Prosjektnavn"]')).toHaveValue('Original Project Name');
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\forecast-crud.spec.ts:134:57
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\forecast-crud-Forecast-CRU-eb5a6-d-edit-an-existing-forecast-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\forecast-crud-Forecast-CRU-eb5a6-d-edit-an-existing-forecast-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\forecast-crud-Forecast-CRU-eb5a6-d-edit-an-existing-forecast-chromium\error-context.md
+
+  14) [chromium] › tests\e2e\forecast-crud.spec.ts:162:3 › Forecast CRUD Operations › should delete a forecast 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m-1[39m
+    Received: [31m0[39m
+
+      207 |     // Verify forecast count decreased
+      208 |     const newCount = await getForecastCount(page, 'live');
+    > 209 |     expect(newCount).toBe(initialCount - 1);
+          |                      ^
+      210 |
+      211 |     // Verify the forecast is no longer in the table
+      212 |     const rowCount = await tableRowExists(page, {
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\forecast-crud.spec.ts:209:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\forecast-crud-Forecast-CRU-e31fa-ns-should-delete-a-forecast-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\forecast-crud-Forecast-CRU-e31fa-ns-should-delete-a-forecast-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\forecast-crud-Forecast-CRU-e31fa-ns-should-delete-a-forecast-chromium\error-context.md
+
+  15) [chromium] › tests\e2e\forecast-crud.spec.ts:238:3 › Forecast CRUD Operations › should calculate total and yearly sum correctly 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('tr:has-text("WBS-CALC-001")').first().locator('text=4 500 000 kr').first()
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('tr:has-text("WBS-CALC-001")').first().locator('text=4 500 000 kr').first()[22m
+
+
+      277 |     // The yearly sum should be visible in the row
+      278 |     const formattedTotal = formatNOK(expectedTotal);
+    > 279 |     await expect(row.locator(`text=${formattedTotal}`).first()).toBeVisible();
+          |                                                                 ^
+      280 |   });
+      281 |
+      282 |   test('should show empty state when no forecasts exist', async ({ page }) => {
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\forecast-crud.spec.ts:279:65
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\forecast-crud-Forecast-CRU-83832-al-and-yearly-sum-correctly-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\forecast-crud-Forecast-CRU-83832-al-and-yearly-sum-correctly-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\forecast-crud-Forecast-CRU-83832-al-and-yearly-sum-correctly-chromium\error-context.md
+
+  16) [chromium] › tests\e2e\form-validation.spec.ts:22:3 › Form Validation and Error Handling › should open forecast form modal when clicking Ny Prognose 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('label:has-text("Avdeling")')
+    Expected: visible
+    Error: strict mode violation: locator('label:has-text("Avdeling")') resolved to 2 elements:
+        1) <label>Avdeling:</label> aka getByText('Avdeling:')
+        2) <label title="Avdeling" class="ant-form-item-required">Avdeling</label> aka getByText('Avdeling', { exact: true })
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('label:has-text("Avdeling")')[22m
+
+
+      32 |
+      33 |     // Verify all form fields are present
+    > 34 |     await expect(page.locator('label:has-text("Avdeling")')).toBeVisible();
+         |                                                              ^
+      35 |     await expect(page.locator('label:has-text("Prosjekt")')).toBeVisible();
+      36 |     await expect(page.locator('input[placeholder="Enter project name"]')).toBeVisible();
+      37 |     await expect(page.locator('input[placeholder="e.g. PC001"]')).toBeVisible();
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:34:62
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-96d5c-l-when-clicking-Ny-Prognose-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-96d5c-l-when-clicking-Ny-Prognose-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-96d5c-l-when-clicking-Ny-Prognose-chromium\error-context.md
+
+  17) [chromium] › tests\e2e\form-validation.spec.ts:44:3 › Form Validation and Error Handling › should close modal when clicking cancel or escape 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).not.[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator:  locator('text=Ny Utgiftsprognose')
+    Expected: not visible
+    Received: visible
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - Expect "not toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('text=Ny Utgiftsprognose')[22m
+    [2m    9 × locator resolved to <div class="modal-title">Ny Utgiftsprognose</div>[22m
+    [2m      - unexpected value "visible"[22m
+
+
+      55 |
+      56 |     // Modal should close
+    > 57 |     await expect(page.locator('text=Ny Utgiftsprognose')).not.toBeVisible();
+         |                                                               ^
+      58 |
+      59 |     // Open again and click cancel
+      60 |     await page.locator('button:has-text("Ny Prognose")').click();
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:57:63
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-d2e72-n-clicking-cancel-or-escape-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-d2e72-n-clicking-cancel-or-escape-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-d2e72-n-clicking-cancel-or-escape-chromium\error-context.md
+
+  18) [chromium] › tests\e2e\form-validation.spec.ts:81:3 › Form Validation and Error Handling › should accept numeric input for monthly values 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("January")').locator('..').locator('input')[22m
+
+
+      86 |
+      87 |     // Fill a month field with a number
+    > 88 |     await page.locator('label:has-text("January")').locator('..').locator('input').fill('100000');
+         |                                                                                    ^
+      89 |
+      90 |     const value = await page.locator('label:has-text("January")').locator('..').locator('input').inputValue();
+      91 |     expect(value).toBe('100000');
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:88:84
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-63ad7-ic-input-for-monthly-values-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-63ad7-ic-input-for-monthly-values-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-63ad7-ic-input-for-monthly-values-chromium\error-context.md
+
+  19) [chromium] › tests\e2e\form-validation.spec.ts:91:3 › Form Validation and Error Handling › should handle decimal values in monthly fields 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("January")').locator('..').locator('input')[22m
+
+
+       96 |
+       97 |     // Try to enter decimal
+    >  98 |     await page.locator('label:has-text("January")').locator('..').locator('input').fill('100000.50');
+          |                                                                                    ^
+       99 |
+      100 |     const value = await page.locator('label:has-text("January")').locator('..').locator('input').inputValue();
+      101 |
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:98:84
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-1c1bf-al-values-in-monthly-fields-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-1c1bf-al-values-in-monthly-fields-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-1c1bf-al-values-in-monthly-fields-chromium\error-context.md
+
+  20) [chromium] › tests\e2e\form-validation.spec.ts:104:3 › Form Validation and Error Handling › should handle negative values in monthly fields 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("January")').locator('..').locator('input')[22m
+
+
+      109 |
+      110 |     // Try to enter negative value
+    > 111 |     await page.locator('label:has-text("January")').locator('..').locator('input').fill('-50000');
+          |                                                                                    ^
+      112 |
+      113 |     const value = await page.locator('label:has-text("January")').locator('..').locator('input').inputValue();
+      114 |
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:111:84
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-9b6fd-ve-values-in-monthly-fields-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-9b6fd-ve-values-in-monthly-fields-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-9b6fd-ve-values-in-monthly-fields-chromium\error-context.md
+
+  21) [chromium] › tests\e2e\form-validation.spec.ts:116:3 › Form Validation and Error Handling › should handle very large numbers in monthly fields 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("January")').locator('..').locator('input')[22m
+
+
+      121 |
+      122 |     // Enter a very large number
+    > 123 |     await page.locator('label:has-text("January")').locator('..').locator('input').fill('999999999999');
+          |                                                                                    ^
+      124 |
+      125 |     const value = await page.locator('label:has-text("January")').locator('..').locator('input').inputValue();
+      126 |     expect(value).toBe('999999999999');
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:123:84
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-ec173-e-numbers-in-monthly-fields-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-ec173-e-numbers-in-monthly-fields-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-ec173-e-numbers-in-monthly-fields-chromium\error-context.md
+
+  22) [chromium] › tests\e2e\form-validation.spec.ts:126:3 › Form Validation and Error Handling › should handle zero values in monthly fields 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("January")').locator('..').locator('input')[22m
+
+
+      131 |
+      132 |     // Enter zero
+    > 133 |     await page.locator('label:has-text("January")').locator('..').locator('input').fill('0');
+          |                                                                                    ^
+      134 |
+      135 |     const value = await page.locator('label:has-text("January")').locator('..').locator('input').inputValue();
+      136 |     expect(value).toBe('0');
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:133:84
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-1b1c8-ro-values-in-monthly-fields-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-1b1c8-ro-values-in-monthly-fields-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-1b1c8-ro-values-in-monthly-fields-chromium\error-context.md
+
+  23) [chromium] › tests\e2e\form-validation.spec.ts:136:3 › Form Validation and Error Handling › should reject non-numeric input in monthly fields 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("January")').locator('..').locator('input')[22m
+
+
+      141 |
+      142 |     // Try to enter text
+    > 143 |     await page.locator('label:has-text("January")').locator('..').locator('input').fill('abc');
+          |                                                                                    ^
+      144 |
+      145 |     const value = await page.locator('label:has-text("January")').locator('..').locator('input').inputValue();
+      146 |
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:143:84
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-07832-ric-input-in-monthly-fields-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-07832-ric-input-in-monthly-fields-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-07832-ric-input-in-monthly-fields-chromium\error-context.md
+
+  24) [chromium] › tests\e2e\form-validation.spec.ts:149:3 › Form Validation and Error Handling › should update project dropdown when department is selected 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("Avdeling")').locator('..').locator('.ant-select')[22m
+    [2m    - locator resolved to <div class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var ant-select-single ant-select-show-arrow">…</div>[22m
+    [2m  - attempting click action[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div tabindex="-1" class="ant-modal-wrap">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m    - waiting 20ms[22m
+    [2m    - waiting for element to be visible, enabled and stable[22m
+    [2m    - element is visible, enabled and stable[22m
+    [2m    - scrolling into view if needed[22m
+    [2m    - done scrolling[22m
+    [2m    - <div class="ant-modal-container">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m  2 × retrying click action[22m
+    [2m      - waiting 100ms[22m
+    [2m      - waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div tabindex="-1" class="ant-modal-wrap">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m  13 × retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <input readonly disabled value="" id="_r_7_" type="search" role="combobox" autocomplete="off" aria-expanded="false" aria-owns="_r_7__list" aria-haspopup="listbox" class="ant-select-input" aria-autocomplete="list" aria-controls="_r_7__list"/> from <div>…</div> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <input readonly disabled value="" id="_r_7_" type="search" role="combobox" autocomplete="off" aria-expanded="false" aria-owns="_r_7__list" aria-haspopup="listbox" class="ant-select-input" aria-autocomplete="list" aria-controls="_r_7__list"/> from <div>…</div> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <div tabindex="-1" class="ant-modal-wrap">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <div tabindex="-1" class="ant-modal-wrap">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m  - retrying click action[22m
+    [2m    - waiting 500ms[22m
+    [2m    - waiting for element to be visible, enabled and stable[22m
+    [2m    - element is visible, enabled and stable[22m
+    [2m    - scrolling into view if needed[22m
+    [2m    - done scrolling[22m
+
+
+      154 |
+      155 |     // Select a department
+    > 156 |     await page.locator('label:has-text("Avdeling")').locator('..').locator('.ant-select').click();
+          |                                                                                           ^
+      157 |     await page.locator('.ant-select-item-option:has-text("Teknologi")').click();
+      158 |
+      159 |     // Project dropdown should now be populated with Teknologi projects
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:156:91
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-baed6-when-department-is-selected-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-baed6-when-department-is-selected-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-baed6-when-department-is-selected-chromium\error-context.md
+
+  25) [chromium] › tests\e2e\form-validation.spec.ts:222:3 › Form Validation and Error Handling › should preserve form data when switching between fields 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("January")').locator('..').locator('input')[22m
+
+
+      225 |     await page.locator('input[placeholder="Enter project name"]').fill('Test Project');
+      226 |     await page.locator('input[placeholder="e.g. PC001"]').fill('PC-001');
+    > 227 |     await page.locator('label:has-text("January")').locator('..').locator('input').fill('100000');
+          |                                                                                    ^
+      228 |
+      229 |     // Click to another field
+      230 |     await page.locator('label:has-text("February")').locator('..').locator('input').click();
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:227:84
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-1e3be-en-switching-between-fields-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-1e3be-en-switching-between-fields-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-1e3be-en-switching-between-fields-chromium\error-context.md
+
+  26) [chromium] › tests\e2e\form-validation.spec.ts:240:3 › Form Validation and Error Handling › should handle form submission with minimal valid data 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("Avdeling")').locator('..').locator('.ant-select')[22m
+    [2m    - locator resolved to <div class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var ant-select-single ant-select-show-arrow">…</div>[22m
+    [2m  - attempting click action[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div tabindex="-1" class="ant-modal-wrap">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m    - waiting 20ms[22m
+    [2m    - waiting for element to be visible, enabled and stable[22m
+    [2m    - element is visible, enabled and stable[22m
+    [2m    - scrolling into view if needed[22m
+    [2m    - done scrolling[22m
+    [2m    - <div class="ant-modal-container">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m  2 × retrying click action[22m
+    [2m      - waiting 100ms[22m
+    [2m      - waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div tabindex="-1" class="ant-modal-wrap">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m  13 × retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <input readonly disabled value="" id="_r_7_" type="search" role="combobox" autocomplete="off" aria-expanded="false" aria-owns="_r_7__list" aria-haspopup="listbox" class="ant-select-input" aria-autocomplete="list" aria-controls="_r_7__list"/> from <div>…</div> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <input readonly disabled value="" id="_r_7_" type="search" role="combobox" autocomplete="off" aria-expanded="false" aria-owns="_r_7__list" aria-haspopup="listbox" class="ant-select-input" aria-autocomplete="list" aria-controls="_r_7__list"/> from <div>…</div> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <div tabindex="-1" class="ant-modal-wrap">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <div tabindex="-1" class="ant-modal-wrap">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m  - retrying click action[22m
+    [2m    - waiting 500ms[22m
+
+
+      240 |
+      241 |     // Fill only required fields
+    > 242 |     await page.locator('label:has-text("Avdeling")').locator('..').locator('.ant-select').click();
+          |                                                                                           ^
+      243 |     await page.locator('.ant-select-item-option:has-text("Teknologi")').click();
+      244 |
+      245 |     await page.locator('label:has-text("Prosjekt")').locator('..').locator('.ant-select').click();
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:242:91
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-25cfa-ion-with-minimal-valid-data-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-25cfa-ion-with-minimal-valid-data-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-25cfa-ion-with-minimal-valid-data-chromium\error-context.md
+
+  27) [chromium] › tests\e2e\form-validation.spec.ts:267:3 › Form Validation and Error Handling › should show loading state during API calls 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("Avdeling")').locator('..').locator('.ant-select')[22m
+    [2m    - locator resolved to <div class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var ant-select-single ant-select-show-arrow">…</div>[22m
+    [2m  - attempting click action[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div tabindex="-1" class="ant-modal-wrap">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m    - waiting 20ms[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div tabindex="-1" class="ant-modal-wrap">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m      - waiting 100ms[22m
+    [2m    13 × waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <div tabindex="-1" class="ant-modal-wrap">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <input readonly disabled value="" id="_r_7_" type="search" role="combobox" autocomplete="off" aria-expanded="false" aria-owns="_r_7__list" aria-haspopup="listbox" class="ant-select-input" aria-autocomplete="list" aria-controls="_r_7__list"/> from <div>…</div> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <input readonly disabled value="" id="_r_7_" type="search" role="combobox" autocomplete="off" aria-expanded="false" aria-owns="_r_7__list" aria-haspopup="listbox" class="ant-select-input" aria-autocomplete="list" aria-controls="_r_7__list"/> from <div>…</div> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <div tabindex="-1" class="ant-modal-wrap">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m    - waiting for element to be visible, enabled and stable[22m
+
+
+      268 |
+      269 |     // Fill form
+    > 270 |     await page.locator('label:has-text("Avdeling")').locator('..').locator('.ant-select').click();
+          |                                                                                           ^
+      271 |     await page.locator('.ant-select-item-option').first().click();
+      272 |
+      273 |     await page.locator('label:has-text("Prosjekt")').locator('..').locator('.ant-select').click();
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:270:91
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-2a91f-ding-state-during-API-calls-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-2a91f-ding-state-during-API-calls-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-2a91f-ding-state-during-API-calls-chromium\error-context.md
+
+  28) [chromium] › tests\e2e\form-validation.spec.ts:297:3 › Form Validation and Error Handling › should handle API errors gracefully 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('label:has-text("Avdeling")').locator('..').locator('.ant-select')[22m
+    [2m    - locator resolved to <div class="ant-select ant-select-lg ant-select-outlined css-var-root ant-select-css-var ant-select-single ant-select-show-arrow">…</div>[22m
+    [2m  - attempting click action[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div tabindex="-1" class="ant-modal-wrap">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m    - retrying click action[22m
+    [2m    - waiting 20ms[22m
+    [2m    - waiting for element to be visible, enabled and stable[22m
+    [2m    - element is visible, enabled and stable[22m
+    [2m    - scrolling into view if needed[22m
+    [2m    - done scrolling[22m
+    [2m    - <div class="ant-modal-container">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m  2 × retrying click action[22m
+    [2m      - waiting 100ms[22m
+    [2m      - waiting for element to be visible, enabled and stable[22m
+    [2m      - element is visible, enabled and stable[22m
+    [2m      - scrolling into view if needed[22m
+    [2m      - done scrolling[22m
+    [2m      - <div tabindex="-1" class="ant-modal-wrap">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m  13 × retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <input readonly disabled value="" id="_r_7_" type="search" role="combobox" autocomplete="off" aria-expanded="false" aria-owns="_r_7__list" aria-haspopup="listbox" class="ant-select-input" aria-autocomplete="list" aria-controls="_r_7__list"/> from <div>…</div> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <input readonly disabled value="" id="_r_7_" type="search" role="combobox" autocomplete="off" aria-expanded="false" aria-owns="_r_7__list" aria-haspopup="listbox" class="ant-select-input" aria-autocomplete="list" aria-controls="_r_7__list"/> from <div>…</div> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <div tabindex="-1" class="ant-modal-wrap">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+    [2m       - waiting for element to be visible, enabled and stable[22m
+    [2m       - element is visible, enabled and stable[22m
+    [2m       - scrolling into view if needed[22m
+    [2m       - done scrolling[22m
+    [2m       - <div tabindex="-1" class="ant-modal-wrap">…</div> from <div>…</div> subtree intercepts pointer events[22m
+    [2m  - retrying click action[22m
+    [2m    - waiting 500ms[22m
+    [2m    - waiting for element to be visible, enabled and stable[22m
+    [2m    - element is visible, enabled and stable[22m
+    [2m    - scrolling into view if needed[22m
+    [2m    - done scrolling[22m
+    [2m    - <input readonly disabled value="" id="_r_7_" type="search" role="combobox" autocomplete="off" aria-expanded="false" aria-owns="_r_7__list" aria-haspopup="listbox" class="ant-select-input" aria-autocomplete="list" aria-controls="_r_7__list"/> from <div>…</div> subtree intercepts pointer events[22m
+    [2m  - retrying click action[22m
+    [2m    - waiting 500ms[22m
+
+
+      307 |
+      308 |     // Fill form with edge case data
+    > 309 |     await page.locator('label:has-text("Avdeling")').locator('..').locator('.ant-select').click();
+          |                                                                                           ^
+      310 |     await page.locator('.ant-select-item-option').first().click();
+      311 |
+      312 |     await page.locator('label:has-text("Prosjekt")').locator('..').locator('.ant-select').click();
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:309:91
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-6b8ac-andle-API-errors-gracefully-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-6b8ac-andle-API-errors-gracefully-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-6b8ac-andle-API-errors-gracefully-chromium\error-context.md
+
+  29) [chromium] › tests\e2e\snapshot-approval.spec.ts:45:3 › Snapshot and Approval Workflow › should submit forecast for approval (create snapshot) 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m1[39m
+    Received: [31m0[39m
+
+      67 |     // Verify snapshot appears in Snapshots table
+      68 |     const newSnapshotCount = await getForecastCount(page, 'snapshot');
+    > 69 |     expect(newSnapshotCount).toBe(initialSnapshotCount + 1);
+         |                              ^
+      70 |
+      71 |     // Verify snapshot row contains correct data
+      72 |     const snapshotRow = page.locator('text=FORECAST SNAPSHOTS')
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\snapshot-approval.spec.ts:69:30
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\snapshot-approval-Snapshot-567b1-r-approval-create-snapshot--chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\snapshot-approval-Snapshot-567b1-r-approval-create-snapshot--chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\snapshot-approval-Snapshot-567b1-r-approval-create-snapshot--chromium\error-context.md
+
+  29 failed
+    [chromium] › tests\e2e\filtering-aggregation.spec.ts:73:3 › Filtering and Aggregation › should filter forecasts by department 
+    [chromium] › tests\e2e\filtering-aggregation.spec.ts:105:3 › Filtering and Aggregation › should filter forecasts by project 
+    [chromium] › tests\e2e\filtering-aggregation.spec.ts:127:3 › Filtering and Aggregation › should reset filters when "Nullstill Filtre" is clicked 
+    [chromium] › tests\e2e\filtering-aggregation.spec.ts:154:3 › Filtering and Aggregation › should update project dropdown when department changes 
+    [chromium] › tests\e2e\filtering-aggregation.spec.ts:186:3 › Filtering and Aggregation › should display correct department count in statistics 
+    [chromium] › tests\e2e\filtering-aggregation.spec.ts:196:3 › Filtering and Aggregation › should display correct project count in statistics 
+    [chromium] › tests\e2e\filtering-aggregation.spec.ts:206:3 › Filtering and Aggregation › should calculate total forecast amount correctly 
+    [chromium] › tests\e2e\filtering-aggregation.spec.ts:220:3 › Filtering and Aggregation › should update total when filtering 
+    [chromium] › tests\e2e\filtering-aggregation.spec.ts:241:3 › Filtering and Aggregation › should show forecasts sorted correctly 
+    [chromium] › tests\e2e\filtering-aggregation.spec.ts:254:3 › Filtering and Aggregation › should maintain filter state when creating new forecast 
+    [chromium] › tests\e2e\filtering-aggregation.spec.ts:280:3 › Filtering and Aggregation › should handle empty filter results gracefully 
+    [chromium] › tests\e2e\forecast-crud.spec.ts:48:3 › Forecast CRUD Operations › should create a new forecast 
+    [chromium] › tests\e2e\forecast-crud.spec.ts:96:3 › Forecast CRUD Operations › should edit an existing forecast 
+    [chromium] › tests\e2e\forecast-crud.spec.ts:162:3 › Forecast CRUD Operations › should delete a forecast 
+    [chromium] › tests\e2e\forecast-crud.spec.ts:238:3 › Forecast CRUD Operations › should calculate total and yearly sum correctly 
+    [chromium] › tests\e2e\form-validation.spec.ts:22:3 › Form Validation and Error Handling › should open forecast form modal when clicking Ny Prognose 
+    [chromium] › tests\e2e\form-validation.spec.ts:44:3 › Form Validation and Error Handling › should close modal when clicking cancel or escape 
+    [chromium] › tests\e2e\form-validation.spec.ts:81:3 › Form Validation and Error Handling › should accept numeric input for monthly values 
+    [chromium] › tests\e2e\form-validation.spec.ts:91:3 › Form Validation and Error Handling › should handle decimal values in monthly fields 
+    [chromium] › tests\e2e\form-validation.spec.ts:104:3 › Form Validation and Error Handling › should handle negative values in monthly fields 
+    [chromium] › tests\e2e\form-validation.spec.ts:116:3 › Form Validation and Error Handling › should handle very large numbers in monthly fields 
+    [chromium] › tests\e2e\form-validation.spec.ts:126:3 › Form Validation and Error Handling › should handle zero values in monthly fields 
+    [chromium] › tests\e2e\form-validation.spec.ts:136:3 › Form Validation and Error Handling › should reject non-numeric input in monthly fields 
+    [chromium] › tests\e2e\form-validation.spec.ts:149:3 › Form Validation and Error Handling › should update project dropdown when department is selected 
+    [chromium] › tests\e2e\form-validation.spec.ts:222:3 › Form Validation and Error Handling › should preserve form data when switching between fields 
+    [chromium] › tests\e2e\form-validation.spec.ts:240:3 › Form Validation and Error Handling › should handle form submission with minimal valid data 
+    [chromium] › tests\e2e\form-validation.spec.ts:267:3 › Form Validation and Error Handling › should show loading state during API calls 
+    [chromium] › tests\e2e\form-validation.spec.ts:297:3 › Form Validation and Error Handling › should handle API errors gracefully 
+    [chromium] › tests\e2e\snapshot-approval.spec.ts:45:3 › Snapshot and Approval Workflow › should submit forecast for approval (create snapshot) 
+  12 did not run
+  12 passed (12.4m)
