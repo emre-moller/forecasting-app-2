@@ -165,6 +165,21 @@ export const Dashboard = () => {
     }
   };
 
+  const handleBatchUpdateForecastField = async (forecastId: string, updates: Record<string, any>) => {
+    try {
+      const forecast = forecasts.find(f => f.id === forecastId);
+      if (!forecast) return;
+
+      const updatedData = { ...forecast, ...updates };
+      const updated = await forecastsAPI.update(forecastId, updatedData as any);
+
+      setForecasts(forecasts.map((f) => (f.id === forecastId ? updated : f)));
+    } catch (error) {
+      console.error('Failed to batch update forecast:', error);
+      alert('Kunne ikke oppdatere prognose');
+    }
+  };
+
   const handleSubmitForApproval = async (forecastId: string) => {
     if (confirm('Submit this forecast for approval?')) {
       try {
@@ -180,9 +195,32 @@ export const Dashboard = () => {
 
   const handleAddRow = async () => {
     try {
+      // Use selected filters, or default to first available department/project
+      let deptId = selectedDepartment;
+      let projId = selectedProject;
+
+      if (!deptId && departments.length > 0) {
+        deptId = departments[0].id;
+      }
+
+      if (!projId) {
+        const availableProjects = deptId
+          ? projects.filter(p => p.departmentId === deptId)
+          : projects;
+        if (availableProjects.length > 0) {
+          projId = availableProjects[0].id;
+        }
+      }
+
+      // If still no department/project, can't create forecast
+      if (!deptId || !projId) {
+        alert('Ingen avdelinger eller prosjekter tilgjengelig. Vennligst opprett dem først.');
+        return;
+      }
+
       const newForecastData: ForecastFormData = {
-        departmentId: selectedDepartment || '',
-        projectId: selectedProject || '',
+        departmentId: deptId,
+        projectId: projId,
         projectName: '',
         profitCenter: '',
         wbs: '',
@@ -363,6 +401,7 @@ export const Dashboard = () => {
           onDelete={handleDeleteForecast}
           onSubmitForApproval={handleSubmitForApproval}
           onUpdate={handleUpdateForecastField}
+          onBatchUpdate={handleBatchUpdateForecastField}
           onAddRow={handleAddRow}
         />
       </div>

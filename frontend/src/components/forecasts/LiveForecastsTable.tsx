@@ -16,6 +16,7 @@ interface LiveForecastsTableProps {
   onDelete?: (forecastId: string) => void;
   onSubmitForApproval?: (forecastId: string) => void;
   onUpdate?: (forecastId: string, field: string, value: any) => void;
+  onBatchUpdate?: (forecastId: string, updates: Record<string, any>) => void;
   onAddRow?: () => void;
 }
 
@@ -25,6 +26,7 @@ export const LiveForecastsTable = ({
   onDelete,
   onSubmitForApproval,
   onUpdate,
+  onBatchUpdate,
   onAddRow
 }: LiveForecastsTableProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -39,7 +41,28 @@ export const LiveForecastsTable = ({
 
     // Only update if value has changed
     const numValue = parseFloat(value);
-    if (!isNaN(numValue) && numValue !== originalValue && onUpdate) {
+
+    // Special handling for yearlySum: distribute evenly across all months
+    if (columnId === 'yearlySum' && !isNaN(numValue) && numValue !== originalValue) {
+      const monthlyValue = numValue / 12;
+      const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+      // Build batch update object
+      const updates: Record<string, any> = {};
+      months.forEach(month => {
+        updates[month] = monthlyValue;
+      });
+      updates.yearlySum = numValue;
+
+      // Use batch update if available, otherwise fall back to multiple updates
+      if (onBatchUpdate) {
+        onBatchUpdate(rowId, updates);
+      } else if (onUpdate) {
+        months.forEach(month => {
+          onUpdate(rowId, month, monthlyValue);
+        });
+      }
+    } else if (!isNaN(numValue) && numValue !== originalValue && onUpdate) {
       onUpdate(rowId, columnId, numValue);
     } else if (value !== originalValue && onUpdate) {
       onUpdate(rowId, columnId, value);
@@ -100,115 +123,149 @@ export const LiveForecastsTable = ({
       {
         accessorKey: 'projectName',
         header: 'PROJECT NAME',
-        size: 140,
+        size: 130,
         cell: (info) => renderEditableCell(info, 'projectName', false),
       },
       {
         accessorKey: 'profitCenter',
         header: 'PROFIT CENTER',
-        size: 110,
+        size: 100,
         cell: (info) => renderEditableCell(info, 'profitCenter', false),
       },
       {
         accessorKey: 'wbs',
         header: 'WBS',
-        size: 100,
+        size: 90,
         cell: (info) => renderEditableCell(info, 'wbs', false),
       },
       {
         accessorKey: 'account',
         header: 'ACCOUNT',
-        size: 100,
+        size: 90,
         cell: (info) => renderEditableCell(info, 'account', false),
       },
       {
         accessorKey: 'jan',
         header: 'JAN',
-        size: 75,
+        size: 70,
         cell: (info) => renderEditableCell(info, 'jan', true),
       },
       {
         accessorKey: 'feb',
         header: 'FEB',
-        size: 75,
+        size: 70,
         cell: (info) => renderEditableCell(info, 'feb', true),
       },
       {
         accessorKey: 'mar',
         header: 'MAR',
-        size: 75,
+        size: 70,
         cell: (info) => renderEditableCell(info, 'mar', true),
       },
       {
         accessorKey: 'apr',
         header: 'APR',
-        size: 75,
+        size: 70,
         cell: (info) => renderEditableCell(info, 'apr', true),
       },
       {
         accessorKey: 'may',
         header: 'MAY',
-        size: 75,
+        size: 70,
         cell: (info) => renderEditableCell(info, 'may', true),
       },
       {
         accessorKey: 'jun',
         header: 'JUN',
-        size: 75,
+        size: 70,
         cell: (info) => renderEditableCell(info, 'jun', true),
       },
       {
         accessorKey: 'jul',
         header: 'JUL',
-        size: 75,
+        size: 70,
         cell: (info) => renderEditableCell(info, 'jul', true),
       },
       {
         accessorKey: 'aug',
         header: 'AUG',
-        size: 75,
+        size: 70,
         cell: (info) => renderEditableCell(info, 'aug', true),
       },
       {
         accessorKey: 'sep',
         header: 'SEP',
-        size: 75,
+        size: 70,
         cell: (info) => renderEditableCell(info, 'sep', true),
       },
       {
         accessorKey: 'oct',
         header: 'OCT',
-        size: 75,
+        size: 70,
         cell: (info) => renderEditableCell(info, 'oct', true),
       },
       {
         accessorKey: 'nov',
         header: 'NOV',
-        size: 75,
+        size: 70,
         cell: (info) => renderEditableCell(info, 'nov', true),
       },
       {
         accessorKey: 'dec',
         header: 'DEC',
-        size: 75,
+        size: 70,
         cell: (info) => renderEditableCell(info, 'dec', true),
       },
       {
         accessorKey: 'yearlySum',
         header: 'YEARLY SUM',
-        size: 95,
-        cell: (info) => (
-          <div className="cell-content cell-number">
-            <strong>
-              {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
-            </strong>
-          </div>
-        ),
+        size: 90,
+        cell: (info) => {
+          const rowId = info.row.original.id;
+          const value = info.getValue();
+          const isEditing = editingCell?.rowId === rowId && editingCell?.columnId === 'yearlySum';
+
+          if (isEditing) {
+            return (
+              <input
+                type="number"
+                defaultValue={value as number}
+                autoFocus
+                onBlur={(e) => handleCellBlur(rowId, 'yearlySum', e.target.value, value)}
+                onKeyDown={(e) => handleKeyDown(e, rowId, 'yearlySum', e.currentTarget.value, value)}
+                style={{
+                  width: '100%',
+                  padding: '8px 12px',
+                  border: '2px solid #0969da',
+                  borderRadius: '2px',
+                  fontSize: '13px',
+                  fontFamily: "'Consolas', 'Monaco', monospace",
+                  textAlign: 'right',
+                  outline: 'none',
+                  fontWeight: 'bold'
+                }}
+              />
+            );
+          }
+
+          return (
+            <div
+              className="cell-content cell-number"
+              onClick={() => onUpdate && handleCellClick(rowId, 'yearlySum')}
+              style={{ cursor: onUpdate ? 'pointer' : 'default' }}
+              title={onUpdate ? 'Click to edit and distribute across months' : ''}
+            >
+              <strong>
+                {(value as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
+              </strong>
+            </div>
+          );
+        },
       },
       {
         id: 'actions',
         header: 'ACTIONS',
-        size: 180,
+        size: 150,
         cell: (info) => (
           <div className="cell-content cell-actions">
             {onSubmitForApproval && (
@@ -232,7 +289,7 @@ export const LiveForecastsTable = ({
         ),
       },
     ],
-    [onEdit, onDelete, onSubmitForApproval, onUpdate, editingCell]
+    [onEdit, onDelete, onSubmitForApproval, onUpdate, onBatchUpdate, editingCell]
   );
 
   const table = useReactTable({
@@ -276,58 +333,58 @@ export const LiveForecastsTable = ({
           <tbody>
             {onAddRow && (
               <tr className="add-row" onClick={onAddRow}>
-                <td style={{ width: 140 }}>
+                <td style={{ width: 130 }}>
                   <div className="cell-content placeholder-cell">Project Name</div>
                 </td>
-                <td style={{ width: 110 }}>
+                <td style={{ width: 100 }}>
                   <div className="cell-content placeholder-cell">Profit Center</div>
                 </td>
-                <td style={{ width: 100 }}>
+                <td style={{ width: 90 }}>
                   <div className="cell-content placeholder-cell">WBS</div>
                 </td>
-                <td style={{ width: 100 }}>
+                <td style={{ width: 90 }}>
                   <div className="cell-content placeholder-cell">Account</div>
                 </td>
-                <td style={{ width: 75 }}>
+                <td style={{ width: 70 }}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 75 }}>
+                <td style={{ width: 70 }}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 75 }}>
+                <td style={{ width: 70 }}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 75 }}>
+                <td style={{ width: 70 }}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 75 }}>
+                <td style={{ width: 70 }}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 75 }}>
+                <td style={{ width: 70 }}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 75 }}>
+                <td style={{ width: 70 }}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 75 }}>
+                <td style={{ width: 70 }}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 75 }}>
+                <td style={{ width: 70 }}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 75 }}>
+                <td style={{ width: 70 }}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 75 }}>
+                <td style={{ width: 70 }}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 75 }}>
+                <td style={{ width: 70 }}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 95 }}>
+                <td style={{ width: 90 }}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 180 }}>
+                <td style={{ width: 150 }}>
                   <div className="cell-content placeholder-cell">Click to add</div>
                 </td>
               </tr>

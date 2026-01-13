@@ -24,31 +24,31 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
       {
         accessorKey: 'projectName',
         header: 'PROJECT NAME',
-        size: 200,
+        size: 130,
         cell: (info) => <div className="cell-content">{info.getValue() as string || '-'}</div>,
       },
       {
         accessorKey: 'profitCenter',
         header: 'PROFIT CENTER',
-        size: 150,
+        size: 100,
         cell: (info) => <div className="cell-content">{info.getValue() as string || '-'}</div>,
       },
       {
         accessorKey: 'wbs',
         header: 'WBS',
-        size: 120,
+        size: 90,
         cell: (info) => <div className="cell-content">{info.getValue() as string || '-'}</div>,
       },
       {
         accessorKey: 'account',
         header: 'ACCOUNT',
-        size: 120,
+        size: 90,
         cell: (info) => <div className="cell-content">{info.getValue() as string || '-'}</div>,
       },
       {
         accessorKey: 'jan',
         header: 'JAN',
-        size: 100,
+        size: 70,
         cell: (info) => (
           <div className="cell-content cell-number">
             {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
@@ -58,7 +58,7 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
       {
         accessorKey: 'feb',
         header: 'FEB',
-        size: 100,
+        size: 70,
         cell: (info) => (
           <div className="cell-content cell-number">
             {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
@@ -68,7 +68,7 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
       {
         accessorKey: 'mar',
         header: 'MAR',
-        size: 100,
+        size: 70,
         cell: (info) => (
           <div className="cell-content cell-number">
             {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
@@ -78,7 +78,7 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
       {
         accessorKey: 'apr',
         header: 'APR',
-        size: 100,
+        size: 70,
         cell: (info) => (
           <div className="cell-content cell-number">
             {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
@@ -88,7 +88,7 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
       {
         accessorKey: 'may',
         header: 'MAY',
-        size: 100,
+        size: 70,
         cell: (info) => (
           <div className="cell-content cell-number">
             {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
@@ -98,7 +98,7 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
       {
         accessorKey: 'jun',
         header: 'JUN',
-        size: 100,
+        size: 70,
         cell: (info) => (
           <div className="cell-content cell-number">
             {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
@@ -108,7 +108,7 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
       {
         accessorKey: 'jul',
         header: 'JUL',
-        size: 100,
+        size: 70,
         cell: (info) => (
           <div className="cell-content cell-number">
             {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
@@ -118,7 +118,7 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
       {
         accessorKey: 'aug',
         header: 'AUG',
-        size: 100,
+        size: 70,
         cell: (info) => (
           <div className="cell-content cell-number">
             {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
@@ -128,7 +128,7 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
       {
         accessorKey: 'sep',
         header: 'SEP',
-        size: 100,
+        size: 70,
         cell: (info) => (
           <div className="cell-content cell-number">
             {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
@@ -138,7 +138,7 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
       {
         accessorKey: 'oct',
         header: 'OCT',
-        size: 100,
+        size: 70,
         cell: (info) => (
           <div className="cell-content cell-number">
             {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
@@ -148,7 +148,7 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
       {
         accessorKey: 'nov',
         header: 'NOV',
-        size: 100,
+        size: 70,
         cell: (info) => (
           <div className="cell-content cell-number">
             {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
@@ -158,7 +158,7 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
       {
         accessorKey: 'dec',
         header: 'DEC',
-        size: 100,
+        size: 70,
         cell: (info) => (
           <div className="cell-content cell-number">
             {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
@@ -166,21 +166,9 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
         ),
       },
       {
-        accessorKey: 'total',
-        header: 'TOTAL',
-        size: 120,
-        cell: (info) => (
-          <div className="cell-content cell-number">
-            <strong>
-              {(info.getValue() as number).toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
-            </strong>
-          </div>
-        ),
-      },
-      {
         accessorKey: 'yearlySum',
         header: 'YEARLY SUM',
-        size: 120,
+        size: 90,
         cell: (info) => (
           <div className="cell-content cell-number">
             <strong>
@@ -192,7 +180,7 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
       {
         accessorKey: 'isApproved',
         header: 'STATUS',
-        size: 150,
+        size: 110,
         cell: (info) => (
           <div className="cell-content">
             <span
@@ -212,13 +200,13 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
       {
         accessorKey: 'submittedBy',
         header: 'SUBMITTED BY',
-        size: 130,
+        size: 100,
         cell: (info) => <div className="cell-content">{info.getValue() as string}</div>,
       },
       {
         accessorKey: 'snapshotDate',
         header: 'SUBMITTED DATE',
-        size: 150,
+        size: 125,
         cell: (info) => (
           <div className="cell-content">
             {new Date(info.getValue() as string).toLocaleString('nb-NO')}
@@ -228,7 +216,7 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
       {
         id: 'actions',
         header: 'ACTIONS',
-        size: 180,
+        size: 150,
         cell: (info) => (
           <div className="cell-content cell-actions">
             {onApprove && !info.row.original.isApproved && (
