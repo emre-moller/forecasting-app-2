@@ -12,7 +12,20 @@
       "Bash(python3 -m pip install:*)",
       "Bash(python3:*)",
       "Bash(chmod:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(npm run dev:*)",
+      "Bash(python -m src.init_db:*)",
+      "Bash(python -m uvicorn:*)",
+      "Bash(taskkill:*)",
+      "Bash(npm test)",
+      "Bash(python:*)",
+      "Bash(npm test:*)",
+      "Bash(npx playwright test:*)",
+      "Bash(sqlite3:*)",
+      "Bash(pgrep:*)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "Bash(netstat:*)"
     ]
   }
 }

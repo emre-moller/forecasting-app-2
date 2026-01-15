@@ -1,0 +1,128 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - generic [ref=e6]:
+    - heading "Financial Forecasting Input Tool" [level=1] [ref=e7]
+    - paragraph [ref=e8]: Department-Based Forecast Management
+    - generic [ref=e9]:
+      - img "fund" [ref=e10]:
+        - img [ref=e11]
+      - text: Finance
+  - generic [ref=e13]:
+    - generic [ref=e14]:
+      - generic [ref=e15]: "1"
+      - generic [ref=e16]: SELECT DEPARTMENT
+    - generic [ref=e17] [cursor=pointer]:
+      - generic [ref=e18]:
+        - generic "Økonomi" [ref=e19]
+        - combobox [ref=e20]
+      - img "down" [ref=e22]:
+        - img [ref=e23]
+  - generic [ref=e25]:
+    - generic [ref=e26]:
+      - generic [ref=e27]: "2"
+      - generic [ref=e28]: SELECT FORECASTING DIMENSION
+    - generic [ref=e29]:
+      - generic [ref=e30] [cursor=pointer]: By Account
+      - generic [ref=e32] [cursor=pointer]: By WBS Number
+      - generic [ref=e34] [cursor=pointer]: By Project
+  - generic [ref=e36]:
+    - generic [ref=e37]:
+      - img "check-circle" [ref=e38]:
+        - img [ref=e39]
+      - heading "FORECAST SNAPSHOTS" [level=2] [ref=e42]
+    - generic [ref=e44]:
+      - generic [ref=e45]: ✓
+      - generic [ref=e46]: No submitted forecasts yet
+  - generic [ref=e47]:
+    - generic [ref=e48]:
+      - heading "Monthly Forecast Input" [level=2] [ref=e49]
+      - generic [ref=e50]:
+        - button "check-circle SUBMIT ALL FORECASTS" [disabled] [ref=e51]:
+          - generic:
+            - img "check-circle":
+              - img
+          - generic: SUBMIT ALL FORECASTS
+        - button "plus ADD ROW" [active] [ref=e52] [cursor=pointer]:
+          - img "plus" [ref=e54]:
+            - img [ref=e55]
+          - generic [ref=e58]: ADD ROW
+    - table [ref=e61]:
+      - rowgroup [ref=e62]:
+        - row "PROJECT NAME PROFIT CENTER WBS ACCOUNT JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC YEARLY SUM ACTIONS" [ref=e63]:
+          - columnheader "PROJECT NAME" [ref=e64] [cursor=pointer]:
+            - generic [ref=e65]: PROJECT NAME
+          - columnheader "PROFIT CENTER" [ref=e66] [cursor=pointer]:
+            - generic [ref=e67]: PROFIT CENTER
+          - columnheader "WBS" [ref=e68] [cursor=pointer]:
+            - generic [ref=e69]: WBS
+          - columnheader "ACCOUNT" [ref=e70] [cursor=pointer]:
+            - generic [ref=e71]: ACCOUNT
+          - columnheader "JAN" [ref=e72] [cursor=pointer]:
+            - generic [ref=e73]: JAN
+          - columnheader "FEB" [ref=e74] [cursor=pointer]:
+            - generic [ref=e75]: FEB
+          - columnheader "MAR" [ref=e76] [cursor=pointer]:
+            - generic [ref=e77]: MAR
+          - columnheader "APR" [ref=e78] [cursor=pointer]:
+            - generic [ref=e79]: APR
+          - columnheader "MAY" [ref=e80] [cursor=pointer]:
+            - generic [ref=e81]: MAY
+          - columnheader "JUN" [ref=e82] [cursor=pointer]:
+            - generic [ref=e83]: JUN
+          - columnheader "JUL" [ref=e84] [cursor=pointer]:
+            - generic [ref=e85]: JUL
+          - columnheader "AUG" [ref=e86] [cursor=pointer]:
+            - generic [ref=e87]: AUG
+          - columnheader "SEP" [ref=e88] [cursor=pointer]:
+            - generic [ref=e89]: SEP
+          - columnheader "OCT" [ref=e90] [cursor=pointer]:
+            - generic [ref=e91]: OCT
+          - columnheader "NOV" [ref=e92] [cursor=pointer]:
+            - generic [ref=e93]: NOV
+          - columnheader "DEC" [ref=e94] [cursor=pointer]:
+            - generic [ref=e95]: DEC
+          - columnheader "YEARLY SUM" [ref=e96] [cursor=pointer]:
+            - generic [ref=e97]: YEARLY SUM
+          - columnheader "ACTIONS" [ref=e98]:
+            - generic [ref=e99]: ACTIONS
+      - rowgroup [ref=e100]:
+        - row "Project Name Profit Center WBS Account 0 0 0 0 0 0 0 0 0 0 0 0 0 Click to add" [ref=e101] [cursor=pointer]:
+          - cell "Project Name" [ref=e102]:
+            - generic [ref=e103]: Project Name
+          - cell "Profit Center" [ref=e104]:
+            - generic [ref=e105]: Profit Center
+          - cell "WBS" [ref=e106]:
+            - generic [ref=e107]: WBS
+          - cell "Account" [ref=e108]:
+            - generic [ref=e109]: Account
+          - cell "0" [ref=e110]:
+            - generic [ref=e111]: "0"
+          - cell "0" [ref=e112]:
+            - generic [ref=e113]: "0"
+          - cell "0" [ref=e114]:
+            - generic [ref=e115]: "0"
+          - cell "0" [ref=e116]:
+            - generic [ref=e117]: "0"
+          - cell "0" [ref=e118]:
+            - generic [ref=e119]: "0"
+          - cell "0" [ref=e120]:
+            - generic [ref=e121]: "0"
+          - cell "0" [ref=e122]:
+            - generic [ref=e123]: "0"
+          - cell "0" [ref=e124]:
+            - generic [ref=e125]: "0"
+          - cell "0" [ref=e126]:
+            - generic [ref=e127]: "0"
+          - cell "0" [ref=e128]:
+            - generic [ref=e129]: "0"
+          - cell "0" [ref=e130]:
+            - generic [ref=e131]: "0"
+          - cell "0" [ref=e132]:
+            - generic [ref=e133]: "0"
+          - cell "0" [ref=e134]:
+            - generic [ref=e135]: "0"
+          - cell "Click to add" [ref=e136]:
+            - generic [ref=e137]: Click to add
+```

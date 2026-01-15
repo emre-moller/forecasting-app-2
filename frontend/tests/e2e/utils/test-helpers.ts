@@ -12,14 +12,15 @@ export const API_BASE_URL = 'http://localhost:8000/api';
  */
 export async function waitForDashboardLoad(page: Page) {
   await page.waitForLoadState('networkidle');
-  // Wait for the main cards to be visible (using more specific selectors)
-  await expect(page.locator('.ant-statistic-title:has-text("Totalt Prognostisert")')).toBeVisible();
-  await expect(page.locator('.ant-statistic-title:has-text("Avdelinger")')).toBeVisible();
-  await expect(page.locator('.ant-statistic-title:has-text("Prosjekter")')).toBeVisible();
+  // Wait for the main header and tables to be visible
+  await expect(page.locator('h1:has-text("Financial Forecasting Input Tool")')).toBeVisible();
+  await expect(page.locator('text=FORECAST SNAPSHOTS')).toBeVisible();
+  await expect(page.locator('text=Monthly Forecast Input')).toBeVisible();
 }
 
 /**
  * Create a test forecast via API
+ * If a forecast already exists for this project/year, delete it first
  */
 export async function createTestForecast(data: {
   departmentId: string;
@@ -40,6 +41,17 @@ export async function createTestForecast(data: {
   }, {} as Record<string, number>);
 
   const total = monthlyValues.reduce((sum, val) => sum + val, 0);
+  const year = data.year || new Date().getFullYear();
+  const forecastId = `${data.projectId}_${year}`;
+
+  // Delete existing forecast if it exists
+  try {
+    await fetch(`${API_BASE_URL}/forecasts/${forecastId}`, {
+      method: 'DELETE',
+    });
+  } catch (error) {
+    // Ignore errors - forecast might not exist
+  }
 
   const response = await fetch(`${API_BASE_URL}/forecasts`, {
     method: 'POST',
@@ -77,31 +89,40 @@ export async function createTestForecast(data: {
  * Cleans up forecasts for test project IDs (9, 10, and any with test-related names)
  */
 export async function cleanupTestForecasts() {
-  const response = await fetch(`${API_BASE_URL}/forecasts`);
-  const forecasts = await response.json();
-
-  for (const forecast of forecasts) {
-    // Identify test forecasts by project ID (9, 10 are test projects) or name patterns
-    const isTestProject = forecast.project_id === 9 || forecast.project_id === 10;
-    const hasTestPattern = forecast.wbs?.includes('TEST') ||
-        forecast.wbs?.includes('SNAP') ||
-        forecast.wbs?.includes('TECH') ||
-        forecast.wbs?.includes('MARK') ||
-        forecast.wbs?.includes('ORIG') ||
-        forecast.wbs?.includes('DEL') ||
-        forecast.wbs?.includes('MONTH') ||
-        forecast.wbs?.includes('CALC') ||
-        forecast.wbs?.includes('PERSIST') ||
-        forecast.project_name?.includes('Test') ||
-        forecast.project_name?.includes('E2E') ||
-        forecast.project_name?.includes('Tech Project') ||
-        forecast.project_name?.includes('Marketing Project');
-
-    if (isTestProject || hasTestPattern) {
-      await fetch(`${API_BASE_URL}/forecasts/${forecast.id}`, {
-        method: 'DELETE',
-      });
+  try {
+    const response = await fetch(`${API_BASE_URL}/forecasts`);
+    if (!response.ok) {
+      console.error('Failed to fetch forecasts for cleanup');
+      return;
     }
+    const forecasts = await response.json();
+
+    for (const forecast of forecasts) {
+      // Identify test forecasts by project ID (9, 10 are test projects) or name patterns
+      const isTestProject = parseInt(forecast.project_id) === 9 || parseInt(forecast.project_id) === 10;
+      const hasTestPattern = forecast.wbs?.includes('TEST') ||
+          forecast.wbs?.includes('SNAP') ||
+          forecast.wbs?.includes('BULK') ||
+          forecast.wbs?.includes('BATCH') ||
+          forecast.wbs?.includes('CNT') ||
+          forecast.wbs?.includes('APPR') ||
+          forecast.wbs?.includes('NSB') ||
+          forecast.project_name?.includes('Test') ||
+          forecast.project_name?.includes('E2E') ||
+          forecast.project_name?.includes('Bulk') ||
+          forecast.project_name?.includes('Batch') ||
+          forecast.project_name?.includes('Count') ||
+          forecast.project_name?.includes('Approve') ||
+          forecast.project_name?.includes('No Submit Button');
+
+      if (isTestProject || hasTestPattern) {
+        await fetch(`${API_BASE_URL}/forecasts/${forecast.id}`, {
+          method: 'DELETE',
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Error cleaning up test forecasts:', error);
   }
 }
 
@@ -109,15 +130,28 @@ export async function cleanupTestForecasts() {
  * Delete all test snapshots (clean up)
  */
 export async function cleanupTestSnapshots() {
-  const response = await fetch(`${API_BASE_URL}/snapshots`);
-  const snapshots = await response.json();
-
-  for (const snapshot of snapshots) {
-    if (snapshot.submitted_by === 'test-user') {
-      await fetch(`${API_BASE_URL}/snapshots/${snapshot.id}`, {
-        method: 'DELETE',
-      });
+  try {
+    const response = await fetch(`${API_BASE_URL}/snapshots`);
+    if (!response.ok) {
+      console.error('Failed to fetch snapshots for cleanup');
+      return;
     }
+    const snapshots = await response.json();
+
+    for (const snapshot of snapshots) {
+      // Delete snapshots from test users or test projects
+      const isTestSnapshot = snapshot.submitted_by === 'test-user' ||
+        parseInt(snapshot.project_id) === 9 ||
+        parseInt(snapshot.project_id) === 10;
+
+      if (isTestSnapshot) {
+        await fetch(`${API_BASE_URL}/snapshots/${snapshot.id}`, {
+          method: 'DELETE',
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Error cleaning up test snapshots:', error);
   }
 }
 
@@ -245,10 +279,10 @@ export async function tableRowExists(page: Page, rowData: Partial<{
  */
 export async function getForecastCount(page: Page, tableType: 'live' | 'snapshot' = 'live') {
   const tableSelector = tableType === 'live'
-    ? 'text=LIVE FORECASTS >> .. >> table'
-    : 'text=FORECAST SNAPSHOTS >> .. >> table';
+    ? '.forecast-input-section table'
+    : '.dashboard-section table';
 
-  const rows = page.locator(`${tableSelector} tbody tr`);
+  const rows = page.locator(`${tableSelector} tbody tr`).filter({hasNotText: 'Click to add'});
   return rows.count();
 }
 
@@ -258,7 +292,7 @@ export async function getForecastCount(page: Page, tableType: 'live' | 'snapshot
 export async function clickRowAction(
   page: Page,
   rowIdentifier: { projectName?: string; wbs?: string },
-  action: 'Edit' | 'Delete' | 'Submit for Approval' | 'Approve'
+  action: 'Edit' | 'Delete' | 'Approve' | 'Approve All'
 ) {
   let rowSelector = 'table tbody tr';
 

@@ -2,8 +2,9 @@
   width: 100%;
   height: 100%;
   background: #fff;
-  border: 1px solid #d0d7de;
-  border-radius: 2px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .excel-table-wrapper {
@@ -24,21 +25,22 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: #f6f8fa;
+  background: #52c41a;
 }
 
 .excel-table th {
-  padding: 4px 6px;
+  padding: 10px 12px;
   text-align: left;
   font-weight: 600;
-  color: #24292f;
-  background: #f6f8fa;
-  border: 1px solid #d0d7de;
-  border-right: 1px solid #d0d7de;
-  border-bottom: 2px solid #d0d7de;
+  color: white;
+  background: #52c41a;
+  border: 1px solid #52c41a;
+  border-right: 1px solid #52c41a;
   white-space: nowrap;
   user-select: none;
-  font-size: 11px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .excel-table th.sortable {
@@ -46,7 +48,7 @@
 }
 
 .excel-table th.sortable:hover {
-  background: #eaeef2;
+  background: #73d13d;
 }
 
 .header-content {
@@ -57,7 +59,7 @@
 }
 
 .sort-indicator {
-  color: #0969da;
+  color: white;
   font-size: 10px;
 }
 
@@ -121,12 +123,23 @@
 }
 
 .action-btn-edit {
-  color: #0969da;
-  border-color: #0969da;
+  color: #52c41a;
+  border-color: #52c41a;
 }
 
 .action-btn-edit:hover {
-  background: #ddf4ff;
+  background: #f6ffed;
+}
+
+.action-btn-submit {
+  color: white;
+  background: #52c41a;
+  border-color: #52c41a;
+}
+
+.action-btn-submit:hover {
+  background: #73d13d;
+  border-color: #73d13d;
 }
 
 .action-btn-delete {
@@ -187,7 +200,7 @@
 
 /* Editable cell styling */
 .cell-content[style*="cursor: pointer"]:hover {
-  background: #e6f2ff;
+  background: #f6ffed;
   border-radius: 2px;
   transition: background 0.15s ease;
 }
@@ -198,7 +211,7 @@
 
 .excel-table td input:focus {
   background: white;
-  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.15);
+  box-shadow: 0 0 0 3px rgba(82, 196, 26, 0.15);
 }
 
 /* Add row styling */

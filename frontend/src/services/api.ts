@@ -95,6 +95,7 @@ interface ForecastSnapshotResponse {
   total: number;
   yearly_sum: number;
 
+  batch_id: string;
   is_approved: boolean;
   snapshot_date: string;
   submitted_by: string;
@@ -180,6 +181,7 @@ function mapForecastSnapshotFromAPI(data: ForecastSnapshotResponse): ForecastSna
     total: data.total,
     yearlySum: data.yearly_sum,
 
+    batchId: data.batch_id,
     isApproved: data.is_approved,
     snapshotDate: data.snapshot_date,
     submittedBy: data.submitted_by,
@@ -248,7 +250,16 @@ export const forecastsAPI = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(mapForecastToAPI(forecast)),
     });
-    if (!response.ok) throw new Error('Failed to create forecast');
+    if (!response.ok) {
+      let errorDetail = `HTTP ${response.status}`;
+      try {
+        const errorData = await response.json();
+        errorDetail = errorData.detail || errorData.message || errorDetail;
+      } catch (e) {
+        errorDetail = response.statusText || errorDetail;
+      }
+      throw new Error(`Failed to create forecast: ${errorDetail}`);
+    }
     const data: ForecastResponse = await response.json();
     return mapForecastFromAPI(data);
   },
@@ -307,6 +318,27 @@ export const snapshotsAPI = {
     if (!response.ok) throw new Error('Failed to create snapshot');
     const data: ForecastSnapshotResponse = await response.json();
     return mapForecastSnapshotFromAPI(data);
+  },
+
+  async createBulk(departmentId: string): Promise<ForecastSnapshot[]> {
+    const response = await fetch(`${API_BASE_URL}/snapshots/bulk`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ department_id: parseInt(departmentId), submitted_by: 'test-user' }),
+    });
+    if (!response.ok) {
+      let errorDetail = `HTTP ${response.status}`;
+      try {
+        const errorData = await response.json();
+        errorDetail = errorData.detail || errorData.message || errorDetail;
+      } catch (e) {
+        // If response body isn't JSON, use status text
+        errorDetail = response.statusText || errorDetail;
+      }
+      throw new Error(errorDetail);
+    }
+    const data: ForecastSnapshotResponse[] = await response.json();
+    return data.map(mapForecastSnapshotFromAPI);
   },
 
   async approve(snapshotId: string, approvedBy: string): Promise<ForecastSnapshot> {

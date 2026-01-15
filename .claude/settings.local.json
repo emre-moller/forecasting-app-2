@@ -28,7 +28,8 @@
       "Bash(powershell -Command \"Stop-Process -Id 22108 -Force\")",
       "Bash(timeout 240 npx playwright test:*)",
       "Bash(xargs:*)",
-      "Bash(tee:*)"
+      "Bash(tee:*)",
+      "Bash(npm run build:*)"
     ]
   }
 }

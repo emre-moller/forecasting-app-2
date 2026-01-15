@@ -78,6 +78,7 @@ export interface ForecastSnapshot {
   total: number;
   yearlySum: number;
 
+  batchId: string;
   isApproved: boolean;
   snapshotDate: string;
   submittedBy: string;

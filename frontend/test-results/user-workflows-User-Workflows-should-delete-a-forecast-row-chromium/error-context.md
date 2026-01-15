@@ -1,0 +1,165 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - generic [ref=e6]:
+    - heading "Financial Forecasting Input Tool" [level=1] [ref=e7]
+    - paragraph [ref=e8]: Department-Based Forecast Management
+    - generic [ref=e9]:
+      - img "fund" [ref=e10]:
+        - img [ref=e11]
+      - text: Finance
+  - generic [ref=e13]:
+    - generic [ref=e14]:
+      - generic [ref=e15]: "1"
+      - generic [ref=e16]: SELECT DEPARTMENT
+    - generic [ref=e17] [cursor=pointer]:
+      - generic [ref=e18]:
+        - generic "Økonomi" [ref=e19]
+        - combobox [ref=e20]
+      - img "down" [ref=e22]:
+        - img [ref=e23]
+  - generic [ref=e25]:
+    - generic [ref=e26]:
+      - generic [ref=e27]: "2"
+      - generic [ref=e28]: SELECT FORECASTING DIMENSION
+    - generic [ref=e29]:
+      - generic [ref=e30] [cursor=pointer]: By Account
+      - generic [ref=e32] [cursor=pointer]: By WBS Number
+      - generic [ref=e34] [cursor=pointer]: By Project
+  - generic [ref=e36]:
+    - generic [ref=e37]:
+      - img "check-circle" [ref=e38]:
+        - img [ref=e39]
+      - heading "FORECAST SNAPSHOTS" [level=2] [ref=e42]
+    - generic [ref=e44]:
+      - generic [ref=e45]: ✓
+      - generic [ref=e46]: No submitted forecasts yet
+  - generic [ref=e47]:
+    - generic [ref=e48]:
+      - heading "Monthly Forecast Input" [level=2] [ref=e49]
+      - generic [ref=e50]:
+        - button "check-circle SUBMIT ALL FORECASTS" [ref=e51] [cursor=pointer]:
+          - img "check-circle" [ref=e53]:
+            - img [ref=e54]
+          - generic [ref=e57]: SUBMIT ALL FORECASTS
+        - button "plus ADD ROW" [ref=e58] [cursor=pointer]:
+          - img "plus" [ref=e60]:
+            - img [ref=e61]
+          - generic [ref=e64]: ADD ROW
+    - table [ref=e67]:
+      - rowgroup [ref=e68]:
+        - row "PROJECT NAME PROFIT CENTER WBS ACCOUNT JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC YEARLY SUM ACTIONS" [ref=e69]:
+          - columnheader "PROJECT NAME" [ref=e70] [cursor=pointer]:
+            - generic [ref=e71]: PROJECT NAME
+          - columnheader "PROFIT CENTER" [ref=e72] [cursor=pointer]:
+            - generic [ref=e73]: PROFIT CENTER
+          - columnheader "WBS" [ref=e74] [cursor=pointer]:
+            - generic [ref=e75]: WBS
+          - columnheader "ACCOUNT" [ref=e76] [cursor=pointer]:
+            - generic [ref=e77]: ACCOUNT
+          - columnheader "JAN" [ref=e78] [cursor=pointer]:
+            - generic [ref=e79]: JAN
+          - columnheader "FEB" [ref=e80] [cursor=pointer]:
+            - generic [ref=e81]: FEB
+          - columnheader "MAR" [ref=e82] [cursor=pointer]:
+            - generic [ref=e83]: MAR
+          - columnheader "APR" [ref=e84] [cursor=pointer]:
+            - generic [ref=e85]: APR
+          - columnheader "MAY" [ref=e86] [cursor=pointer]:
+            - generic [ref=e87]: MAY
+          - columnheader "JUN" [ref=e88] [cursor=pointer]:
+            - generic [ref=e89]: JUN
+          - columnheader "JUL" [ref=e90] [cursor=pointer]:
+            - generic [ref=e91]: JUL
+          - columnheader "AUG" [ref=e92] [cursor=pointer]:
+            - generic [ref=e93]: AUG
+          - columnheader "SEP" [ref=e94] [cursor=pointer]:
+            - generic [ref=e95]: SEP
+          - columnheader "OCT" [ref=e96] [cursor=pointer]:
+            - generic [ref=e97]: OCT
+          - columnheader "NOV" [ref=e98] [cursor=pointer]:
+            - generic [ref=e99]: NOV
+          - columnheader "DEC" [ref=e100] [cursor=pointer]:
+            - generic [ref=e101]: DEC
+          - columnheader "YEARLY SUM" [ref=e102] [cursor=pointer]:
+            - generic [ref=e103]: YEARLY SUM
+          - columnheader "ACTIONS" [ref=e104]:
+            - generic [ref=e105]: ACTIONS
+      - rowgroup [ref=e106]:
+        - row "Project Name Profit Center WBS Account 0 0 0 0 0 0 0 0 0 0 0 0 0 Click to add" [ref=e107] [cursor=pointer]:
+          - cell "Project Name" [ref=e108]:
+            - generic [ref=e109]: Project Name
+          - cell "Profit Center" [ref=e110]:
+            - generic [ref=e111]: Profit Center
+          - cell "WBS" [ref=e112]:
+            - generic [ref=e113]: WBS
+          - cell "Account" [ref=e114]:
+            - generic [ref=e115]: Account
+          - cell "0" [ref=e116]:
+            - generic [ref=e117]: "0"
+          - cell "0" [ref=e118]:
+            - generic [ref=e119]: "0"
+          - cell "0" [ref=e120]:
+            - generic [ref=e121]: "0"
+          - cell "0" [ref=e122]:
+            - generic [ref=e123]: "0"
+          - cell "0" [ref=e124]:
+            - generic [ref=e125]: "0"
+          - cell "0" [ref=e126]:
+            - generic [ref=e127]: "0"
+          - cell "0" [ref=e128]:
+            - generic [ref=e129]: "0"
+          - cell "0" [ref=e130]:
+            - generic [ref=e131]: "0"
+          - cell "0" [ref=e132]:
+            - generic [ref=e133]: "0"
+          - cell "0" [ref=e134]:
+            - generic [ref=e135]: "0"
+          - cell "0" [ref=e136]:
+            - generic [ref=e137]: "0"
+          - cell "0" [ref=e138]:
+            - generic [ref=e139]: "0"
+          - cell "0" [ref=e140]:
+            - generic [ref=e141]: "0"
+          - cell "Click to add" [ref=e142]:
+            - generic [ref=e143]: Click to add
+        - row "Delete Me PC-DEL-001 WBS-DEL ACC-DEL-001 100 000 100 000 100 000 100 000 100 000 100 000 100 000 100 000 100 000 100 000 100 000 100 000 1 200 000 Delete" [ref=e144]:
+          - cell "Delete Me" [ref=e145]:
+            - generic "Click to edit" [ref=e146] [cursor=pointer]: Delete Me
+          - cell "PC-DEL-001" [ref=e147]:
+            - generic "Click to edit" [ref=e148] [cursor=pointer]: PC-DEL-001
+          - cell "WBS-DEL" [ref=e149]:
+            - generic "Click to edit" [ref=e150] [cursor=pointer]: WBS-DEL
+          - cell "ACC-DEL-001" [ref=e151]:
+            - generic "Click to edit" [ref=e152] [cursor=pointer]: ACC-DEL-001
+          - cell "100 000" [ref=e153]:
+            - generic "Click to edit" [ref=e154] [cursor=pointer]: 100 000
+          - cell "100 000" [ref=e155]:
+            - generic "Click to edit" [ref=e156] [cursor=pointer]: 100 000
+          - cell "100 000" [ref=e157]:
+            - generic "Click to edit" [ref=e158] [cursor=pointer]: 100 000
+          - cell "100 000" [ref=e159]:
+            - generic "Click to edit" [ref=e160] [cursor=pointer]: 100 000
+          - cell "100 000" [ref=e161]:
+            - generic "Click to edit" [ref=e162] [cursor=pointer]: 100 000
+          - cell "100 000" [ref=e163]:
+            - generic "Click to edit" [ref=e164] [cursor=pointer]: 100 000
+          - cell "100 000" [ref=e165]:
+            - generic "Click to edit" [ref=e166] [cursor=pointer]: 100 000
+          - cell "100 000" [ref=e167]:
+            - generic "Click to edit" [ref=e168] [cursor=pointer]: 100 000
+          - cell "100 000" [ref=e169]:
+            - generic "Click to edit" [ref=e170] [cursor=pointer]: 100 000
+          - cell "100 000" [ref=e171]:
+            - generic "Click to edit" [ref=e172] [cursor=pointer]: 100 000
+          - cell "100 000" [ref=e173]:
+            - generic "Click to edit" [ref=e174] [cursor=pointer]: 100 000
+          - cell "100 000" [ref=e175]:
+            - generic "Click to edit" [ref=e176] [cursor=pointer]: 100 000
+          - cell "1 200 000" [ref=e177]:
+            - generic "Click to edit and distribute across months" [ref=e178] [cursor=pointer]:
+              - strong [ref=e179]: 1 200 000
+          - cell "Delete" [ref=e180]:
+            - button "Delete" [active] [ref=e182] [cursor=pointer]
+```

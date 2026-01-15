@@ -43,7 +43,10 @@ def create_forecast(
         raise HTTPException(status_code=404, detail="Project not found")
 
     repo = ForecastRepository(db)
-    return repo.create(forecast, created_by="Current User")
+    try:
+        return repo.create(forecast, created_by="Current User")
+    except ValueError as e:
+        raise HTTPException(status_code=409, detail=str(e))
 
 
 @router.put("/{forecast_id}", response_model=schemas.Forecast)

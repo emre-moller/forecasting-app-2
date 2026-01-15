@@ -14,17 +14,15 @@ interface LiveForecastsTableProps {
   data: Forecast[];
   onEdit?: (forecast: Forecast) => void;
   onDelete?: (forecastId: string) => void;
-  onSubmitForApproval?: (forecastId: string) => void;
   onUpdate?: (forecastId: string, field: string, value: any) => void;
   onBatchUpdate?: (forecastId: string, updates: Record<string, any>) => void;
-  onAddRow?: () => void;
+  onAddRow?: () => Promise<string | null>;
 }
 
 export const LiveForecastsTable = ({
   data,
   onEdit,
   onDelete,
-  onSubmitForApproval,
   onUpdate,
   onBatchUpdate,
   onAddRow
@@ -69,11 +67,19 @@ export const LiveForecastsTable = ({
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, rowId: string, columnId: string, value: string, originalValue: any) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, _rowId: string, _columnId: string, _value: string, _originalValue: any) => {
     if (e.key === 'Enter') {
       e.currentTarget.blur();
     } else if (e.key === 'Escape') {
       setEditingCell(null);
+    }
+  };
+
+  const handlePlaceholderCellClick = async (columnId: string) => {
+    if (!onAddRow) return;
+    const newRowId = await onAddRow();
+    if (newRowId) {
+      setEditingCell({ rowId: newRowId, columnId });
     }
   };
 
@@ -93,7 +99,7 @@ export const LiveForecastsTable = ({
           style={{
             width: '100%',
             padding: '8px 12px',
-            border: '2px solid #0969da',
+            border: '2px solid #52c41a',
             borderRadius: '2px',
             fontSize: '13px',
             fontFamily: isNumeric ? "'Consolas', 'Monaco', monospace" : 'inherit',
@@ -236,7 +242,7 @@ export const LiveForecastsTable = ({
                 style={{
                   width: '100%',
                   padding: '8px 12px',
-                  border: '2px solid #0969da',
+                  border: '2px solid #52c41a',
                   borderRadius: '2px',
                   fontSize: '13px',
                   fontFamily: "'Consolas', 'Monaco', monospace",
@@ -265,18 +271,9 @@ export const LiveForecastsTable = ({
       {
         id: 'actions',
         header: 'ACTIONS',
-        size: 150,
+        size: 80,
         cell: (info) => (
           <div className="cell-content cell-actions">
-            {onSubmitForApproval && (
-              <button
-                className="action-btn action-btn-submit"
-                onClick={() => onSubmitForApproval(info.row.original.id)}
-                style={{ backgroundColor: '#0969da', color: 'white' }}
-              >
-                Submit
-              </button>
-            )}
             {onDelete && (
               <button
                 className="action-btn action-btn-delete"
@@ -289,7 +286,7 @@ export const LiveForecastsTable = ({
         ),
       },
     ],
-    [onEdit, onDelete, onSubmitForApproval, onUpdate, onBatchUpdate, editingCell]
+    [onEdit, onDelete, onUpdate, onBatchUpdate, editingCell]
   );
 
   const table = useReactTable({
@@ -332,60 +329,60 @@ export const LiveForecastsTable = ({
           </thead>
           <tbody>
             {onAddRow && (
-              <tr className="add-row" onClick={onAddRow}>
-                <td style={{ width: 130 }}>
+              <tr className="add-row">
+                <td style={{ width: 130 }} onClick={() => handlePlaceholderCellClick('projectName')}>
                   <div className="cell-content placeholder-cell">Project Name</div>
                 </td>
-                <td style={{ width: 100 }}>
+                <td style={{ width: 100 }} onClick={() => handlePlaceholderCellClick('profitCenter')}>
                   <div className="cell-content placeholder-cell">Profit Center</div>
                 </td>
-                <td style={{ width: 90 }}>
+                <td style={{ width: 90 }} onClick={() => handlePlaceholderCellClick('wbs')}>
                   <div className="cell-content placeholder-cell">WBS</div>
                 </td>
-                <td style={{ width: 90 }}>
+                <td style={{ width: 90 }} onClick={() => handlePlaceholderCellClick('account')}>
                   <div className="cell-content placeholder-cell">Account</div>
                 </td>
-                <td style={{ width: 70 }}>
+                <td style={{ width: 70 }} onClick={() => handlePlaceholderCellClick('jan')}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 70 }}>
+                <td style={{ width: 70 }} onClick={() => handlePlaceholderCellClick('feb')}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 70 }}>
+                <td style={{ width: 70 }} onClick={() => handlePlaceholderCellClick('mar')}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 70 }}>
+                <td style={{ width: 70 }} onClick={() => handlePlaceholderCellClick('apr')}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 70 }}>
+                <td style={{ width: 70 }} onClick={() => handlePlaceholderCellClick('may')}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 70 }}>
+                <td style={{ width: 70 }} onClick={() => handlePlaceholderCellClick('jun')}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 70 }}>
+                <td style={{ width: 70 }} onClick={() => handlePlaceholderCellClick('jul')}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 70 }}>
+                <td style={{ width: 70 }} onClick={() => handlePlaceholderCellClick('aug')}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 70 }}>
+                <td style={{ width: 70 }} onClick={() => handlePlaceholderCellClick('sep')}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 70 }}>
+                <td style={{ width: 70 }} onClick={() => handlePlaceholderCellClick('oct')}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 70 }}>
+                <td style={{ width: 70 }} onClick={() => handlePlaceholderCellClick('nov')}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 70 }}>
+                <td style={{ width: 70 }} onClick={() => handlePlaceholderCellClick('dec')}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 90 }}>
+                <td style={{ width: 90 }} onClick={() => handlePlaceholderCellClick('yearlySum')}>
                   <div className="cell-content cell-number placeholder-cell">0</div>
                 </td>
-                <td style={{ width: 150 }}>
-                  <div className="cell-content placeholder-cell">Click to add</div>
+                <td style={{ width: 80 }}>
+                  <div className="cell-content placeholder-cell"></div>
                 </td>
               </tr>
             )}

@@ -79,6 +79,14 @@ class ForecastRepository:
         # Determine the year (default to 2026 for now, could be passed in forecast data)
         year = 2026
 
+        # Check if forecast already exists for this project and year
+        existing = self.db.query(database.ForecastMonth)\
+            .filter_by(project_id=forecast.project_id, year=year)\
+            .first()
+
+        if existing:
+            raise ValueError(f"Forecast already exists for project_id={forecast.project_id}, year={year}")
+
         # Transform yearly data to monthly records
         monthly_data = yearly_forecast_to_monthly_records(
             forecast.model_dump(),
@@ -252,7 +260,7 @@ class ForecastSnapshotRepository:
 
         return snapshots
 
-    def create_from_forecast(self, project_id: int, year: int, submitted_by: str) -> schemas.ForecastSnapshot:
+    def create_from_forecast(self, project_id: int, year: int, submitted_by: str, batch_id: str) -> schemas.ForecastSnapshot:
         """
         Create a snapshot from a forecast identified by project_id and year.
         Creates snapshot header + 12 monthly snapshot records.
@@ -271,6 +279,7 @@ class ForecastSnapshotRepository:
             department_id=source_months[0].department_id,
             project_id=project_id,
             year=year,
+            batch_id=batch_id,
             submitted_by=submitted_by,
             is_approved=False
         )
@@ -296,6 +305,40 @@ class ForecastSnapshotRepository:
         # Return as yearly view
         yearly_dict = snapshot_header_to_yearly_view(header)
         return schemas.ForecastSnapshot(**yearly_dict)
+
+    def create_bulk_snapshots(self, department_id: int, submitted_by: str) -> List[schemas.ForecastSnapshot]:
+        """
+        Create snapshots for all forecasts in a department.
+        All snapshots will share the same batch_id (generated from timestamp).
+        Returns list of created snapshots.
+        """
+        from uuid import uuid4
+
+        # Generate a unique batch ID
+        batch_id = f"{department_id}_{int(datetime.now(UTC).timestamp())}_{uuid4().hex[:8]}"
+
+        # Get all unique (project_id, year) combinations for this department
+        unique_forecasts = self.db.query(
+            database.ForecastMonth.project_id,
+            database.ForecastMonth.year
+        ).filter(
+            database.ForecastMonth.department_id == department_id
+        ).distinct().all()
+
+        if not unique_forecasts:
+            raise ValueError(f"No forecasts found for department_id={department_id}")
+
+        snapshots = []
+        for project_id, year in unique_forecasts:
+            snapshot = self.create_from_forecast(
+                project_id=project_id,
+                year=year,
+                submitted_by=submitted_by,
+                batch_id=batch_id
+            )
+            snapshots.append(snapshot)
+
+        return snapshots
 
     def approve(self, snapshot_id: int, approved_by: str) -> Optional[schemas.ForecastSnapshot]:
         """Approve a snapshot by updating approval fields."""

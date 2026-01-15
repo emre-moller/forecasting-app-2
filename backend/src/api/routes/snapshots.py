@@ -18,22 +18,15 @@ def get_snapshots(db: Session = Depends(get_db)):
     return repo.get_all()
 
 
-@router.get("/{snapshot_id}", response_model=schemas.ForecastSnapshot)
-def get_snapshot(snapshot_id: int, db: Session = Depends(get_db)):
-    """Get a specific snapshot by ID"""
-    repo = ForecastSnapshotRepository(db)
-    snapshot = repo.get_by_id(snapshot_id)
-    if not snapshot:
-        raise HTTPException(status_code=404, detail="Snapshot not found")
-    return snapshot
-
-
 @router.post("", response_model=schemas.ForecastSnapshot, status_code=201)
 def create_snapshot(
     snapshot_data: schemas.ForecastSnapshotCreate,
     db: Session = Depends(get_db)
 ):
-    """Create a snapshot from a forecast (submit for approval)"""
+    """Create a snapshot from a forecast (submit for approval) - DEPRECATED: Use bulk endpoint instead"""
+    from datetime import UTC, datetime
+    from uuid import uuid4
+
     forecast_repo = ForecastRepository(db)
     snapshot_repo = ForecastSnapshotRepository(db)
 
@@ -48,12 +41,44 @@ def create_snapshot(
     if not forecast:
         raise HTTPException(status_code=404, detail="Forecast not found")
 
+    # Generate a batch ID (single item batch)
+    batch_id = f"{forecast.departmentId}_{int(datetime.now(UTC).timestamp())}_{uuid4().hex[:8]}"
+
     # Create the snapshot from project_id and year
     snapshot = snapshot_repo.create_from_forecast(
         project_id=project_id,
         year=year,
-        submitted_by=snapshot_data.submitted_by
+        submitted_by=snapshot_data.submitted_by,
+        batch_id=batch_id
     )
+    return snapshot
+
+
+@router.post("/bulk", response_model=List[schemas.ForecastSnapshot], status_code=201)
+def create_bulk_snapshots(
+    snapshot_data: schemas.BulkSnapshotCreate,
+    db: Session = Depends(get_db)
+):
+    """Create snapshots for all forecasts in a department"""
+    snapshot_repo = ForecastSnapshotRepository(db)
+
+    try:
+        snapshots = snapshot_repo.create_bulk_snapshots(
+            department_id=snapshot_data.department_id,
+            submitted_by=snapshot_data.submitted_by
+        )
+        return snapshots
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+@router.get("/{snapshot_id}", response_model=schemas.ForecastSnapshot)
+def get_snapshot(snapshot_id: int, db: Session = Depends(get_db)):
+    """Get a specific snapshot by ID"""
+    repo = ForecastSnapshotRepository(db)
+    snapshot = repo.get_by_id(snapshot_id)
+    if not snapshot:
+        raise HTTPException(status_code=404, detail="Snapshot not found")
     return snapshot
 
 

@@ -190,6 +190,7 @@ def snapshot_header_to_yearly_view(snapshot_header: Any) -> Dict[str, Any]:
     # Add snapshot-specific fields from header
     yearly['id'] = snapshot_header.id
     yearly['forecast_id'] = encode_forecast_id(snapshot_header.project_id, snapshot_header.year)
+    yearly['batch_id'] = snapshot_header.batch_id
     yearly['is_approved'] = snapshot_header.is_approved
     yearly['snapshot_date'] = snapshot_header.snapshot_date
     yearly['submitted_by'] = snapshot_header.submitted_by

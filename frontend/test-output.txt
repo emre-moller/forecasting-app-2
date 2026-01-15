@@ -1,0 +1,704 @@
+
+Running 19 tests using 4 workers
+
+[1A[2K[1/19] [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:43:3 › Bulk Snapshot Submission › should enable submit button when department is selected and forecasts exist
+[1A[2K[2/19] [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:30:3 › Bulk Snapshot Submission › should display "Submit All Forecasts" button
+[1A[2K[3/19] [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:127:3 › Bulk Snapshot Submission › should display snapshots grouped by batch in expandable rows
+[1A[2K[4/19] [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:218:3 › Bulk Snapshot Submission › should allow approving all forecasts in a batch
+[1A[2K[chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:43:3 › Bulk Snapshot Submission › should enable submit button when department is selected and forecasts exist
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Test Bulk Submission'[39m,
+  profit_center: [32m'PC-TEST-001'[39m,
+  wbs: [32m'WBS-BULK-TEST'[39m,
+  account: [32m'ACC-TEST-001'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-14'[39m,
+  updated_at: [32m'2026-01-14'[39m
+}
+
+
+[1A[2K[chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:127:3 › Bulk Snapshot Submission › should display snapshots grouped by batch in expandable rows
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Test Batch Forecast 1'[39m,
+  profit_center: [32m'PC-BATCH-001'[39m,
+  wbs: [32m'WBS-BATCH-1'[39m,
+  account: [32m'ACC-BATCH-001'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-14'[39m,
+  updated_at: [32m'2026-01-14'[39m
+}
+
+[1A[2KCreated forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Test Batch Forecast 2'[39m,
+  profit_center: [32m'PC-BATCH-002'[39m,
+  wbs: [32m'WBS-BATCH-2'[39m,
+  account: [32m'ACC-BATCH-002'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-14'[39m,
+  updated_at: [32m'2026-01-14'[39m
+}
+
+[1A[2K[5/19] [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:36:3 › Bulk Snapshot Submission › should disable submit button when no department is selected
+[1A[2K  1) [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:218:3 › Bulk Snapshot Submission › should allow approving all forecasts in a batch 
+
+    Error: Failed to create test forecast: 500 Internal Server Error - Internal Server Error
+
+       at utils\test-helpers.ts:67
+
+      65 |       body: errorText
+      66 |     });
+    > 67 |     throw new Error(`Failed to create test forecast: ${response.status} ${response.statusText} - ${errorText}`);
+         |           ^
+      68 |   }
+      69 |
+      70 |   const result = await response.json();
+        at createTestForecast (C:\Dev\forecasting-app-2\frontend\tests\e2e\utils\test-helpers.ts:67:11)
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\bulk-snapshot-submission.spec.ts:226:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\bulk-snapshot-submission-B-ce10c-ng-all-forecasts-in-a-batch-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\bulk-snapshot-submission-B-ce10c-ng-all-forecasts-in-a-batch-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\bulk-snapshot-submission-B-ce10c-ng-all-forecasts-in-a-batch-chromium\error-context.md
+
+
+[1A[2K[6/19] [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:262:3 › Bulk Snapshot Submission › should not show individual Submit buttons in live forecasts table
+[1A[2K[7/19] [chromium] › tests\e2e\filtering-aggregation.spec.ts:22:3 › Filtering and Aggregation › should display department totals correctly
+[1A[2K[chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:262:3 › Bulk Snapshot Submission › should not show individual Submit buttons in live forecasts table
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'No Submit Button Test'[39m,
+  profit_center: [32m'PC-NSB-001'[39m,
+  wbs: [32m'WBS-NSB'[39m,
+  account: [32m'ACC-NSB-001'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-14'[39m,
+  updated_at: [32m'2026-01-14'[39m
+}
+
+[1A[2K  2) [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:127:3 › Bulk Snapshot Submission › should display snapshots grouped by batch in expandable rows 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThan[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: > [32m0[39m
+    Received:   [31m0[39m
+
+      167 |     const expandButtons = page.locator('text=FORECAST SNAPSHOTS >> .. >> table tbody tr button').filter({hasText: /▶|▼/});
+      168 |     const batchCount = await expandButtons.count();
+    > 169 |     expect(batchCount).toBeGreaterThan(0);
+          |                        ^
+      170 |
+      171 |     // Click the first expand button
+      172 |     await expandButtons.first().click();
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\bulk-snapshot-submission.spec.ts:169:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\bulk-snapshot-submission-B-8735e-by-batch-in-expandable-rows-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\bulk-snapshot-submission-B-8735e-by-batch-in-expandable-rows-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\bulk-snapshot-submission-B-8735e-by-batch-in-expandable-rows-chromium\error-context.md
+
+
+[1A[2K[8/19] [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:179:3 › Bulk Snapshot Submission › should show forecast count badge in batch row
+[1A[2K[chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:179:3 › Bulk Snapshot Submission › should show forecast count badge in batch row
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Count Test 1'[39m,
+  profit_center: [32m'PC-CNT-001'[39m,
+  wbs: [32m'WBS-CNT-1'[39m,
+  account: [32m'ACC-CNT-001'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-14'[39m,
+  updated_at: [32m'2026-01-14'[39m
+}
+
+[1A[2KCreated forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Count Test 2'[39m,
+  profit_center: [32m'PC-CNT-002'[39m,
+  wbs: [32m'WBS-CNT-2'[39m,
+  account: [32m'ACC-CNT-002'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-14'[39m,
+  updated_at: [32m'2026-01-14'[39m
+}
+
+[1A[2K  3) [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:43:3 › Bulk Snapshot Submission › should enable submit button when department is selected and forecasts exist 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('text=Monthly Forecast Input').locator('..').locator('table tbody tr').first()
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('text=Monthly Forecast Input').locator('..').locator('table tbody tr').first()[22m
+
+
+      76 |
+      77 |     // Verify at least one forecast row exists
+    > 78 |     await expect(page.locator('text=Monthly Forecast Input >> .. >> table tbody tr').first()).toBeVisible();
+         |                                                                                               ^
+      79 |
+      80 |     // Button should now be enabled
+      81 |     const submitButton = page.locator('button:has-text("SUBMIT ALL FORECASTS")');
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\bulk-snapshot-submission.spec.ts:78:95
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\bulk-snapshot-submission-B-fea7d-elected-and-forecasts-exist-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\bulk-snapshot-submission-B-fea7d-elected-and-forecasts-exist-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\bulk-snapshot-submission-B-fea7d-elected-and-forecasts-exist-chromium\error-context.md
+
+
+[1A[2K[9/19] [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:77:3 › Bulk Snapshot Submission › should submit all forecasts for selected department
+[1A[2K  4) [chromium] › tests\e2e\filtering-aggregation.spec.ts:22:3 › Filtering and Aggregation › should display department totals correctly 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('text=Monthly Forecast Input').locator('..').locator('table')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('text=Monthly Forecast Input').locator('..').locator('table')[22m
+
+
+      37 |
+      38 |     // Verify forecasts table exists
+    > 39 |     await expect(page.locator('text=Monthly Forecast Input >> .. >> table')).toBeVisible();
+         |                                                                              ^
+      40 |
+      41 |     // If department totals are shown in the UI, verify them here
+      42 |     // For now, we just verify the page is functional
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\filtering-aggregation.spec.ts:39:78
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-a1642-department-totals-correctly-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-a1642-department-totals-correctly-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\filtering-aggregation-Filt-a1642-department-totals-correctly-chromium\error-context.md
+
+
+[1A[2K  5) [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:262:3 › Bulk Snapshot Submission › should not show individual Submit buttons in live forecasts table 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('text=Monthly Forecast Input').locator('..').locator('table').locator('button:has-text("Delete")').first()
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('text=Monthly Forecast Input').locator('..').locator('table').locator('button:has-text("Delete")').first()[22m
+
+
+      291 |     // But Delete buttons should still exist
+      292 |     const deleteButtons = liveTable.locator('button:has-text("Delete")');
+    > 293 |     await expect(deleteButtons.first()).toBeVisible();
+          |                                         ^
+      294 |   });
+      295 | });
+      296 |
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\bulk-snapshot-submission.spec.ts:293:41
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\bulk-snapshot-submission-B-498d5-ons-in-live-forecasts-table-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\bulk-snapshot-submission-B-498d5-ons-in-live-forecasts-table-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\bulk-snapshot-submission-B-498d5-ons-in-live-forecasts-table-chromium\error-context.md
+
+
+[1A[2K[chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:77:3 › Bulk Snapshot Submission › should submit all forecasts for selected department
+Created forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m9[39m,
+  project_name: [32m'Test Forecast 1'[39m,
+  profit_center: [32m'PC-TEST-001'[39m,
+  wbs: [32m'WBS-BULK-1'[39m,
+  account: [32m'ACC-TEST-001'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'9_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-14'[39m,
+  updated_at: [32m'2026-01-14'[39m
+}
+
+[1A[2KCreated forecast: {
+  department_id: [33m5[39m,
+  project_id: [33m10[39m,
+  project_name: [32m'Test Forecast 2'[39m,
+  profit_center: [32m'PC-TEST-002'[39m,
+  wbs: [32m'WBS-BULK-2'[39m,
+  account: [32m'ACC-TEST-002'[39m,
+  jan: [33m100000[39m,
+  feb: [33m100000[39m,
+  mar: [33m100000[39m,
+  apr: [33m100000[39m,
+  may: [33m100000[39m,
+  jun: [33m100000[39m,
+  jul: [33m100000[39m,
+  aug: [33m100000[39m,
+  sep: [33m100000[39m,
+  oct: [33m100000[39m,
+  nov: [33m100000[39m,
+  dec: [33m100000[39m,
+  total: [33m1200000[39m,
+  yearly_sum: [33m1200000[39m,
+  id: [32m'10_2026'[39m,
+  created_by: [32m'Current User'[39m,
+  created_at: [32m'2026-01-14'[39m,
+  updated_at: [32m'2026-01-14'[39m
+}
+
+[1A[2K[10/19] [chromium] › tests\e2e\filtering-aggregation.spec.ts:40:3 › Filtering and Aggregation › should display project totals correctly
+[1A[2K[11/19] [chromium] › tests\e2e\forecast-crud.spec.ts:23:3 › Forecast CRUD Operations › should display the dashboard with statistics
+[1A[2K  6) [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:77:3 › Bulk Snapshot Submission › should submit all forecasts for selected department 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThan[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: > [32m0[39m
+    Received:   [31m0[39m
+
+      111 |     const liveForecasts = page.locator('text=Monthly Forecast Input >> .. >> table tbody tr').filter({hasNotText: 'Click to add'});
+      112 |     const forecastCount = await liveForecasts.count();
+    > 113 |     expect(forecastCount).toBeGreaterThan(0);
+          |                           ^
+      114 |
+      115 |     // Click submit all button
+      116 |     const submitButton = page.locator('button:has-text("SUBMIT ALL FORECASTS")');
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\bulk-snapshot-submission.spec.ts:113:27
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\bulk-snapshot-submission-B-d27b0-sts-for-selected-department-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\bulk-snapshot-submission-B-d27b0-sts-for-selected-department-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\bulk-snapshot-submission-B-d27b0-sts-for-selected-department-chromium\error-context.md
+
+
+[1A[2K[12/19] [chromium] › tests\e2e\forecast-crud.spec.ts:54:3 › Forecast CRUD Operations › should show empty state when no forecasts exist
+[1A[2K[13/19] [chromium] › tests\e2e\forecast-crud.spec.ts:37:3 › Forecast CRUD Operations › should display all 12 monthly columns in the table
+[1A[2K[14/19] [chromium] › tests\e2e\forecast-crud.spec.ts:64:3 › Forecast CRUD Operations › should persist data after page reload
+[1A[2K  7) [chromium] › tests\e2e\filtering-aggregation.spec.ts:40:3 › Filtering and Aggregation › should display project totals correctly 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('text=Monthly Forecast Input').locator('..').locator('table')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('text=Monthly Forecast Input').locator('..').locator('table')[22m
+
+
+      49 |
+      50 |     // Verify forecasts table exists
+    > 51 |     await expect(page.locator('text=Monthly Forecast Input >> .. >> table')).toBeVisible();
+         |                                                                              ^
+      52 |
+      53 |     // If project totals are shown in the UI, verify them here
+      54 |   });
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\filtering-aggregation.spec.ts:51:78
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-dfa01-ay-project-totals-correctly-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\filtering-aggregation-Filt-dfa01-ay-project-totals-correctly-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\filtering-aggregation-Filt-dfa01-ay-project-totals-correctly-chromium\error-context.md
+
+
+[1A[2K[15/19] [chromium] › tests\e2e\form-validation.spec.ts:16:3 › Form Validation and Error Handling › should validate required fields
+[1A[2K[16/19] [chromium] › tests\e2e\form-validation.spec.ts:30:3 › Form Validation and Error Handling › should handle special characters in text fields
+[1A[2K  8) [chromium] › tests\e2e\forecast-crud.spec.ts:37:3 › Forecast CRUD Operations › should display all 12 monthly columns in the table 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('text=Monthly Forecast Input').locator('..').locator('table th').filter({ hasText: 'JAN' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('text=Monthly Forecast Input').locator('..').locator('table th').filter({ hasText: 'JAN' })[22m
+
+
+      49 |
+      50 |     for (const month of months) {
+    > 51 |       await expect(page.locator('text=Monthly Forecast Input >> .. >> table th').filter({hasText: month})).toBeVisible();
+         |                                                                                                            ^
+      52 |     }
+      53 |
+      54 |     // Verify Yearly Sum column
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\forecast-crud.spec.ts:51:108
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\forecast-crud-Forecast-CRU-36542-onthly-columns-in-the-table-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\forecast-crud-Forecast-CRU-36542-onthly-columns-in-the-table-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\forecast-crud-Forecast-CRU-36542-onthly-columns-in-the-table-chromium\error-context.md
+
+
+[1A[2K[17/19] [chromium] › tests\e2e\form-validation.spec.ts:42:3 › Form Validation and Error Handling › should handle very long text in text fields
+[1A[2K  9) [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:179:3 › Bulk Snapshot Submission › should show forecast count badge in batch row 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('button:has-text("SUBMIT ALL FORECASTS")')[22m
+    [2m    - locator resolved to <button disabled type="button" class="ant-btn css-var-root ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-lg">…</button>[22m
+    [2m  - attempting click action[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is not enabled[22m
+    [2m    - retrying click action[22m
+    [2m    - waiting 20ms[22m
+    [2m    2 × waiting for element to be visible, enabled and stable[22m
+    [2m      - element is not enabled[22m
+    [2m    - retrying click action[22m
+    [2m      - waiting 100ms[22m
+    [2m    50 × waiting for element to be visible, enabled and stable[22m
+    [2m       - element is not enabled[22m
+    [2m     - retrying click action[22m
+    [2m       - waiting 500ms[22m
+
+
+      207 |     const submitButton = page.locator('button:has-text("SUBMIT ALL FORECASTS")');
+      208 |     page.on('dialog', dialog => dialog.accept());
+    > 209 |     await submitButton.click();
+          |                        ^
+      210 |     await page.waitForTimeout(1000);
+      211 |
+      212 |     // Reload and check batch row
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\bulk-snapshot-submission.spec.ts:209:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\bulk-snapshot-submission-B-d0604-st-count-badge-in-batch-row-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\bulk-snapshot-submission-B-d0604-st-count-badge-in-batch-row-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\bulk-snapshot-submission-B-d0604-st-count-badge-in-batch-row-chromium\error-context.md
+
+
+[1A[2K[18/19] [chromium] › tests\e2e\form-validation.spec.ts:53:3 › Form Validation and Error Handling › should trim whitespace from text inputs
+[1A[2K  10) [chromium] › tests\e2e\form-validation.spec.ts:16:3 › Form Validation and Error Handling › should validate required fields 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('button:has-text("Opprett")')[22m
+
+
+      19 |
+      20 |     // Try to submit empty form
+    > 21 |     await page.locator('button:has-text("Opprett")').click();
+         |                                                      ^
+      22 |
+      23 |     // Modal should still be open (validation failed)
+      24 |     await expect(page.locator('text=Ny Utgiftsprognose')).toBeVisible();
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:21:54
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-5e1ff-ld-validate-required-fields-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-5e1ff-ld-validate-required-fields-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-5e1ff-ld-validate-required-fields-chromium\error-context.md
+
+
+[1A[2K  11) [chromium] › tests\e2e\form-validation.spec.ts:30:3 › Form Validation and Error Handling › should handle special characters in text fields 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[placeholder="Enter project name"]')[22m
+
+
+      32 |
+      33 |     // Enter special characters in project name
+    > 34 |     await page.locator('input[placeholder="Enter project name"]').fill('Test!@#$%^&*()_+-={}[]|;:,.<>?');
+         |                                                                   ^
+      35 |
+      36 |     const value = await page.locator('input[placeholder="Enter project name"]').inputValue();
+      37 |
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:34:67
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-8483f-l-characters-in-text-fields-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-8483f-l-characters-in-text-fields-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-8483f-l-characters-in-text-fields-chromium\error-context.md
+
+
+[1A[2K[19/19] [chromium] › tests\e2e\form-validation.spec.ts:65:3 › Form Validation and Error Handling › should handle clicking outside modal
+[1A[2K  12) [chromium] › tests\e2e\form-validation.spec.ts:42:3 › Form Validation and Error Handling › should handle very long text in text fields 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[placeholder="Enter project name"]')[22m
+
+
+      45 |     const longText = 'A'.repeat(500);
+      46 |
+    > 47 |     await page.locator('input[placeholder="Enter project name"]').fill(longText);
+         |                                                                   ^
+      48 |
+      49 |     const value = await page.locator('input[placeholder="Enter project name"]').inputValue();
+      50 |
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:47:67
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-e202f-ry-long-text-in-text-fields-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-e202f-ry-long-text-in-text-fields-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-e202f-ry-long-text-in-text-fields-chromium\error-context.md
+
+
+[1A[2K  13) [chromium] › tests\e2e\form-validation.spec.ts:65:3 › Form Validation and Error Handling › should handle clicking outside modal 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('text=Ny Utgiftsprognose')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('text=Ny Utgiftsprognose')[22m
+
+
+      68 |     await page.locator('button:has-text("ADD ROW")').click();
+      69 |
+    > 70 |     await expect(page.locator('text=Ny Utgiftsprognose')).toBeVisible();
+         |                                                           ^
+      71 |
+      72 |     // Click on the backdrop/overlay (outside modal)
+      73 |     // This depends on Ant Design modal implementation
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:70:59
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-d49fb-ndle-clicking-outside-modal-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-d49fb-ndle-clicking-outside-modal-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-d49fb-ndle-clicking-outside-modal-chromium\error-context.md
+
+
+[1A[2K  14) [chromium] › tests\e2e\form-validation.spec.ts:53:3 › Form Validation and Error Handling › should trim whitespace from text inputs 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[placeholder="Enter project name"]')[22m
+
+
+      57 |
+      58 |     // Enter text with leading/trailing spaces
+    > 59 |     await page.locator('input[placeholder="Enter project name"]').fill('  Test Project  ');
+         |                                                                   ^
+      60 |
+      61 |     const value = await page.locator('input[placeholder="Enter project name"]').inputValue();
+      62 |
+        at C:\Dev\forecasting-app-2\frontend\tests\e2e\form-validation.spec.ts:59:67
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-24f3a-whitespace-from-text-inputs-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\form-validation-Form-Valid-24f3a-whitespace-from-text-inputs-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\form-validation-Form-Valid-24f3a-whitespace-from-text-inputs-chromium\error-context.md
+
+
+[1A[2K  14 failed
+    [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:43:3 › Bulk Snapshot Submission › should enable submit button when department is selected and forecasts exist 
+    [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:77:3 › Bulk Snapshot Submission › should submit all forecasts for selected department 
+    [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:127:3 › Bulk Snapshot Submission › should display snapshots grouped by batch in expandable rows 
+    [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:179:3 › Bulk Snapshot Submission › should show forecast count badge in batch row 
+    [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:218:3 › Bulk Snapshot Submission › should allow approving all forecasts in a batch 
+    [chromium] › tests\e2e\bulk-snapshot-submission.spec.ts:262:3 › Bulk Snapshot Submission › should not show individual Submit buttons in live forecasts table 
+    [chromium] › tests\e2e\filtering-aggregation.spec.ts:22:3 › Filtering and Aggregation › should display department totals correctly 
+    [chromium] › tests\e2e\filtering-aggregation.spec.ts:40:3 › Filtering and Aggregation › should display project totals correctly 
+    [chromium] › tests\e2e\forecast-crud.spec.ts:37:3 › Forecast CRUD Operations › should display all 12 monthly columns in the table 
+    [chromium] › tests\e2e\form-validation.spec.ts:16:3 › Form Validation and Error Handling › should validate required fields 
+    [chromium] › tests\e2e\form-validation.spec.ts:30:3 › Form Validation and Error Handling › should handle special characters in text fields 
+    [chromium] › tests\e2e\form-validation.spec.ts:42:3 › Form Validation and Error Handling › should handle very long text in text fields 
+    [chromium] › tests\e2e\form-validation.spec.ts:53:3 › Form Validation and Error Handling › should trim whitespace from text inputs 
+    [chromium] › tests\e2e\form-validation.spec.ts:65:3 › Form Validation and Error Handling › should handle clicking outside modal 
+  5 passed (1.3m)

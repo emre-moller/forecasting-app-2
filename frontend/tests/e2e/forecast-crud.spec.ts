@@ -27,31 +27,36 @@ test.describe('Forecast CRUD Operations', () => {
   });
 
   test('should display the dashboard with statistics', async ({ page }) => {
-    // Verify main statistics cards are present
-    await expect(page.locator('.ant-statistic-title:has-text("Totalt Prognostisert")')).toBeVisible();
-    await expect(page.locator('.ant-statistic-title:has-text("Avdelinger")')).toBeVisible();
-    await expect(page.locator('.ant-statistic-title:has-text("Prosjekter")')).toBeVisible();
+    // Verify main header is present
+    await expect(page.locator('h1:has-text("Financial Forecasting Input Tool")')).toBeVisible();
 
     // Verify tables are present
     await expect(page.locator('text=FORECAST SNAPSHOTS')).toBeVisible();
-    await expect(page.locator('text=LIVE FORECASTS')).toBeVisible();
+    await expect(page.locator('text=Monthly Forecast Input')).toBeVisible();
 
-    // Verify "Ny Prognose" button is present
-    await expect(page.locator('button:has-text("Ny Prognose")')).toBeVisible();
+    // Verify "ADD ROW" and "SUBMIT ALL FORECASTS" buttons are present
+    await expect(page.locator('button:has-text("ADD ROW")')).toBeVisible();
+    await expect(page.locator('button:has-text("SUBMIT ALL FORECASTS")')).toBeVisible();
   });
 
 
   test('should display all 12 monthly columns in the table', async ({ page }) => {
-    // Verify all month column headers exist
+    // Verify all month column headers exist in the Live Forecasts table
     const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
+    // Wait for the table header to be visible
+    await expect(page.locator('h2:has-text("Monthly Forecast Input")')).toBeVisible();
+
+    // Find the live forecasts table directly
+    const liveTable = page.locator('.forecast-input-section table').first();
+    await expect(liveTable).toBeVisible();
+
     for (const month of months) {
-      await expect(page.locator(`th:has-text("${month}")`).first()).toBeVisible();
+      await expect(liveTable.locator('th').filter({hasText: month})).toBeVisible();
     }
 
-    // Verify Total and Yearly Sum columns
-    await expect(page.locator('th:has-text("Total")').first()).toBeVisible();
-    await expect(page.locator('th:has-text("Yearly Sum")').first()).toBeVisible();
+    // Verify Yearly Sum column
+    await expect(liveTable.locator('th:has-text("YEARLY SUM")').first()).toBeVisible();
   });
 
   test('should show empty state when no forecasts exist', async ({ page }) => {

@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Select, Button, Space, Card, Statistic, Row, Col } from 'antd';
-import { PlusOutlined, FundOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import { FundOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { LiveForecastsTable } from '../components/forecasts/LiveForecastsTable';
 import { SnapshotsTable } from '../components/forecasts/SnapshotsTable';
 import { ForecastFormModal } from '../components/forecasts/ForecastFormModal';
@@ -46,6 +46,7 @@ export const Dashboard = () => {
   const [editingForecast, setEditingForecast] = useState<Forecast | null>(null);
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [forecastingDimension, setForecastingDimension] = useState<'account' | 'wbs' | 'project'>('account');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -180,20 +181,31 @@ export const Dashboard = () => {
     }
   };
 
-  const handleSubmitForApproval = async (forecastId: string) => {
-    if (confirm('Submit this forecast for approval?')) {
+  const handleSubmitAllForecasts = async () => {
+    if (!selectedDepartment) {
+      alert('Please select a department first');
+      return;
+    }
+
+    if (filteredForecasts.length === 0) {
+      alert('No forecasts to submit for this department');
+      return;
+    }
+
+    if (confirm(`Submit all ${filteredForecasts.length} forecast(s) for this department?`)) {
       try {
-        const snapshot = await snapshotsAPI.create(forecastId);
-        setSnapshots([snapshot, ...snapshots]);
-        alert('Forecast submitted for approval successfully!');
-      } catch (error) {
-        console.error('Failed to submit forecast for approval:', error);
-        alert('Kunne ikke sende prognose til godkjenning');
+        const newSnapshots = await snapshotsAPI.createBulk(selectedDepartment);
+        setSnapshots([...newSnapshots, ...snapshots]);
+        alert(`Successfully submitted ${newSnapshots.length} forecast(s) for approval!`);
+      } catch (error: any) {
+        console.error('Failed to submit forecasts for approval:', error);
+        const errorMessage = error?.message || 'Unknown error';
+        alert(`Kunne ikke sende prognoser til godkjenning\n\nDetaljer: ${errorMessage}\n\nSjekk konsollen for mer info.`);
       }
     }
   };
 
-  const handleAddRow = async () => {
+  const handleAddRow = async (): Promise<string | null> => {
     try {
       // Use selected filters, or default to first available department/project
       let deptId = selectedDepartment;
@@ -207,15 +219,24 @@ export const Dashboard = () => {
         const availableProjects = deptId
           ? projects.filter(p => p.departmentId === deptId)
           : projects;
-        if (availableProjects.length > 0) {
-          projId = availableProjects[0].id;
+
+        // Find a project that doesn't already have a forecast
+        const projectsWithForecasts = new Set(forecasts.map(f => f.projectId));
+        const projectWithoutForecast = availableProjects.find(p => !projectsWithForecasts.has(p.id));
+
+        if (projectWithoutForecast) {
+          projId = projectWithoutForecast.id;
+        } else if (availableProjects.length > 0) {
+          // All projects have forecasts - show error
+          alert('Alle prosjekter har allerede prognoser for dette året. Opprett et nytt prosjekt først, eller rediger en eksisterende rad.');
+          return null;
         }
       }
 
       // If still no department/project, can't create forecast
       if (!deptId || !projId) {
         alert('Ingen avdelinger eller prosjekter tilgjengelig. Vennligst opprett dem først.');
-        return;
+        return null;
       }
 
       const newForecastData: ForecastFormData = {
@@ -247,9 +268,11 @@ export const Dashboard = () => {
 
       const newForecast = await forecastsAPI.create(newForecastData);
       setForecasts([newForecast, ...forecasts]);
-    } catch (error) {
+      return newForecast.id;
+    } catch (error: any) {
       console.error('Failed to create forecast:', error);
-      alert('Kunne ikke opprette prognose');
+      alert(`Kunne ikke opprette prognose: ${error?.message || 'Unknown error'}`);
+      return null;
     }
   };
 
@@ -296,84 +319,62 @@ export const Dashboard = () => {
     ? projects.filter((p) => p.departmentId === selectedDepartment)
     : projects;
 
+  // Check if there are any projects without forecasts (for showing/hiding placeholder row)
+  const hasAvailableProjects = useMemo(() => {
+    const deptId = selectedDepartment || (departments.length > 0 ? departments[0].id : null);
+    if (!deptId) return false;
+
+    const availableProjects = projects.filter(p => p.departmentId === deptId);
+    const projectsWithForecasts = new Set(forecasts.map(f => f.projectId));
+    return availableProjects.some(p => !projectsWithForecasts.has(p.id));
+  }, [selectedDepartment, departments, projects, forecasts]);
+
   return (
     <div className="dashboard">
       <div className="dashboard-header">
         <div className="header-content">
-          <div className="header-title">
-            <FundOutlined style={{ fontSize: 28, color: '#0969da' }} />
-            <h1>Spending Forecast</h1>
+          <div className="header-text">
+            <h1>Financial Forecasting Input Tool</h1>
+            <p className="header-subtitle">Department-Based Forecast Management</p>
+            <div className="department-badge">
+              <FundOutlined /> Finance
+            </div>
           </div>
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            size="large"
-            onClick={() => handleOpenModal()}
-            className="add-button"
-          >
-            Ny Prognose
-          </Button>
         </div>
       </div>
 
-      <div className="dashboard-filters">
-        <Space size="middle" wrap>
-          <div className="filter-group">
-            <label>Avdeling:</label>
-            <Select
-              style={{ width: 200 }}
-              placeholder="Alle Avdelinger"
-              allowClear
-              value={selectedDepartment}
-              onChange={setSelectedDepartment}
-              size="large"
-            >
-              {departments.map((dept) => (
-                <Option key={dept.id} value={dept.id}>
-                  {dept.name}
-                </Option>
-              ))}
-            </Select>
-          </div>
-
-          <div className="filter-group">
-            <label>Prosjekt:</label>
-            <Select
-              style={{ width: 250 }}
-              placeholder="Alle Prosjekter"
-              allowClear
-              value={selectedProject}
-              onChange={setSelectedProject}
-              size="large"
-              disabled={!selectedDepartment}
-            >
-              {filteredProjects.map((proj) => (
-                <Option key={proj.id} value={proj.id}>
-                  {proj.name}
-                </Option>
-              ))}
-            </Select>
-          </div>
-
-          {(selectedDepartment || selectedProject) && (
-            <Button onClick={handleClearFilters} size="large">
-              Nullstill Filtre
-            </Button>
-          )}
-        </Space>
+      <div className="step-section">
+        <div className="step-label">
+          <span className="step-number">1</span>
+          <span className="step-text">SELECT DEPARTMENT</span>
+        </div>
+        <Select
+          style={{ width: 450 }}
+          placeholder="Select Department"
+          value={selectedDepartment}
+          onChange={setSelectedDepartment}
+          size="large"
+          className="step-select"
+        >
+          {departments.map((dept) => (
+            <Option key={dept.id} value={dept.id}>
+              {dept.name}
+            </Option>
+          ))}
+        </Select>
       </div>
 
-      <div className="dashboard-section" style={{ marginBottom: '40px' }}>
+      <div className="dashboard-section" style={{ marginBottom: '24px' }}>
         <div style={{
           display: 'flex',
           alignItems: 'center',
           gap: '12px',
           padding: '16px 24px',
-          backgroundColor: '#f0f9ff',
-          borderLeft: '4px solid #0969da',
+          backgroundColor: '#f6ffed',
+          borderLeft: '4px solid #52c41a',
           marginBottom: '16px'
         }}>
-          <CheckCircleOutlined style={{ fontSize: '24px', color: '#1a7f37' }} />
+          <CheckCircleOutlined style={{ fontSize: '24px', color: '#52c41a' }} />
           <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 600 }}>FORECAST SNAPSHOTS</h2>
         </div>
         <SnapshotsTable
@@ -383,26 +384,29 @@ export const Dashboard = () => {
         />
       </div>
 
-      <div className="dashboard-section">
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '16px 24px',
-          backgroundColor: '#f0f9ff',
-          borderLeft: '4px solid #0969da',
-          marginBottom: '16px'
-        }}>
-          <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 600 }}>LIVE FORECASTS</h2>
+      <div className="forecast-input-section">
+        <div className="forecast-header">
+          <h2>Monthly Forecast Input</h2>
+          <Button
+            icon={<CheckCircleOutlined />}
+            size="large"
+            onClick={handleSubmitAllForecasts}
+            style={{
+              backgroundColor: '#52c41a',
+              color: 'white',
+              fontWeight: 'bold'
+            }}
+          >
+            SUBMIT ALL FORECASTS
+          </Button>
         </div>
         <LiveForecastsTable
           data={filteredForecasts}
           onEdit={handleOpenModal}
           onDelete={handleDeleteForecast}
-          onSubmitForApproval={handleSubmitForApproval}
           onUpdate={handleUpdateForecastField}
           onBatchUpdate={handleBatchUpdateForecastField}
-          onAddRow={handleAddRow}
+          onAddRow={hasAvailableProjects ? handleAddRow : undefined}
         />
       </div>
 

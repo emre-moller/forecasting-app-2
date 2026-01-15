@@ -105,10 +105,16 @@ class ForecastSnapshotCreate(BaseModel):
     submitted_by: str = "Current User"
 
 
+class BulkSnapshotCreate(BaseModel):
+    department_id: int
+    submitted_by: str = "Current User"
+
+
 class ForecastSnapshot(ForecastSnapshotBase):
     id: int
     forecast_id: str  # Encoded as "project_id_year"
     year: int  # The year of the forecast
+    batch_id: str  # Batch ID to group snapshots submitted together
     is_approved: bool
     snapshot_date: datetime
     submitted_by: str
@@ -151,6 +157,7 @@ class SnapshotHeaderBase(BaseModel):
     department_id: int
     project_id: int
     year: int
+    batch_id: str
     is_approved: bool
     snapshot_date: datetime
     submitted_by: str

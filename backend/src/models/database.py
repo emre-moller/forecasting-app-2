@@ -78,6 +78,9 @@ class ForecastSnapshotHeader(Base):
     project_id = Column(Integer, nullable=False)
     year = Column(Integer, nullable=False)
 
+    # Batch ID to group snapshots submitted together
+    batch_id = Column(String(100), nullable=False, index=True)
+
     # Snapshot metadata
     is_approved = Column(Boolean, nullable=False, default=False)
     snapshot_date = Column(DateTime, nullable=False, default=datetime.utcnow)
