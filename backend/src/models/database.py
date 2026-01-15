@@ -32,19 +32,21 @@ class Project(Base):
 
 class ForecastMonth(Base):
     """
-    Normalized monthly forecast records - one record per project per month.
-    Replaces the denormalized Forecast table with 12 month columns.
+    Normalized monthly forecast records - one record per forecast line per month.
+    Each forecast line (identified by line_id) has 12 monthly records.
+    Multiple lines can exist per project with different accounts/WBS.
     """
     __tablename__ = "forecast_months"
 
     id = Column(Integer, primary_key=True, index=True)
+    line_id = Column(Integer, nullable=False, index=True)  # Groups 12 months into one forecast line
     department_id = Column(Integer, ForeignKey("departments.id"), nullable=False)
     project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
     year = Column(Integer, nullable=False)  # e.g., 2026
     month = Column(Integer, nullable=False)  # 1-12
     amount = Column(Float, nullable=False, default=0.0)
 
-    # Descriptive fields (denormalized from project level for convenience)
+    # Descriptive fields (can differ per line within same project)
     project_name = Column(String(200), nullable=False, default="")
     profit_center = Column(String(100), nullable=False, default="")
     wbs = Column(String(100), nullable=False, default="")
@@ -59,10 +61,11 @@ class ForecastMonth(Base):
     department = relationship("Department", back_populates="forecast_months")
     project = relationship("Project", back_populates="forecast_months")
 
-    # Composite unique constraint: one record per project per year per month
+    # Composite unique constraint: one record per line per month
     __table_args__ = (
-        UniqueConstraint('department_id', 'project_id', 'year', 'month', name='uq_forecast_month'),
+        UniqueConstraint('line_id', 'month', name='uq_forecast_line_month'),
         Index('idx_forecast_project_year', 'project_id', 'year'),
+        Index('idx_forecast_line', 'line_id'),
     )
 
 
@@ -74,6 +77,7 @@ class ForecastSnapshotHeader(Base):
     __tablename__ = "forecast_snapshot_headers"
 
     id = Column(Integer, primary_key=True, index=True)
+    line_id = Column(Integer, nullable=False, index=True)  # References the source forecast line
     department_id = Column(Integer, nullable=False)
     project_id = Column(Integer, nullable=False)
     year = Column(Integer, nullable=False)

@@ -8,41 +8,35 @@ from datetime import date
 MONTH_NAMES = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
 
 
-def encode_forecast_id(project_id: int, year: int) -> str:
+def encode_forecast_id(line_id: int) -> str:
     """
-    Create a logical forecast ID from project_id and year.
+    Create a forecast ID from line_id.
 
     Args:
-        project_id: The project ID
-        year: The year (e.g., 2026)
+        line_id: The forecast line ID
 
     Returns:
-        Encoded forecast ID (e.g., "1_2026")
+        Encoded forecast ID (e.g., "1")
     """
-    return f"{project_id}_{year}"
+    return str(line_id)
 
 
-def decode_forecast_id(forecast_id: str) -> Tuple[int, int]:
+def decode_forecast_id(forecast_id: str) -> int:
     """
-    Parse project_id and year from encoded forecast ID.
+    Parse line_id from encoded forecast ID.
 
     Args:
-        forecast_id: Encoded forecast ID (e.g., "1_2026")
+        forecast_id: Encoded forecast ID (e.g., "1")
 
     Returns:
-        Tuple of (project_id, year)
+        The line_id as integer
 
     Raises:
         ValueError: If forecast_id format is invalid
     """
     try:
-        parts = forecast_id.split('_')
-        if len(parts) != 2:
-            raise ValueError(f"Invalid forecast_id format: {forecast_id}")
-        project_id = int(parts[0])
-        year = int(parts[1])
-        return project_id, year
-    except (ValueError, IndexError) as e:
+        return int(forecast_id)
+    except (ValueError, TypeError) as e:
         raise ValueError(f"Invalid forecast_id format: {forecast_id}") from e
 
 
@@ -135,9 +129,9 @@ def monthly_records_to_yearly_forecast(monthly_records: List[Any]) -> Dict[str, 
     if hasattr(first_record, 'updated_at'):
         yearly['updated_at'] = first_record.updated_at
 
-    # Generate forecast ID
-    if hasattr(first_record, 'year'):
-        yearly['id'] = encode_forecast_id(first_record.project_id, first_record.year)
+    # Generate forecast ID from line_id
+    if hasattr(first_record, 'line_id'):
+        yearly['id'] = encode_forecast_id(first_record.line_id)
 
     return yearly
 
@@ -189,7 +183,7 @@ def snapshot_header_to_yearly_view(snapshot_header: Any) -> Dict[str, Any]:
 
     # Add snapshot-specific fields from header
     yearly['id'] = snapshot_header.id
-    yearly['forecast_id'] = encode_forecast_id(snapshot_header.project_id, snapshot_header.year)
+    yearly['forecast_id'] = encode_forecast_id(snapshot_header.line_id)
     yearly['batch_id'] = snapshot_header.batch_id
     yearly['is_approved'] = snapshot_header.is_approved
     yearly['snapshot_date'] = snapshot_header.snapshot_date

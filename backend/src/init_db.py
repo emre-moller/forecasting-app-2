@@ -146,9 +146,11 @@ def init_database():
         ]
 
         # Create 12 monthly records for each forecast configuration
-        for config in forecast_configs:
+        # Each forecast gets a unique line_id
+        for line_id, config in enumerate(forecast_configs, start=1):
             for month in range(1, 13):  # months 1-12
                 forecast_month = ForecastMonth(
+                    line_id=line_id,
                     department_id=config['department_id'],
                     project_id=config['project_id'],
                     year=2026,

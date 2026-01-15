@@ -27,20 +27,19 @@ class ForecastRepository:
     def get_all(self) -> List[schemas.Forecast]:
         """
         Get all forecasts as yearly views.
-        Queries all monthly records, groups by (project_id, year), and transforms to yearly format.
+        Queries all monthly records, groups by line_id, and transforms to yearly format.
         """
         # Query all monthly records
         monthly_records = self.db.query(database.ForecastMonth).all()
 
-        # Group by (project_id, year)
+        # Group by line_id
         grouped = defaultdict(list)
         for record in monthly_records:
-            key = (record.project_id, record.year)
-            grouped[key].append(record)
+            grouped[record.line_id].append(record)
 
         # Convert each group to yearly forecast
         forecasts = []
-        for (project_id, year), months in grouped.items():
+        for line_id, months in grouped.items():
             if len(months) > 0:  # Ensure we have at least one month
                 yearly_dict = monthly_records_to_yearly_forecast(months)
                 forecast = schemas.Forecast(**yearly_dict)
@@ -50,17 +49,17 @@ class ForecastRepository:
 
     def get_by_id(self, forecast_id: str) -> Optional[schemas.Forecast]:
         """
-        Get forecast by encoded ID (e.g., "1_2026").
+        Get forecast by line_id.
         Fetches 12 monthly records and transforms to yearly view.
         """
         try:
-            project_id, year = decode_forecast_id(forecast_id)
+            line_id = decode_forecast_id(forecast_id)
         except ValueError:
             return None
 
-        # Query 12 months for this project + year
+        # Query 12 months for this line
         months = self.db.query(database.ForecastMonth)\
-            .filter_by(project_id=project_id, year=year)\
+            .filter_by(line_id=line_id)\
             .order_by(database.ForecastMonth.month)\
             .all()
 
@@ -75,17 +74,15 @@ class ForecastRepository:
         """
         Create a new forecast from yearly data.
         Transforms yearly data to 12 monthly records and bulk inserts.
+        Multiple forecasts can exist per project with different accounts/WBS.
         """
         # Determine the year (default to 2026 for now, could be passed in forecast data)
         year = 2026
 
-        # Check if forecast already exists for this project and year
-        existing = self.db.query(database.ForecastMonth)\
-            .filter_by(project_id=forecast.project_id, year=year)\
-            .first()
-
-        if existing:
-            raise ValueError(f"Forecast already exists for project_id={forecast.project_id}, year={year}")
+        # Generate a new line_id (max existing + 1, or 1 if none exist)
+        from sqlalchemy import func
+        max_line_id = self.db.query(func.max(database.ForecastMonth.line_id)).scalar()
+        new_line_id = (max_line_id or 0) + 1
 
         # Transform yearly data to monthly records
         monthly_data = yearly_forecast_to_monthly_records(
@@ -97,6 +94,7 @@ class ForecastRepository:
         db_records = []
         for month_data in monthly_data:
             db_record = database.ForecastMonth(
+                line_id=new_line_id,
                 department_id=month_data['department_id'],
                 project_id=month_data['project_id'],
                 year=month_data['year'],
@@ -128,24 +126,25 @@ class ForecastRepository:
         This is simpler than selective updates and maintains data integrity.
         """
         try:
-            project_id, year = decode_forecast_id(forecast_id)
+            line_id = decode_forecast_id(forecast_id)
         except ValueError:
             return None
 
         # Check if forecast exists
         existing_months = self.db.query(database.ForecastMonth)\
-            .filter_by(project_id=project_id, year=year)\
+            .filter_by(line_id=line_id)\
             .all()
 
         if not existing_months:
             return None
 
-        # Get created_by from existing record
+        # Get metadata from existing record
         created_by = existing_months[0].created_by
+        year = existing_months[0].year
 
         # Delete existing records
         self.db.query(database.ForecastMonth)\
-            .filter_by(project_id=project_id, year=year)\
+            .filter_by(line_id=line_id)\
             .delete()
 
         # Transform updated data to monthly records
@@ -154,10 +153,11 @@ class ForecastRepository:
             year=year
         )
 
-        # Insert new records
+        # Insert new records with the same line_id
         db_records = []
         for month_data in monthly_data:
             db_record = database.ForecastMonth(
+                line_id=line_id,
                 department_id=month_data['department_id'],
                 project_id=month_data['project_id'],
                 year=month_data['year'],
@@ -187,13 +187,13 @@ class ForecastRepository:
         Delete a forecast by removing all 12 monthly records.
         """
         try:
-            project_id, year = decode_forecast_id(forecast_id)
+            line_id = decode_forecast_id(forecast_id)
         except ValueError:
             return False
 
-        # Delete all monthly records for this forecast
+        # Delete all monthly records for this line
         result = self.db.query(database.ForecastMonth)\
-            .filter_by(project_id=project_id, year=year)\
+            .filter_by(line_id=line_id)\
             .delete()
 
         self.db.commit()
@@ -241,14 +241,14 @@ class ForecastSnapshotRepository:
         return schemas.ForecastSnapshot(**yearly_dict)
 
     def get_by_forecast_id(self, forecast_id: str) -> List[schemas.ForecastSnapshot]:
-        """Get all snapshots for a specific forecast."""
+        """Get all snapshots for a specific forecast line."""
         try:
-            project_id, year = decode_forecast_id(forecast_id)
+            line_id = decode_forecast_id(forecast_id)
         except ValueError:
             return []
 
         headers = self.db.query(database.ForecastSnapshotHeader)\
-            .filter_by(project_id=project_id, year=year)\
+            .filter_by(line_id=line_id)\
             .order_by(database.ForecastSnapshotHeader.snapshot_date.desc())\
             .all()
 
@@ -260,25 +260,26 @@ class ForecastSnapshotRepository:
 
         return snapshots
 
-    def create_from_forecast(self, project_id: int, year: int, submitted_by: str, batch_id: str) -> schemas.ForecastSnapshot:
+    def create_from_forecast(self, line_id: int, submitted_by: str, batch_id: str) -> schemas.ForecastSnapshot:
         """
-        Create a snapshot from a forecast identified by project_id and year.
+        Create a snapshot from a forecast identified by line_id.
         Creates snapshot header + 12 monthly snapshot records.
         """
         # Get source forecast monthly records
         source_months = self.db.query(database.ForecastMonth)\
-            .filter_by(project_id=project_id, year=year)\
+            .filter_by(line_id=line_id)\
             .order_by(database.ForecastMonth.month)\
             .all()
 
         if not source_months:
-            raise ValueError(f"Forecast not found for project_id={project_id}, year={year}")
+            raise ValueError(f"Forecast not found for line_id={line_id}")
 
         # Create snapshot header
         header = database.ForecastSnapshotHeader(
+            line_id=line_id,
             department_id=source_months[0].department_id,
-            project_id=project_id,
-            year=year,
+            project_id=source_months[0].project_id,
+            year=source_months[0].year,
             batch_id=batch_id,
             submitted_by=submitted_by,
             is_approved=False
@@ -317,22 +318,20 @@ class ForecastSnapshotRepository:
         # Generate a unique batch ID
         batch_id = f"{department_id}_{int(datetime.now(UTC).timestamp())}_{uuid4().hex[:8]}"
 
-        # Get all unique (project_id, year) combinations for this department
-        unique_forecasts = self.db.query(
-            database.ForecastMonth.project_id,
-            database.ForecastMonth.year
+        # Get all unique line_ids for this department
+        unique_line_ids = self.db.query(
+            database.ForecastMonth.line_id
         ).filter(
             database.ForecastMonth.department_id == department_id
         ).distinct().all()
 
-        if not unique_forecasts:
+        if not unique_line_ids:
             raise ValueError(f"No forecasts found for department_id={department_id}")
 
         snapshots = []
-        for project_id, year in unique_forecasts:
+        for (line_id,) in unique_line_ids:
             snapshot = self.create_from_forecast(
-                project_id=project_id,
-                year=year,
+                line_id=line_id,
                 submitted_by=submitted_by,
                 batch_id=batch_id
             )

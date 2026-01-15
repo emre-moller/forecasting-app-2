@@ -220,16 +220,9 @@ export const Dashboard = () => {
           ? projects.filter(p => p.departmentId === deptId)
           : projects;
 
-        // Find a project that doesn't already have a forecast
-        const projectsWithForecasts = new Set(forecasts.map(f => f.projectId));
-        const projectWithoutForecast = availableProjects.find(p => !projectsWithForecasts.has(p.id));
-
-        if (projectWithoutForecast) {
-          projId = projectWithoutForecast.id;
-        } else if (availableProjects.length > 0) {
-          // All projects have forecasts - show error
-          alert('Alle prosjekter har allerede prognoser for dette året. Opprett et nytt prosjekt først, eller rediger en eksisterende rad.');
-          return null;
+        if (availableProjects.length > 0) {
+          // Use the first available project (multiple rows per project are allowed)
+          projId = availableProjects[0].id;
         }
       }
 
@@ -319,16 +312,6 @@ export const Dashboard = () => {
     ? projects.filter((p) => p.departmentId === selectedDepartment)
     : projects;
 
-  // Check if there are any projects without forecasts (for showing/hiding placeholder row)
-  const hasAvailableProjects = useMemo(() => {
-    const deptId = selectedDepartment || (departments.length > 0 ? departments[0].id : null);
-    if (!deptId) return false;
-
-    const availableProjects = projects.filter(p => p.departmentId === deptId);
-    const projectsWithForecasts = new Set(forecasts.map(f => f.projectId));
-    return availableProjects.some(p => !projectsWithForecasts.has(p.id));
-  }, [selectedDepartment, departments, projects, forecasts]);
-
   return (
     <div className="dashboard">
       <div className="dashboard-header">
@@ -406,7 +389,7 @@ export const Dashboard = () => {
           onDelete={handleDeleteForecast}
           onUpdate={handleUpdateForecastField}
           onBatchUpdate={handleBatchUpdateForecastField}
-          onAddRow={hasAvailableProjects ? handleAddRow : undefined}
+          onAddRow={handleAddRow}
         />
       </div>
 
