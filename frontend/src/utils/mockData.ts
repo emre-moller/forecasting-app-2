@@ -13,14 +13,18 @@ export interface Project {
 
 export interface Forecast {
   id: string;
-  departmentId: string;
-  projectId: string;
 
-  // New detailed fields
-  projectName: string;
-  profitCenter: string;
-  wbs: string;
-  account: string;
+  // Snowflake-compatible core fields
+  profitcenter: number | null;
+  wbs: string | null;
+  accountNumber: number | null;
+  year: string;
+  source: string;
+
+  // UI metadata fields (stored separately, for display only)
+  departmentId: string | null;
+  projectId: string | null;
+  projectName: string | null;
 
   // Monthly values
   jan: number;
@@ -40,26 +44,32 @@ export interface Forecast {
   total: number;
   yearlySum: number;
 
-  // Legacy fields
-  amount: number;
-  timePeriod: string;
-  periodType: 'monthly' | 'quarterly' | 'yearly';
-  description: string;
+  // DBT metadata (may be null for locally created forecasts)
+  dbtUpdatedAt: string | null;
+  dbtValidFrom: string | null;
+  dbtValidTo: string | null;
+  period: string | null;
 
-  createdBy: string;
-  createdAt: string;
-  updatedAt: string;
+  // Audit metadata
+  createdBy: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
 }
 
 export interface ForecastSnapshot {
   id: string;
   forecastId: string;
-  departmentId: string;
-  projectId: string;
-  projectName: string;
-  profitCenter: string;
-  wbs: string;
-  account: string;
+
+  // Snowflake-compatible core fields
+  profitcenter: number | null;
+  wbs: string | null;
+  accountNumber: number | null;
+  year: string;
+
+  // UI metadata fields
+  departmentId: string | null;
+  projectId: string | null;
+  projectName: string | null;
 
   // Monthly values
   jan: number;
@@ -107,149 +117,5 @@ export const projects: Project[] = [
   { id: '10', name: 'Revisjonsetterlevelse', code: 'P010', departmentId: '5' },
 ];
 
-export const forecasts: Forecast[] = [
-  {
-    id: '1',
-    departmentId: '1',
-    projectId: '1',
-    amount: 4500000,
-    timePeriod: '2025 K1',
-    periodType: 'quarterly',
-    description: 'Infrastrukturkostnader for skymigrering',
-    createdBy: 'Ola Nordmann',
-    createdAt: '2025-01-15',
-    updatedAt: '2025-01-15',
-  },
-  {
-    id: '2',
-    departmentId: '1',
-    projectId: '2',
-    amount: 2800000,
-    timePeriod: '2025 K1',
-    periodType: 'quarterly',
-    description: 'Utviklingsteam og ressurser',
-    createdBy: 'Ola Nordmann',
-    createdAt: '2025-01-16',
-    updatedAt: '2025-01-16',
-  },
-  {
-    id: '3',
-    departmentId: '2',
-    projectId: '3',
-    amount: 1250000,
-    timePeriod: '2025 K1',
-    periodType: 'quarterly',
-    description: 'Digital annonsering og innholdsproduksjon',
-    createdBy: 'Kari Hansen',
-    createdAt: '2025-01-18',
-    updatedAt: '2025-01-18',
-  },
-  {
-    id: '4',
-    departmentId: '2',
-    projectId: '4',
-    amount: 850000,
-    timePeriod: '2025 K2',
-    periodType: 'quarterly',
-    description: 'Merkevarebyra og materialer',
-    createdBy: 'Kari Hansen',
-    createdAt: '2025-01-20',
-    updatedAt: '2025-01-20',
-  },
-  {
-    id: '5',
-    departmentId: '3',
-    projectId: '5',
-    amount: 3200000,
-    timePeriod: '2025 K1',
-    periodType: 'quarterly',
-    description: 'Utvidelse og opplæring av salgsteam',
-    createdBy: 'Per Olsen',
-    createdAt: '2025-01-22',
-    updatedAt: '2025-01-22',
-  },
-  {
-    id: '6',
-    departmentId: '3',
-    projectId: '6',
-    amount: 1800000,
-    timePeriod: '2025 K2',
-    periodType: 'quarterly',
-    description: 'CRM-programvarelisenser og implementering',
-    createdBy: 'Per Olsen',
-    createdAt: '2025-01-25',
-    updatedAt: '2025-01-25',
-  },
-  {
-    id: '7',
-    departmentId: '4',
-    projectId: '7',
-    amount: 950000,
-    timePeriod: '2025 K1',
-    periodType: 'quarterly',
-    description: 'Automatiseringsverktøy og konsulentbistand',
-    createdBy: 'Ingrid Berg',
-    createdAt: '2025-02-01',
-    updatedAt: '2025-02-01',
-  },
-  {
-    id: '8',
-    departmentId: '4',
-    projectId: '8',
-    amount: 2100000,
-    timePeriod: '2025 K2',
-    periodType: 'quarterly',
-    description: 'Forsyningskjedeprogramvare og optimalisering',
-    createdBy: 'Ingrid Berg',
-    createdAt: '2025-02-03',
-    updatedAt: '2025-02-03',
-  },
-  {
-    id: '9',
-    departmentId: '5',
-    projectId: '9',
-    amount: 3800000,
-    timePeriod: '2025 K1',
-    periodType: 'quarterly',
-    description: 'ERP-systemoppgradering og migrering',
-    createdBy: 'Lars Johansen',
-    createdAt: '2025-02-05',
-    updatedAt: '2025-02-05',
-  },
-  {
-    id: '10',
-    departmentId: '5',
-    projectId: '10',
-    amount: 750000,
-    timePeriod: '2025 K2',
-    periodType: 'quarterly',
-    description: 'Ekstern revisjon og etterlevelseskonsultering',
-    createdBy: 'Lars Johansen',
-    createdAt: '2025-02-08',
-    updatedAt: '2025-02-08',
-  },
-  {
-    id: '11',
-    departmentId: '1',
-    projectId: '1',
-    amount: 4200000,
-    timePeriod: '2025 K2',
-    periodType: 'quarterly',
-    description: 'Fortsatt skymigrering fase 2',
-    createdBy: 'Ola Nordmann',
-    createdAt: '2025-02-10',
-    updatedAt: '2025-02-10',
-  },
-  {
-    id: '12',
-    departmentId: '2',
-    projectId: '3',
-    amount: 1400000,
-    timePeriod: '2025 K2',
-    periodType: 'quarterly',
-    description: 'K2 digital kampanje fortsettelse',
-    createdBy: 'Kari Hansen',
-    createdAt: '2025-02-12',
-    updatedAt: '2025-02-12',
-  },
-];
+// Note: forecasts array is no longer used as mock data - data comes from API
+export const forecasts: Forecast[] = [];

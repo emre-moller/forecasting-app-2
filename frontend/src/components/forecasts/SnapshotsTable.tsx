@@ -15,6 +15,7 @@ import './ForecastsTable.css';
 interface SnapshotsTableProps {
   data: ForecastSnapshot[];
   onApprove?: (snapshotId: string) => void;
+  onApproveAll?: (snapshotIds: string[]) => void;
   onDelete?: (snapshotId: string) => void;
 }
 
@@ -28,7 +29,7 @@ interface BatchedSnapshot {
   forecasts: ForecastSnapshot[];
 }
 
-export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProps) => {
+export const SnapshotsTable = ({ data, onApprove, onApproveAll, onDelete }: SnapshotsTableProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [expanded, setExpanded] = useState<ExpandedState>({});
 
@@ -44,7 +45,7 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
     return Array.from(batches.entries()).map(([batchId, forecasts]) => {
       // Sort forecasts within batch by project name
       const sortedForecasts = [...forecasts].sort((a, b) =>
-        a.projectName.localeCompare(b.projectName)
+        (a.projectName || '').localeCompare(b.projectName || '')
       );
 
       return {
@@ -145,21 +146,15 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
         size: 100,
         cell: (info) => {
           const batch = info.row.original;
-          const hasUnapproved = batch.forecasts.some(f => !f.isApproved);
+          const unapprovedIds = batch.forecasts.filter(f => !f.isApproved).map(f => f.id);
+          const hasUnapproved = unapprovedIds.length > 0;
 
           return (
             <div className="cell-content cell-actions">
-              {onApprove && hasUnapproved && (
+              {onApproveAll && hasUnapproved && (
                 <button
                   className="action-btn action-btn-submit"
-                  onClick={() => {
-                    // Approve all unapproved forecasts in this batch
-                    batch.forecasts.forEach(f => {
-                      if (!f.isApproved) {
-                        onApprove(f.id);
-                      }
-                    });
-                  }}
+                  onClick={() => onApproveAll(unapprovedIds)}
                   style={{ backgroundColor: '#1a7f37', color: 'white' }}
                 >
                   Approve All
@@ -170,7 +165,7 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
         },
       },
     ],
-    [onApprove]
+    [onApprove, onApproveAll]
   );
 
   const table = useReactTable({
@@ -270,16 +265,16 @@ export const SnapshotsTable = ({ data, onApprove, onDelete }: SnapshotsTableProp
                             {row.original.forecasts.map((forecast) => (
                               <tr key={forecast.id}>
                                 <td style={{ width: 150 }}>
-                                  <div className="cell-content">{forecast.projectName}</div>
+                                  <div className="cell-content">{forecast.projectName || '-'}</div>
                                 </td>
                                 <td style={{ width: 100 }}>
-                                  <div className="cell-content">{forecast.profitCenter}</div>
+                                  <div className="cell-content cell-number">{forecast.profitcenter ?? '-'}</div>
                                 </td>
                                 <td style={{ width: 90 }}>
-                                  <div className="cell-content">{forecast.wbs}</div>
+                                  <div className="cell-content">{forecast.wbs || '-'}</div>
                                 </td>
                                 <td style={{ width: 90 }}>
-                                  <div className="cell-content">{forecast.account}</div>
+                                  <div className="cell-content cell-number">{forecast.accountNumber ?? '-'}</div>
                                 </td>
                                 <td style={{ width: 70 }}>
                                   <div className="cell-content cell-number">

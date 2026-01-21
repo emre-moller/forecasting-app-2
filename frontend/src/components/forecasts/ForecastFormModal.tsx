@@ -4,16 +4,22 @@ import { useForm, Controller } from 'react-hook-form';
 import { type Forecast, departments, projects } from '../../utils/mockData';
 import './ForecastFormModal.css';
 
-const { TextArea } = Input;
 const { Option } = Select;
 
 interface ForecastFormData {
-  departmentId: string;
-  projectId: string;
-  projectName: string;
-  profitCenter: string;
-  wbs: string;
-  account: string;
+  // Snowflake-compatible core fields
+  profitcenter: number | null;
+  wbs: string | null;
+  accountNumber: number | null;
+  year: string;
+  source: string;
+
+  // UI metadata fields
+  departmentId: string | null;
+  projectId: string | null;
+  projectName: string | null;
+
+  // Monthly values
   jan: number;
   feb: number;
   mar: number;
@@ -26,12 +32,9 @@ interface ForecastFormData {
   oct: number;
   nov: number;
   dec: number;
+
   total: number;
   yearlySum: number;
-  amount: number;
-  timePeriod: string;
-  periodType: 'monthly' | 'quarterly' | 'yearly';
-  description: string;
 }
 
 interface ForecastFormModalProps {
@@ -49,12 +52,14 @@ export const ForecastFormModal = ({
 }: ForecastFormModalProps) => {
   const { control, handleSubmit, reset, watch, setValue, formState: { errors } } = useForm<ForecastFormData>({
     defaultValues: {
+      profitcenter: null,
+      wbs: '',
+      accountNumber: null,
+      year: '2026',
+      source: 'MANUAL',
       departmentId: '',
       projectId: '',
       projectName: '',
-      profitCenter: '',
-      wbs: '',
-      account: '',
       jan: 0,
       feb: 0,
       mar: 0,
@@ -69,10 +74,6 @@ export const ForecastFormModal = ({
       dec: 0,
       total: 0,
       yearlySum: 0,
-      amount: 0,
-      timePeriod: '',
-      periodType: 'quarterly',
-      description: '',
     },
   });
 
@@ -89,12 +90,14 @@ export const ForecastFormModal = ({
   useEffect(() => {
     if (initialData) {
       reset({
-        departmentId: initialData.departmentId,
-        projectId: initialData.projectId,
-        projectName: initialData.projectName,
-        profitCenter: initialData.profitCenter,
-        wbs: initialData.wbs,
-        account: initialData.account,
+        profitcenter: initialData.profitcenter,
+        wbs: initialData.wbs || '',
+        accountNumber: initialData.accountNumber,
+        year: initialData.year || '2026',
+        source: initialData.source || 'MANUAL',
+        departmentId: initialData.departmentId || '',
+        projectId: initialData.projectId || '',
+        projectName: initialData.projectName || '',
         jan: initialData.jan,
         feb: initialData.feb,
         mar: initialData.mar,
@@ -109,19 +112,17 @@ export const ForecastFormModal = ({
         dec: initialData.dec,
         total: initialData.total,
         yearlySum: initialData.yearlySum,
-        amount: initialData.amount,
-        timePeriod: initialData.timePeriod,
-        periodType: initialData.periodType,
-        description: initialData.description,
       });
     } else {
       reset({
+        profitcenter: null,
+        wbs: '',
+        accountNumber: null,
+        year: '2026',
+        source: 'MANUAL',
         departmentId: '',
         projectId: '',
         projectName: '',
-        profitCenter: '',
-        wbs: '',
-        account: '',
         jan: 0,
         feb: 0,
         mar: 0,
@@ -136,10 +137,6 @@ export const ForecastFormModal = ({
         dec: 0,
         total: 0,
         yearlySum: 0,
-        amount: 0,
-        timePeriod: '',
-        periodType: 'quarterly',
-        description: '',
       });
     }
   }, [initialData, reset, open]);
@@ -178,16 +175,14 @@ export const ForecastFormModal = ({
       <Form layout="vertical" className="forecast-form">
         <Form.Item
           label="Avdeling"
-          required
           validateStatus={errors.departmentId ? 'error' : ''}
           help={errors.departmentId?.message}
         >
           <Controller
             name="departmentId"
             control={control}
-            rules={{ required: 'Avdeling er påkrevd' }}
             render={({ field }) => (
-              <Select {...field} placeholder="Velg avdeling" size="large" data-testid="department-select">
+              <Select {...field} placeholder="Velg avdeling (valgfritt)" size="large" allowClear data-testid="department-select">
                 {departments.map((dept) => (
                   <Option key={dept.id} value={dept.id}>
                     {dept.name} ({dept.code})
@@ -200,20 +195,19 @@ export const ForecastFormModal = ({
 
         <Form.Item
           label="Prosjekt"
-          required
           validateStatus={errors.projectId ? 'error' : ''}
           help={errors.projectId?.message}
         >
           <Controller
             name="projectId"
             control={control}
-            rules={{ required: 'Prosjekt er påkrevd' }}
             render={({ field }) => (
               <Select
                 {...field}
-                placeholder="Velg prosjekt"
+                placeholder="Velg prosjekt (valgfritt)"
                 size="large"
                 disabled={!selectedDepartmentId}
+                allowClear
                 data-testid="project-select"
               >
                 {filteredProjects.map((proj) => (
@@ -230,19 +224,30 @@ export const ForecastFormModal = ({
           <Controller
             name="projectName"
             control={control}
-            render={({ field }) => (
-              <Input {...field} placeholder="Enter project name" size="large" />
+            render={({ field: { value, onChange, ...field } }) => (
+              <Input
+                {...field}
+                value={value || ''}
+                onChange={onChange}
+                placeholder="Enter project name"
+                size="large"
+              />
             )}
           />
         </Form.Item>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '16px' }}>
           <Form.Item label="Profit Center">
             <Controller
-              name="profitCenter"
+              name="profitcenter"
               control={control}
               render={({ field }) => (
-                <Input {...field} placeholder="e.g. PC001" size="large" />
+                <InputNumber
+                  {...field}
+                  style={{ width: '100%' }}
+                  placeholder="e.g. 1001"
+                  size="large"
+                />
               )}
             />
           </Form.Item>
@@ -251,18 +256,43 @@ export const ForecastFormModal = ({
             <Controller
               name="wbs"
               control={control}
-              render={({ field }) => (
-                <Input {...field} placeholder="e.g. WBS001" size="large" />
+              render={({ field: { value, onChange, ...field } }) => (
+                <Input
+                  {...field}
+                  value={value || ''}
+                  onChange={onChange}
+                  placeholder="e.g. WBS-001"
+                  size="large"
+                />
               )}
             />
           </Form.Item>
 
-          <Form.Item label="Account">
+          <Form.Item label="Account Number">
             <Controller
-              name="account"
+              name="accountNumber"
               control={control}
               render={({ field }) => (
-                <Input {...field} placeholder="e.g. ACC001" size="large" />
+                <InputNumber
+                  {...field}
+                  style={{ width: '100%' }}
+                  placeholder="e.g. 6100"
+                  size="large"
+                />
+              )}
+            />
+          </Form.Item>
+
+          <Form.Item label="Year">
+            <Controller
+              name="year"
+              control={control}
+              render={({ field }) => (
+                <Select {...field} size="large">
+                  <Option value="2025">2025</Option>
+                  <Option value="2026">2026</Option>
+                  <Option value="2027">2027</Option>
+                </Select>
               )}
             />
           </Form.Item>
@@ -514,82 +544,6 @@ export const ForecastFormModal = ({
             />
           </Form.Item>
         </div>
-
-        <Form.Item
-          label="Prognosebeløp (Legacy)"
-          validateStatus={errors.amount ? 'error' : ''}
-          help={errors.amount?.message}
-        >
-          <Controller
-            name="amount"
-            control={control}
-            render={({ field }) => (
-              <InputNumber
-                {...field}
-                style={{ width: '100%' }}
-                size="large"
-                placeholder="0.00"
-                formatter={(value) => `${value} kr`.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}
-                parser={(value) => value?.replace(/[\s,]|kr/g, '') as any}
-                min={0}
-                step={1000}
-              />
-            )}
-          />
-        </Form.Item>
-
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '16px' }}>
-          <Form.Item
-            label="Tidsperiode"
-            required
-            validateStatus={errors.timePeriod ? 'error' : ''}
-            help={errors.timePeriod?.message}
-          >
-            <Controller
-              name="timePeriod"
-              control={control}
-              rules={{ required: 'Tidsperiode er påkrevd' }}
-              render={({ field }) => (
-                <Input {...field} placeholder="f.eks., 2025 K1" size="large" />
-              )}
-            />
-          </Form.Item>
-
-          <Form.Item
-            label="Periodetype"
-            required
-            validateStatus={errors.periodType ? 'error' : ''}
-            help={errors.periodType?.message}
-          >
-            <Controller
-              name="periodType"
-              control={control}
-              rules={{ required: 'Periodetype er påkrevd' }}
-              render={({ field }) => (
-                <Select {...field} size="large">
-                  <Option value="monthly">Månedlig</Option>
-                  <Option value="quarterly">Kvartalsvis</Option>
-                  <Option value="yearly">Årlig</Option>
-                </Select>
-              )}
-            />
-          </Form.Item>
-        </div>
-
-        <Form.Item label="Beskrivelse">
-          <Controller
-            name="description"
-            control={control}
-            render={({ field }) => (
-              <TextArea
-                {...field}
-                placeholder="Skriv inn prognosebeskrivelse..."
-                rows={4}
-                size="large"
-              />
-            )}
-          />
-        </Form.Item>
       </Form>
     </Modal>
   );

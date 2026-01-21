@@ -11,12 +11,19 @@ import './Dashboard.css';
 const { Option } = Select;
 
 interface ForecastFormData {
-  departmentId: string;
-  projectId: string;
-  projectName: string;
-  profitCenter: string;
-  wbs: string;
-  account: string;
+  // Snowflake-compatible core fields
+  profitcenter: number | null;
+  wbs: string | null;
+  accountNumber: number | null;
+  year: string;
+  source: string;
+
+  // UI metadata fields
+  departmentId: string | null;
+  projectId: string | null;
+  projectName: string | null;
+
+  // Monthly values
   jan: number;
   feb: number;
   mar: number;
@@ -29,12 +36,9 @@ interface ForecastFormData {
   oct: number;
   nov: number;
   dec: number;
+
   total: number;
   yearlySum: number;
-  amount: number;
-  timePeriod: string;
-  periodType: 'monthly' | 'quarterly' | 'yearly';
-  description: string;
 }
 
 export const Dashboard = () => {
@@ -91,8 +95,10 @@ export const Dashboard = () => {
   const totalsByDepartment = useMemo(() => {
     const totals = new Map<string, number>();
     filteredForecasts.forEach((forecast) => {
-      const current = totals.get(forecast.departmentId) || 0;
-      totals.set(forecast.departmentId, current + (forecast.total || forecast.amount || 0));
+      if (forecast.departmentId) {
+        const current = totals.get(forecast.departmentId) || 0;
+        totals.set(forecast.departmentId, current + (forecast.total || 0));
+      }
     });
     return totals;
   }, [filteredForecasts]);
@@ -100,14 +106,16 @@ export const Dashboard = () => {
   const totalsByProject = useMemo(() => {
     const totals = new Map<string, number>();
     filteredForecasts.forEach((forecast) => {
-      const current = totals.get(forecast.projectId) || 0;
-      totals.set(forecast.projectId, current + (forecast.total || forecast.amount || 0));
+      if (forecast.projectId) {
+        const current = totals.get(forecast.projectId) || 0;
+        totals.set(forecast.projectId, current + (forecast.total || 0));
+      }
     });
     return totals;
   }, [filteredForecasts]);
 
   const grandTotal = useMemo(() => {
-    return filteredForecasts.reduce((sum, forecast) => sum + (forecast.total || forecast.amount || 0), 0);
+    return filteredForecasts.reduce((sum, forecast) => sum + (forecast.total || 0), 0);
   }, [filteredForecasts]);
 
   const handleCreateForecast = async (data: ForecastFormData) => {
@@ -160,9 +168,10 @@ export const Dashboard = () => {
       const updated = await forecastsAPI.update(forecastId, updatedData as any);
 
       setForecasts(forecasts.map((f) => (f.id === forecastId ? updated : f)));
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to update forecast field:', error);
-      alert('Kunne ikke oppdatere prognose');
+      const errorMessage = error?.message || 'Unknown error';
+      alert(`Kunne ikke oppdatere prognose\n\nDetaljer: ${errorMessage}`);
     }
   };
 
@@ -175,9 +184,10 @@ export const Dashboard = () => {
       const updated = await forecastsAPI.update(forecastId, updatedData as any);
 
       setForecasts(forecasts.map((f) => (f.id === forecastId ? updated : f)));
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to batch update forecast:', error);
-      alert('Kunne ikke oppdatere prognose');
+      const errorMessage = error?.message || 'Unknown error';
+      alert(`Kunne ikke oppdatere prognose\n\nDetaljer: ${errorMessage}`);
     }
   };
 
@@ -221,7 +231,6 @@ export const Dashboard = () => {
           : projects;
 
         if (availableProjects.length > 0) {
-          // Use the first available project (multiple rows per project are allowed)
           projId = availableProjects[0].id;
         }
       }
@@ -232,13 +241,25 @@ export const Dashboard = () => {
         return null;
       }
 
+      // Generate a unique profitcenter and account number for the new row
+      const timestamp = Date.now();
+      const newProfitcenter = Math.floor(timestamp % 10000);
+      const newAccountNumber = Math.floor((timestamp / 10000) % 10000);
+
       const newForecastData: ForecastFormData = {
+        // Snowflake-compatible core fields
+        profitcenter: newProfitcenter,
+        wbs: '',
+        accountNumber: newAccountNumber,
+        year: '2026',
+        source: 'MANUAL',
+
+        // UI metadata fields
         departmentId: deptId,
         projectId: projId,
         projectName: '',
-        profitCenter: '',
-        wbs: '',
-        account: '',
+
+        // Monthly values
         jan: 0,
         feb: 0,
         mar: 0,
@@ -253,10 +274,6 @@ export const Dashboard = () => {
         dec: 0,
         total: 0,
         yearlySum: 0,
-        amount: 0,
-        timePeriod: '',
-        periodType: 'monthly',
-        description: ''
       };
 
       const newForecast = await forecastsAPI.create(newForecastData);
@@ -269,15 +286,36 @@ export const Dashboard = () => {
     }
   };
 
-  const handleApproveSnapshot = async (snapshotId: string) => {
-    if (confirm('Approve this forecast snapshot?')) {
+  const handleApproveSnapshot = async (snapshotId: string, skipConfirm = false) => {
+    if (skipConfirm || confirm('Approve this forecast snapshot?')) {
       try {
         const updatedSnapshot = await snapshotsAPI.approve(snapshotId, 'Current User');
-        setSnapshots(snapshots.map(s => s.id === snapshotId ? updatedSnapshot : s));
-        alert('Forecast snapshot approved successfully!');
+        setSnapshots(prev => prev.map(s => s.id === snapshotId ? updatedSnapshot : s));
+        if (!skipConfirm) {
+          alert('Forecast snapshot approved successfully!');
+        }
+        return true;
       } catch (error) {
         console.error('Failed to approve snapshot:', error);
         alert('Kunne ikke godkjenne prognose');
+        return false;
+      }
+    }
+    return false;
+  };
+
+  const handleApproveAllSnapshots = async (snapshotIds: string[]) => {
+    if (snapshotIds.length === 0) return;
+
+    if (confirm(`Approve all ${snapshotIds.length} forecast snapshot(s)?`)) {
+      try {
+        for (const snapshotId of snapshotIds) {
+          await handleApproveSnapshot(snapshotId, true);
+        }
+        alert(`Successfully approved ${snapshotIds.length} forecast snapshot(s)!`);
+      } catch (error) {
+        console.error('Failed to approve snapshots:', error);
+        alert('Kunne ikke godkjenne noen prognoser');
       }
     }
   };
@@ -363,6 +401,7 @@ export const Dashboard = () => {
         <SnapshotsTable
           data={snapshots}
           onApprove={handleApproveSnapshot}
+          onApproveAll={handleApproveAllSnapshots}
           onDelete={handleDeleteSnapshot}
         />
       </div>

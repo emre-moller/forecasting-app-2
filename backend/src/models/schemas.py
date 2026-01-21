@@ -28,16 +28,20 @@ class Project(ProjectBase):
 class ForecastBase(BaseModel):
     """
     External API schema for forecasts - maintains yearly view with 12 month fields.
-    This schema is used for API requests/responses to maintain backward compatibility.
+    Core fields match Snowflake fdwh_forecast schema.
+    UI metadata fields are stored separately but included in API for convenience.
     """
-    department_id: int
-    project_id: int
+    # Snowflake-compatible core fields
+    profitcenter: Optional[int] = None
+    wbs: Optional[str] = None
+    account_number: Optional[int] = None
+    year: str = "2026"  # VARCHAR in Snowflake
+    source: str = "MANUAL"
 
-    # Detailed fields
-    project_name: str
-    profit_center: str
-    wbs: str
-    account: str
+    # UI metadata fields (stored in separate table, not in Snowflake)
+    department_id: Optional[int] = None
+    project_id: Optional[int] = None
+    project_name: Optional[str] = None
 
     # Monthly values (yearly API contract)
     jan: float = 0.0
@@ -67,20 +71,34 @@ class ForecastUpdate(ForecastBase):
 
 
 class Forecast(ForecastBase):
-    id: str  # Encoded as "project_id_year" (e.g., "1_2026")
-    created_by: str
-    created_at: date
-    updated_at: date
+    # Composite key: {profitcenter}_{wbs}_{account}_{year}
+    id: str
+
+    # DBT/Snowflake metadata (may be null for locally created forecasts)
+    dbt_updated_at: Optional[str] = None
+    dbt_valid_from: Optional[str] = None
+    dbt_valid_to: Optional[str] = None
+    period: Optional[str] = None
+
+    # Audit metadata (from forecast_metadata table)
+    created_by: Optional[str] = None
+    created_at: Optional[date] = None
+    updated_at: Optional[date] = None
+
     model_config = ConfigDict(from_attributes=True)
 
 
 class ForecastSnapshotBase(BaseModel):
-    department_id: int
-    project_id: int
-    project_name: str
-    profit_center: str
-    wbs: str
-    account: str
+    # Snowflake-compatible core fields
+    profitcenter: Optional[int] = None
+    wbs: Optional[str] = None
+    account_number: Optional[int] = None
+    year: str = "2026"
+
+    # UI metadata fields
+    department_id: Optional[int] = None
+    project_id: Optional[int] = None
+    project_name: Optional[str] = None
 
     # Monthly values
     jan: float = 0.0
@@ -101,7 +119,7 @@ class ForecastSnapshotBase(BaseModel):
 
 
 class ForecastSnapshotCreate(BaseModel):
-    forecast_id: str  # Encoded as "project_id_year"
+    forecast_id: str  # Composite key: {profitcenter}_{wbs}_{account}_{year}
     submitted_by: str = "Current User"
 
 
@@ -112,8 +130,7 @@ class BulkSnapshotCreate(BaseModel):
 
 class ForecastSnapshot(ForecastSnapshotBase):
     id: int
-    forecast_id: str  # Encoded as "project_id_year"
-    year: int  # The year of the forecast
+    forecast_id: str  # Composite key: {profitcenter}_{wbs}_{account}_{year}
     batch_id: str  # Batch ID to group snapshots submitted together
     is_approved: bool
     snapshot_date: datetime
@@ -128,35 +145,49 @@ class ForecastSnapshotApprove(BaseModel):
 
 
 # Internal database schemas (not exposed via API)
-# These schemas map directly to the normalized database tables
+# These schemas map directly to the Snowflake-compatible database tables
 
-class ForecastMonthBase(BaseModel):
-    """Internal schema for monthly forecast records in the database."""
-    department_id: int
-    project_id: int
-    year: int
-    month: int  # 1-12
-    amount: float
-    project_name: str
-    profit_center: str
-    wbs: str
-    account: str
-
-
-class ForecastMonthDB(ForecastMonthBase):
-    """Internal schema with database metadata."""
-    id: int
-    created_by: str
-    created_at: date
-    updated_at: date
+class FdwhForecastRecord(BaseModel):
+    """Internal schema for fdwh_forecast table records."""
+    pk: str  # Composite: {profitcenter}_{wbs}_{account}_{year}_{month}
+    profitcenter: Optional[int] = None
+    wbs: Optional[str] = None
+    account_number: Optional[int] = None
+    year: str
+    month: str  # "01"-"12"
+    source: Optional[str] = None
+    load_start_ts: Optional[str] = None
+    amount: Optional[float] = None
+    dbt_scd_id: Optional[str] = None
+    dbt_updated_at: Optional[str] = None
+    dbt_valid_from: Optional[str] = None
+    dbt_valid_to: Optional[str] = None
+    period: Optional[str] = None  # "YYYY-MM"
     model_config = ConfigDict(from_attributes=True)
 
 
-class SnapshotHeaderBase(BaseModel):
+class ForecastMetadataRecord(BaseModel):
+    """Internal schema for forecast_metadata table records."""
+    forecast_key: str  # Composite: {profitcenter}_{wbs}_{account}_{year}
+    department_id: Optional[int] = None
+    project_id: Optional[int] = None
+    project_name: Optional[str] = None
+    created_by: Optional[str] = None
+    created_at: Optional[date] = None
+    updated_at: Optional[date] = None
+    model_config = ConfigDict(from_attributes=True)
+
+
+class SnapshotHeaderRecord(BaseModel):
     """Internal schema for snapshot header records."""
-    department_id: int
-    project_id: int
-    year: int
+    forecast_key: str
+    profitcenter: Optional[int] = None
+    wbs: Optional[str] = None
+    account_number: Optional[int] = None
+    year: str
+    department_id: Optional[int] = None
+    project_id: Optional[int] = None
+    project_name: Optional[str] = None
     batch_id: str
     is_approved: bool
     snapshot_date: datetime
@@ -165,12 +196,9 @@ class SnapshotHeaderBase(BaseModel):
     approved_at: Optional[datetime] = None
 
 
-class SnapshotMonthBase(BaseModel):
+class SnapshotMonthRecord(BaseModel):
     """Internal schema for monthly snapshot records."""
     snapshot_header_id: int
-    month: int  # 1-12
-    amount: float
-    project_name: str
-    profit_center: str
-    wbs: str
-    account: str
+    month: str  # "01"-"12"
+    amount: Optional[float] = None
+    period: Optional[str] = None  # "YYYY-MM"

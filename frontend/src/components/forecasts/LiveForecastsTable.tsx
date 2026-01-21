@@ -51,6 +51,7 @@ export const LiveForecastsTable = ({
         updates[month] = monthlyValue;
       });
       updates.yearlySum = numValue;
+      updates.total = numValue;
 
       // Use batch update if available, otherwise fall back to multiple updates
       if (onBatchUpdate) {
@@ -133,10 +134,10 @@ export const LiveForecastsTable = ({
         cell: (info) => renderEditableCell(info, 'projectName', false),
       },
       {
-        accessorKey: 'profitCenter',
+        accessorKey: 'profitcenter',
         header: 'PROFIT CENTER',
         size: 100,
-        cell: (info) => renderEditableCell(info, 'profitCenter', false),
+        cell: (info) => renderEditableCell(info, 'profitcenter', true),
       },
       {
         accessorKey: 'wbs',
@@ -145,10 +146,10 @@ export const LiveForecastsTable = ({
         cell: (info) => renderEditableCell(info, 'wbs', false),
       },
       {
-        accessorKey: 'account',
+        accessorKey: 'accountNumber',
         header: 'ACCOUNT',
         size: 90,
-        cell: (info) => renderEditableCell(info, 'account', false),
+        cell: (info) => renderEditableCell(info, 'accountNumber', true),
       },
       {
         accessorKey: 'jan',
@@ -333,14 +334,14 @@ export const LiveForecastsTable = ({
                 <td style={{ width: 130 }} onClick={() => handlePlaceholderCellClick('projectName')}>
                   <div className="cell-content placeholder-cell">Project Name</div>
                 </td>
-                <td style={{ width: 100 }} onClick={() => handlePlaceholderCellClick('profitCenter')}>
-                  <div className="cell-content placeholder-cell">Profit Center</div>
+                <td style={{ width: 100 }} onClick={() => handlePlaceholderCellClick('profitcenter')}>
+                  <div className="cell-content placeholder-cell">0</div>
                 </td>
                 <td style={{ width: 90 }} onClick={() => handlePlaceholderCellClick('wbs')}>
                   <div className="cell-content placeholder-cell">WBS</div>
                 </td>
-                <td style={{ width: 90 }} onClick={() => handlePlaceholderCellClick('account')}>
-                  <div className="cell-content placeholder-cell">Account</div>
+                <td style={{ width: 90 }} onClick={() => handlePlaceholderCellClick('accountNumber')}>
+                  <div className="cell-content placeholder-cell">0</div>
                 </td>
                 <td style={{ width: 70 }} onClick={() => handlePlaceholderCellClick('jan')}>
                   <div className="cell-content cell-number placeholder-cell">0</div>

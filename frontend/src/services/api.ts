@@ -1,17 +1,21 @@
 import type { Forecast, ForecastSnapshot, Department, Project } from '../utils/mockData';
-import { forecasts, departments, projects } from '../utils/mockData';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 
 interface ForecastCreate {
-  departmentId: string;
-  projectId: string;
+  // Snowflake-compatible core fields
+  profitcenter: number | null;
+  wbs: string | null;
+  accountNumber: number | null;
+  year: string;
+  source: string;
 
-  projectName: string;
-  profitCenter: string;
-  wbs: string;
-  account: string;
+  // UI metadata fields
+  departmentId: string | null;
+  projectId: string | null;
+  projectName: string | null;
 
+  // Monthly values
   jan: number;
   feb: number;
   mar: number;
@@ -27,23 +31,24 @@ interface ForecastCreate {
 
   total: number;
   yearlySum: number;
-
-  amount: number;
-  timePeriod: string;
-  periodType: 'monthly' | 'quarterly' | 'yearly';
-  description: string;
 }
 
 interface ForecastResponse {
-  id: number;
-  department_id: number;
-  project_id: number;
+  id: string;
 
-  project_name: string;
-  profit_center: string;
-  wbs: string;
-  account: string;
+  // Snowflake-compatible core fields
+  profitcenter: number | null;
+  wbs: string | null;
+  account_number: number | null;
+  year: string;
+  source: string;
 
+  // UI metadata fields
+  department_id: number | null;
+  project_id: number | null;
+  project_name: string | null;
+
+  // Monthly values
   jan: number;
   feb: number;
   mar: number;
@@ -60,25 +65,34 @@ interface ForecastResponse {
   total: number;
   yearly_sum: number;
 
-  amount: number;
-  time_period: string;
-  period_type: string;
-  description: string;
-  created_by: string;
-  created_at: string;
-  updated_at: string;
+  // DBT metadata
+  dbt_updated_at: string | null;
+  dbt_valid_from: string | null;
+  dbt_valid_to: string | null;
+  period: string | null;
+
+  // Audit metadata
+  created_by: string | null;
+  created_at: string | null;
+  updated_at: string | null;
 }
 
 interface ForecastSnapshotResponse {
   id: number;
-  forecast_id: number;
-  department_id: number;
-  project_id: number;
-  project_name: string;
-  profit_center: string;
-  wbs: string;
-  account: string;
+  forecast_id: string;
 
+  // Snowflake-compatible core fields
+  profitcenter: number | null;
+  wbs: string | null;
+  account_number: number | null;
+  year: string;
+
+  // UI metadata fields
+  department_id: number | null;
+  project_id: number | null;
+  project_name: string | null;
+
+  // Monthly values
   jan: number;
   feb: number;
   mar: number;
@@ -118,15 +132,21 @@ interface ProjectResponse {
 
 function mapForecastFromAPI(data: ForecastResponse): Forecast {
   return {
-    id: data.id.toString(),
-    departmentId: data.department_id.toString(),
-    projectId: data.project_id.toString(),
+    id: data.id,
 
-    projectName: data.project_name,
-    profitCenter: data.profit_center,
+    // Snowflake-compatible core fields
+    profitcenter: data.profitcenter,
     wbs: data.wbs,
-    account: data.account,
+    accountNumber: data.account_number,
+    year: data.year,
+    source: data.source || 'MANUAL',
 
+    // UI metadata fields
+    departmentId: data.department_id?.toString() ?? null,
+    projectId: data.project_id?.toString() ?? null,
+    projectName: data.project_name,
+
+    // Monthly values
     jan: data.jan,
     feb: data.feb,
     mar: data.mar,
@@ -143,11 +163,13 @@ function mapForecastFromAPI(data: ForecastResponse): Forecast {
     total: data.total,
     yearlySum: data.yearly_sum,
 
-    // Legacy fields - provide defaults since they're no longer in backend
-    amount: data.amount || 0,
-    timePeriod: data.time_period || '2026',
-    periodType: (data.period_type as 'monthly' | 'quarterly' | 'yearly') || 'monthly',
-    description: data.description || '',
+    // DBT metadata
+    dbtUpdatedAt: data.dbt_updated_at,
+    dbtValidFrom: data.dbt_valid_from,
+    dbtValidTo: data.dbt_valid_to,
+    period: data.period,
+
+    // Audit metadata
     createdBy: data.created_by,
     createdAt: data.created_at,
     updatedAt: data.updated_at,
@@ -157,14 +179,20 @@ function mapForecastFromAPI(data: ForecastResponse): Forecast {
 function mapForecastSnapshotFromAPI(data: ForecastSnapshotResponse): ForecastSnapshot {
   return {
     id: data.id.toString(),
-    forecastId: data.forecast_id.toString(),
-    departmentId: data.department_id.toString(),
-    projectId: data.project_id.toString(),
-    projectName: data.project_name,
-    profitCenter: data.profit_center,
-    wbs: data.wbs,
-    account: data.account,
+    forecastId: data.forecast_id,
 
+    // Snowflake-compatible core fields
+    profitcenter: data.profitcenter,
+    wbs: data.wbs,
+    accountNumber: data.account_number,
+    year: data.year,
+
+    // UI metadata fields
+    departmentId: data.department_id?.toString() ?? null,
+    projectId: data.project_id?.toString() ?? null,
+    projectName: data.project_name,
+
+    // Monthly values
     jan: data.jan,
     feb: data.feb,
     mar: data.mar,
@@ -209,14 +237,19 @@ function mapProjectFromAPI(data: ProjectResponse): Project {
 
 function mapForecastToAPI(data: ForecastCreate) {
   return {
-    department_id: parseInt(data.departmentId),
-    project_id: parseInt(data.projectId),
-
-    project_name: data.projectName,
-    profit_center: data.profitCenter,
+    // Snowflake-compatible core fields
+    profitcenter: data.profitcenter,
     wbs: data.wbs,
-    account: data.account,
+    account_number: data.accountNumber,
+    year: data.year,
+    source: data.source || 'MANUAL',
 
+    // UI metadata fields
+    department_id: data.departmentId ? parseInt(data.departmentId) : null,
+    project_id: data.projectId ? parseInt(data.projectId) : null,
+    project_name: data.projectName,
+
+    // Monthly values
     jan: data.jan,
     feb: data.feb,
     mar: data.mar,
@@ -232,7 +265,6 @@ function mapForecastToAPI(data: ForecastCreate) {
 
     total: data.total,
     yearly_sum: data.yearlySum,
-    // Legacy fields removed - no longer accepted by backend
   };
 }
 
@@ -265,18 +297,27 @@ export const forecastsAPI = {
   },
 
   async update(id: string, forecast: ForecastCreate): Promise<Forecast> {
-    const response = await fetch(`${API_BASE_URL}/forecasts/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/forecasts/${encodeURIComponent(id)}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(mapForecastToAPI(forecast)),
     });
-    if (!response.ok) throw new Error('Failed to update forecast');
+    if (!response.ok) {
+      let errorDetail = `HTTP ${response.status}`;
+      try {
+        const errorData = await response.json();
+        errorDetail = errorData.detail || errorData.message || errorDetail;
+      } catch (e) {
+        errorDetail = response.statusText || errorDetail;
+      }
+      throw new Error(`Failed to update forecast: ${errorDetail}`);
+    }
     const data: ForecastResponse = await response.json();
     return mapForecastFromAPI(data);
   },
 
   async delete(id: string): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}/forecasts/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/forecasts/${encodeURIComponent(id)}`, {
       method: 'DELETE',
     });
     if (!response.ok) throw new Error('Failed to delete forecast');
@@ -332,7 +373,6 @@ export const snapshotsAPI = {
         const errorData = await response.json();
         errorDetail = errorData.detail || errorData.message || errorDetail;
       } catch (e) {
-        // If response body isn't JSON, use status text
         errorDetail = response.statusText || errorDetail;
       }
       throw new Error(errorDetail);

@@ -29,7 +29,8 @@
       "Bash(timeout 240 npx playwright test:*)",
       "Bash(xargs:*)",
       "Bash(tee:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(tree:*)"
     ]
   }
 }

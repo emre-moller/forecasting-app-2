@@ -19,7 +19,7 @@ def get_forecasts(db: Session = Depends(get_db)):
 
 @router.get("/{forecast_id}", response_model=schemas.Forecast)
 def get_forecast(forecast_id: str, db: Session = Depends(get_db)):
-    """Get forecast by encoded ID (e.g., '1_2026')"""
+    """Get forecast by composite key (e.g., '1001_WBS-001_6100_2026')"""
     repo = ForecastRepository(db)
     forecast = repo.get_by_id(forecast_id)
     if not forecast:
@@ -32,15 +32,17 @@ def create_forecast(
     forecast: schemas.ForecastCreate,
     db: Session = Depends(get_db)
 ):
-    # Validate department exists
-    department = db.query(database.Department).filter(database.Department.id == forecast.department_id).first()
-    if not department:
-        raise HTTPException(status_code=404, detail="Department not found")
+    # Validate department exists if provided (optional UI metadata)
+    if forecast.department_id:
+        department = db.query(database.Department).filter(database.Department.id == forecast.department_id).first()
+        if not department:
+            raise HTTPException(status_code=404, detail="Department not found")
 
-    # Validate project exists
-    project = db.query(database.Project).filter(database.Project.id == forecast.project_id).first()
-    if not project:
-        raise HTTPException(status_code=404, detail="Project not found")
+    # Validate project exists if provided (optional UI metadata)
+    if forecast.project_id:
+        project = db.query(database.Project).filter(database.Project.id == forecast.project_id).first()
+        if not project:
+            raise HTTPException(status_code=404, detail="Project not found")
 
     repo = ForecastRepository(db)
     try:
@@ -55,7 +57,7 @@ def update_forecast(
     forecast: schemas.ForecastUpdate,
     db: Session = Depends(get_db)
 ):
-    """Update forecast by encoded ID (e.g., '1_2026')"""
+    """Update forecast by composite key (e.g., '1001_WBS-001_6100_2026')"""
     repo = ForecastRepository(db)
     updated_forecast = repo.update(forecast_id, forecast)
     if not updated_forecast:
@@ -65,7 +67,7 @@ def update_forecast(
 
 @router.delete("/{forecast_id}", status_code=204)
 def delete_forecast(forecast_id: str, db: Session = Depends(get_db)):
-    """Delete forecast by encoded ID (e.g., '1_2026')"""
+    """Delete forecast by composite key (e.g., '1001_WBS-001_6100_2026')"""
     repo = ForecastRepository(db)
     if not repo.delete(forecast_id):
         raise HTTPException(status_code=404, detail="Forecast not found")
