@@ -258,16 +258,18 @@ forecasting-app-2/
 
 ### 4.1 Normalized Monthly Storage (12 Records per Forecast)
 
-**Decision**: Store each forecast as 12 separate database records (one per month) rather than a single row with 12 columns.
+**Decision**: Store each forecast as 12 separate database records (one per month) rather than a single row with 12 columns. Both LIVE forecasts and SNAPshots use the same table.
 
 **Implementation**:
 ```python
-# fdwh_forecast table stores one record per month
+# fdwh_forecast table stores one record per month for both LIVE and SNAP
 class FdwhForecast(Base):
-    pk = Column(String, primary_key=True)  # {pc}_{wbs}_{acc}_{year}_{month}
+    pk = Column(String, primary_key=True)  # {pc}_{wbs}_{acc}_{year}_{month}_{record_type}_{snapshot_id}
     year = Column(String)
     month = Column(String)  # "01" to "12"
     amount = Column(Float)
+    record_type = Column(String)  # "LIVE" or "SNAP"
+    snapshot_id = Column(String)  # "0" for LIVE, UUID for SNAP
     # ... other fields
 ```
 
@@ -280,6 +282,7 @@ class FdwhForecast(Base):
 | **Multi-Year Support** | Adding years requires no schema changes - just new records with different `year` values |
 | **DBT Compatibility** | Matches Snowflake data warehouse patterns for dbt transformations |
 | **Historical Tracking** | Easier to track changes at individual month level |
+| **Unified Storage** | Both LIVE and SNAP records in same table enables single-query Snowflake sync |
 
 **Trade-off Accepted**: Requires a transformation layer to convert between API (yearly) and storage (monthly) formats. This overhead is minimal and cleanly encapsulated in `forecast_transformation.py`.
 
@@ -402,29 +405,35 @@ class ForecastRepository:
 
 ---
 
-### 4.6 Snapshot Immutability with Batch Grouping
+### 4.6 Unified Storage for LIVE and SNAP Records
 
-**Decision**: Snapshots are immutable copies with batch IDs for grouped approval.
+**Decision**: Store both LIVE forecasts and SNAP (snapshot) copies in the same `fdwh_forecast` table, differentiated by `record_type` and `snapshot_id`.
 
 **Schema Design**:
 ```
-ForecastSnapshotHeader (1 per forecast submission)
-├── forecast_key (reference to source)
-├── batch_id (groups multiple submissions)
-├── is_approved, submitted_by, approved_by
-└── ForecastSnapshotMonth (12 records)
-    └── month, amount, period
+fdwh_forecast (unified table)
+├── Core fields: profitcenter, wbs, account_number, year, month, amount
+├── Record discrimination:
+│   ├── record_type: 'LIVE' or 'SNAP'
+│   └── snapshot_id: '0' for LIVE, UUID for SNAP
+├── Snapshot-specific fields (NULL for LIVE):
+│   ├── batch_id, is_approved, snapshot_date
+│   ├── submitted_by, approved_by, approved_at
+│   └── source_forecast_key (links back to source)
+└── PK format: {pc}_{wbs}_{acc}_{year}_{month}_{record_type}_{snapshot_id}
 ```
 
 **Why This Design**:
 
 | Reason | Explanation |
 |--------|-------------|
+| **Snowflake Sync** | Both LIVE and SNAP records sync to Snowflake in a single table |
 | **Audit Compliance** | Financial systems require point-in-time records for audit |
 | **Non-Destructive** | Approval doesn't modify live forecasts |
 | **Batch Operations** | Department head can approve all department forecasts at once |
 | **Clear Accountability** | `submitted_by` and `approved_by` create audit trail |
 | **Historical Comparison** | Compare approved snapshot vs current live forecast |
+| **Simplified Schema** | No separate snapshot tables - single table for all forecast data |
 
 ---
 
@@ -587,13 +596,14 @@ forecast_key              | department_id | project_id | created_by
 │ created_at (DATE)                                                       │
 │ updated_at (DATE)                                                       │
 └────────────────────────────────────────────────────────────────────────┘
-         │ (linked by forecast_key prefix)
+         │ (linked by forecast_key / source_forecast_key)
          ▼
 ┌────────────────────────────────────────────────────────────────────────┐
 │                          fdwh_forecast                                  │
-│                (SNOWFLAKE-SYNCED - 12 records per forecast)            │
+│       (SNOWFLAKE-SYNCED - Unified storage for LIVE and SNAP)           │
 ├────────────────────────────────────────────────────────────────────────┤
 │ pk (PK, VARCHAR) ───────── Format: {pc}_{wbs}_{acc}_{year}_{month}     │
+│                            _{record_type}_{snapshot_id}                 │
 │ profitcenter (INTEGER)                                                  │
 │ wbs (VARCHAR)                                                           │
 │ account_number (INTEGER)                                                │
@@ -607,42 +617,29 @@ forecast_key              | department_id | project_id | created_by
 │ dbt_valid_from (VARCHAR)                                                │
 │ dbt_valid_to (VARCHAR)                                                  │
 │ period (VARCHAR) ───────── "2026-01" (YYYY-MM)                         │
-├────────────────────────────────────────────────────────────────────────┤
-│ INDEX idx_forecast_grouping (profitcenter, wbs, account_number, year)  │
-│ INDEX idx_forecast_period (period)                                      │
-└────────────────────────────────────────────────────────────────────────┘
-
-┌────────────────────────────────────────────────────────────────────────┐
-│                    forecast_snapshot_headers                            │
-│                      (Approval workflow metadata)                       │
-├────────────────────────────────────────────────────────────────────────┤
-│ id (PK, INTEGER AUTO)                                                   │
-│ forecast_key (VARCHAR) ─── Reference to source forecast                 │
-│ profitcenter, wbs, account_number, year (denormalized)                  │
-│ department_id, project_id, project_name (UI metadata)                   │
+│                                                                         │
+│ ─── Record Type Discrimination ───                                      │
+│ record_type (VARCHAR) ──── "LIVE" or "SNAP"                            │
+│ snapshot_id (VARCHAR) ──── "0" for LIVE, UUID for SNAP                 │
+│                                                                         │
+│ ─── Snapshot-specific fields (NULL for LIVE) ───                       │
 │ batch_id (VARCHAR) ─────── Groups snapshots for batch approval          │
 │ is_approved (BOOLEAN)                                                   │
 │ snapshot_date (DATETIME)                                                │
 │ submitted_by (VARCHAR)                                                  │
 │ approved_by (VARCHAR)                                                   │
 │ approved_at (DATETIME)                                                  │
-└────────────────────────────────────────────────────────────────────────┘
-         │
-         │ 1:12 relationship
-         ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                    forecast_snapshot_months                             │
-│                    (Frozen monthly amounts)                             │
+│ source_forecast_key ────── Links snapshot to original LIVE forecast     │
 ├────────────────────────────────────────────────────────────────────────┤
-│ id (PK, INTEGER AUTO)                                                   │
-│ snapshot_header_id (FK → forecast_snapshot_headers.id)                  │
-│ month (VARCHAR) ────────── "01" to "12"                                 │
-│ amount (FLOAT)                                                          │
-│ period (VARCHAR) ───────── "2026-01" (YYYY-MM)                         │
-├────────────────────────────────────────────────────────────────────────┤
-│ UNIQUE (snapshot_header_id, month)                                      │
+│ INDEX idx_forecast_grouping (profitcenter, wbs, account_number, year)  │
+│ INDEX idx_forecast_period (period)                                      │
+│ INDEX idx_forecast_record_type (record_type)                            │
+│ INDEX idx_forecast_snapshot_id (snapshot_id)                            │
+│ INDEX idx_forecast_batch (batch_id)                                     │
 └────────────────────────────────────────────────────────────────────────┘
 ```
+
+**Note**: The old `forecast_snapshot_headers` and `forecast_snapshot_months` tables have been removed. Snapshots are now stored in `fdwh_forecast` with `record_type='SNAP'`.
 
 ### 6.2 Key Relationships
 
@@ -651,8 +648,9 @@ forecast_key              | department_id | project_id | created_by
 | Department → Projects | 1:N | Department has many projects |
 | Department → ForecastMetadata | 1:N | Department has many forecast metadata records |
 | Project → ForecastMetadata | 1:N | Project has many forecast metadata records |
-| ForecastMetadata → FdwhForecast | 1:12 | One metadata links to 12 monthly records (by key prefix) |
-| SnapshotHeader → SnapshotMonth | 1:12 | One header has 12 monthly snapshot records |
+| ForecastMetadata → FdwhForecast (LIVE) | 1:12 | One metadata links to 12 LIVE monthly records (by forecast_key) |
+| FdwhForecast (LIVE) → FdwhForecast (SNAP) | 1:N | One LIVE forecast can have multiple snapshots (via source_forecast_key) |
+| Snapshot (by snapshot_id) | 1:12 | One snapshot_id groups 12 monthly SNAP records |
 
 ---
 
@@ -763,9 +761,11 @@ Snowflake Hybrid Tables provide:
 │  │  FastAPI Backend    │◄───────►│  Hybrid Tables      │                │
 │  │  ┌───────────────┐  │   SQL   │  ┌───────────────┐  │                │
 │  │  │ Repository    │  │         │  │ FDWH_FORECAST │  │                │
-│  │  │ Layer         │  │         │  │ (Transactional│  │                │
-│  │  └───────────────┘  │         │  │  workload)    │  │                │
-│  └─────────────────────┘         │  └───────────────┘  │                │
+│  │  │ Layer         │  │         │  │ ┌───────────┐ │  │                │
+│  │  └───────────────┘  │         │  │ │LIVE + SNAP│ │  │                │
+│  └─────────────────────┘         │  │ │ records   │ │  │                │
+│                                  │  │ └───────────┘ │  │                │
+│                                  │  └───────────────┘  │                │
 │                                  │         │          │                │
 │                                  │         ▼ (DBT)    │                │
 │                                  │  ┌───────────────┐  │                │
@@ -775,12 +775,17 @@ Snowflake Hybrid Tables provide:
 │                                  │  └───────────────┘  │                │
 │                                  └─────────────────────┘                │
 │                                                                          │
+│  SYNCED TO SNOWFLAKE (fdwh_forecast):                                    │
+│  - LIVE forecasts (record_type='LIVE')                                   │
+│  - SNAP forecasts (record_type='SNAP') with approval metadata            │
+│                                                                          │
 │  LOCAL-ONLY TABLES (remain in application database):                     │
 │  - forecast_metadata (UI metadata)                                       │
 │  - departments, projects (lookup tables)                                 │
-│  - forecast_snapshot_* (approval workflow)                               │
 └──────────────────────────────────────────────────────────────────────────┘
 ```
+
+**Key Benefit**: Both LIVE and SNAP records are now in a single `fdwh_forecast` table, enabling unified Snowflake sync. Queries like `SELECT * FROM fdwh_forecast WHERE record_type='SNAP' AND is_approved=true` can retrieve all approved snapshots for reporting.
 
 ### 8.3 Migration Phases
 

@@ -78,7 +78,7 @@ interface ForecastResponse {
 }
 
 interface ForecastSnapshotResponse {
-  id: number;
+  id: string;  // Changed from number to string - now uses snapshot_id (8-char UUID)
   forecast_id: string;
 
   // Snowflake-compatible core fields
@@ -178,7 +178,7 @@ function mapForecastFromAPI(data: ForecastResponse): Forecast {
 
 function mapForecastSnapshotFromAPI(data: ForecastSnapshotResponse): ForecastSnapshot {
   return {
-    id: data.id.toString(),
+    id: data.id,  // Already a string (snapshot_id)
     forecastId: data.forecast_id,
 
     // Snowflake-compatible core fields

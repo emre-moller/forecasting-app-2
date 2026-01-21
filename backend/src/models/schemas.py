@@ -129,7 +129,7 @@ class BulkSnapshotCreate(BaseModel):
 
 
 class ForecastSnapshot(ForecastSnapshotBase):
-    id: int
+    id: str  # Changed from int to str - now uses snapshot_id (8-char UUID)
     forecast_id: str  # Composite key: {profitcenter}_{wbs}_{account}_{year}
     batch_id: str  # Batch ID to group snapshots submitted together
     is_approved: bool
@@ -148,8 +148,8 @@ class ForecastSnapshotApprove(BaseModel):
 # These schemas map directly to the Snowflake-compatible database tables
 
 class FdwhForecastRecord(BaseModel):
-    """Internal schema for fdwh_forecast table records."""
-    pk: str  # Composite: {profitcenter}_{wbs}_{account}_{year}_{month}
+    """Internal schema for fdwh_forecast table records (unified LIVE and SNAP storage)."""
+    pk: str  # Composite: {profitcenter}_{wbs}_{account}_{year}_{month}_{record_type}_{snapshot_id}
     profitcenter: Optional[int] = None
     wbs: Optional[str] = None
     account_number: Optional[int] = None
@@ -163,6 +163,17 @@ class FdwhForecastRecord(BaseModel):
     dbt_valid_from: Optional[str] = None
     dbt_valid_to: Optional[str] = None
     period: Optional[str] = None  # "YYYY-MM"
+    # Record type fields
+    record_type: str = 'LIVE'  # 'LIVE' or 'SNAP'
+    snapshot_id: str = '0'  # '0' for LIVE, UUID for SNAP
+    # Snapshot-specific fields (NULL for LIVE records)
+    batch_id: Optional[str] = None
+    is_approved: bool = False
+    snapshot_date: Optional[datetime] = None
+    submitted_by: Optional[str] = None
+    approved_by: Optional[str] = None
+    approved_at: Optional[datetime] = None
+    source_forecast_key: Optional[str] = None
     model_config = ConfigDict(from_attributes=True)
 
 
@@ -178,27 +189,6 @@ class ForecastMetadataRecord(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-class SnapshotHeaderRecord(BaseModel):
-    """Internal schema for snapshot header records."""
-    forecast_key: str
-    profitcenter: Optional[int] = None
-    wbs: Optional[str] = None
-    account_number: Optional[int] = None
-    year: str
-    department_id: Optional[int] = None
-    project_id: Optional[int] = None
-    project_name: Optional[str] = None
-    batch_id: str
-    is_approved: bool
-    snapshot_date: datetime
-    submitted_by: str
-    approved_by: Optional[str] = None
-    approved_at: Optional[datetime] = None
-
-
-class SnapshotMonthRecord(BaseModel):
-    """Internal schema for monthly snapshot records."""
-    snapshot_header_id: int
-    month: str  # "01"-"12"
-    amount: Optional[float] = None
-    period: Optional[str] = None  # "YYYY-MM"
+# SnapshotHeaderRecord and SnapshotMonthRecord have been removed.
+# Snapshots are now stored in fdwh_forecast table with record_type='SNAP'.
+# See FdwhForecastRecord for the unified schema.

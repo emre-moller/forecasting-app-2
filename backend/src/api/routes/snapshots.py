@@ -69,8 +69,8 @@ def create_bulk_snapshots(
 
 
 @router.get("/{snapshot_id}", response_model=schemas.ForecastSnapshot)
-def get_snapshot(snapshot_id: int, db: Session = Depends(get_db)):
-    """Get a specific snapshot by ID"""
+def get_snapshot(snapshot_id: str, db: Session = Depends(get_db)):
+    """Get a specific snapshot by snapshot_id (string)"""
     repo = ForecastSnapshotRepository(db)
     snapshot = repo.get_by_id(snapshot_id)
     if not snapshot:
@@ -80,11 +80,11 @@ def get_snapshot(snapshot_id: int, db: Session = Depends(get_db)):
 
 @router.post("/{snapshot_id}/approve", response_model=schemas.ForecastSnapshot)
 def approve_snapshot(
-    snapshot_id: int,
+    snapshot_id: str,
     approval_data: schemas.ForecastSnapshotApprove,
     db: Session = Depends(get_db)
 ):
-    """Approve a snapshot"""
+    """Approve a snapshot by snapshot_id (string)"""
     repo = ForecastSnapshotRepository(db)
     snapshot = repo.approve(snapshot_id, approval_data.approved_by)
     if not snapshot:
@@ -93,8 +93,8 @@ def approve_snapshot(
 
 
 @router.delete("/{snapshot_id}", status_code=204)
-def delete_snapshot(snapshot_id: int, db: Session = Depends(get_db)):
-    """Delete a snapshot"""
+def delete_snapshot(snapshot_id: str, db: Session = Depends(get_db)):
+    """Delete a snapshot by snapshot_id (string)"""
     repo = ForecastSnapshotRepository(db)
     if not repo.delete(snapshot_id):
         raise HTTPException(status_code=404, detail="Snapshot not found")

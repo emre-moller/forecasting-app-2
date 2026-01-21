@@ -30,11 +30,12 @@ def generate_forecast_key(profitcenter: Optional[int], wbs: Optional[str], accou
     return f"{pc}_{w}_{acc}_{year}"
 
 
-def generate_pk(profitcenter: Optional[int], wbs: Optional[str], account_number: Optional[int], year: str, month: str) -> str:
+def generate_pk(profitcenter: Optional[int], wbs: Optional[str], account_number: Optional[int], year: str, month: str,
+                record_type: str = 'LIVE', snapshot_id: str = '0') -> str:
     """
     Generate a composite primary key for a single monthly record.
 
-    Format: {profitcenter}_{wbs}_{account}_{year}_{month}
+    Format: {profitcenter}_{wbs}_{account}_{year}_{month}_{record_type}_{snapshot_id}
 
     Args:
         profitcenter: Profit center number
@@ -42,12 +43,25 @@ def generate_pk(profitcenter: Optional[int], wbs: Optional[str], account_number:
         account_number: Account number
         year: Year as string (e.g., "2026")
         month: Month as string (e.g., "01", "02", ..., "12")
+        record_type: 'LIVE' for editable records, 'SNAP' for snapshots
+        snapshot_id: '0' for LIVE records, UUID for SNAP records
 
     Returns:
         Composite primary key string
     """
     base_key = generate_forecast_key(profitcenter, wbs, account_number, year)
-    return f"{base_key}_{month}"
+    return f"{base_key}_{month}_{record_type}_{snapshot_id}"
+
+
+def generate_snapshot_id() -> str:
+    """
+    Generate a unique snapshot ID.
+
+    Returns:
+        8-character hex string from UUID
+    """
+    from uuid import uuid4
+    return uuid4().hex[:8]
 
 
 def generate_period(year: str, month: str) -> str:
@@ -78,7 +92,13 @@ def month_str_to_int(month_str: str) -> int:
     return int(month_str)
 
 
-def yearly_forecast_to_monthly_records(yearly_data: Dict[str, Any], year: str = "2026") -> List[Dict[str, Any]]:
+def yearly_forecast_to_monthly_records(
+    yearly_data: Dict[str, Any],
+    year: str = "2026",
+    record_type: str = 'LIVE',
+    snapshot_id: str = '0',
+    snapshot_metadata: Optional[Dict[str, Any]] = None
+) -> List[Dict[str, Any]]:
     """
     Convert yearly forecast with 12 month fields to 12 monthly record dictionaries.
     Generates PK and PERIOD for each record matching Snowflake schema.
@@ -86,6 +106,9 @@ def yearly_forecast_to_monthly_records(yearly_data: Dict[str, Any], year: str = 
     Args:
         yearly_data: Dictionary containing monthly fields (jan, feb, mar, etc.)
         year: The year for these records (default: "2026")
+        record_type: 'LIVE' for editable records, 'SNAP' for snapshots
+        snapshot_id: '0' for LIVE records, UUID for SNAP records
+        snapshot_metadata: Optional dict with batch_id, submitted_by, snapshot_date, source_forecast_key
 
     Returns:
         List of 12 dictionaries matching fdwh_forecast schema
@@ -107,7 +130,7 @@ def yearly_forecast_to_monthly_records(yearly_data: Dict[str, Any], year: str = 
         month_str = month_int_to_str(month_num)
 
         record = {
-            'pk': generate_pk(profitcenter, wbs, account_number, year, month_str),
+            'pk': generate_pk(profitcenter, wbs, account_number, year, month_str, record_type, snapshot_id),
             'profitcenter': profitcenter,
             'wbs': wbs,
             'account_number': account_number,
@@ -122,6 +145,17 @@ def yearly_forecast_to_monthly_records(yearly_data: Dict[str, Any], year: str = 
             'dbt_updated_at': None,
             'dbt_valid_from': None,
             'dbt_valid_to': None,
+            # Record type fields
+            'record_type': record_type,
+            'snapshot_id': snapshot_id,
+            # Snapshot-specific fields (NULL for LIVE records)
+            'batch_id': snapshot_metadata.get('batch_id') if snapshot_metadata else None,
+            'is_approved': snapshot_metadata.get('is_approved', False) if snapshot_metadata else False,
+            'snapshot_date': snapshot_metadata.get('snapshot_date') if snapshot_metadata else None,
+            'submitted_by': snapshot_metadata.get('submitted_by') if snapshot_metadata else None,
+            'approved_by': snapshot_metadata.get('approved_by') if snapshot_metadata else None,
+            'approved_at': snapshot_metadata.get('approved_at') if snapshot_metadata else None,
+            'source_forecast_key': snapshot_metadata.get('source_forecast_key') if snapshot_metadata else None,
         }
         records.append(record)
 
@@ -235,26 +269,24 @@ def monthly_records_to_yearly_forecast(monthly_records: List[Any], metadata: Any
     return yearly
 
 
-def snapshot_header_to_yearly_view(snapshot_header: Any) -> Dict[str, Any]:
+def monthly_records_to_snapshot_view(monthly_records: List[Any], metadata: Any = None) -> Dict[str, Any]:
     """
-    Convert snapshot header with monthly records to yearly view.
+    Convert 12 monthly SNAP records to yearly snapshot view with approval metadata.
 
     Args:
-        snapshot_header: ForecastSnapshotHeader object with monthly_snapshots relationship
+        monthly_records: List of FdwhForecast objects with record_type='SNAP'
+        metadata: Optional ForecastMetadata object for UI fields
 
     Returns:
-        Dictionary with yearly view including approval metadata
+        Dictionary with yearly view including snapshot-specific fields
     """
-    if not hasattr(snapshot_header, 'monthly_snapshots') or not snapshot_header.monthly_snapshots:
-        raise ValueError("Snapshot header has no monthly records")
+    if not monthly_records:
+        raise ValueError("No monthly records provided")
 
-    # Sort monthly records
-    sorted_records = sorted(
-        snapshot_header.monthly_snapshots,
-        key=lambda r: int(r.month) if isinstance(r.month, str) else r.month
-    )
+    # Sort by month to ensure correct order
+    sorted_records = sorted(monthly_records, key=lambda r: int(r.month) if isinstance(r.month, str) else r.month)
 
-    # Build yearly dictionary from monthly records
+    # Build yearly dictionary
     yearly = {}
     total = 0.0
 
@@ -276,28 +308,48 @@ def snapshot_header_to_yearly_view(snapshot_header: Any) -> Dict[str, Any]:
     yearly['total'] = total
     yearly['yearly_sum'] = total
 
-    # Snowflake-compatible fields from header
-    yearly['profitcenter'] = snapshot_header.profitcenter
-    yearly['wbs'] = snapshot_header.wbs
-    yearly['account_number'] = snapshot_header.account_number
-    yearly['year'] = snapshot_header.year
+    # Copy Snowflake-compatible fields from first record
+    first_record = sorted_records[0]
+    yearly['profitcenter'] = first_record.profitcenter
+    yearly['wbs'] = first_record.wbs
+    yearly['account_number'] = first_record.account_number
+    yearly['year'] = first_record.year
 
-    # UI metadata from header
-    yearly['project_name'] = snapshot_header.project_name
-    yearly['department_id'] = snapshot_header.department_id
-    yearly['project_id'] = snapshot_header.project_id
+    # Snapshot ID is the unique identifier
+    yearly['id'] = first_record.snapshot_id
 
-    # Add snapshot-specific fields from header
-    yearly['id'] = snapshot_header.id
-    yearly['forecast_id'] = snapshot_header.forecast_key
-    yearly['batch_id'] = snapshot_header.batch_id
-    yearly['is_approved'] = snapshot_header.is_approved
-    yearly['snapshot_date'] = snapshot_header.snapshot_date
-    yearly['submitted_by'] = snapshot_header.submitted_by
-    yearly['approved_by'] = snapshot_header.approved_by
-    yearly['approved_at'] = snapshot_header.approved_at
+    # Source forecast key (composite key without month)
+    yearly['forecast_id'] = first_record.source_forecast_key or generate_forecast_key(
+        first_record.profitcenter,
+        first_record.wbs,
+        first_record.account_number,
+        first_record.year
+    )
+
+    # Snapshot-specific fields from first record
+    yearly['batch_id'] = first_record.batch_id
+    yearly['is_approved'] = first_record.is_approved
+    yearly['snapshot_date'] = first_record.snapshot_date
+    yearly['submitted_by'] = first_record.submitted_by
+    yearly['approved_by'] = first_record.approved_by
+    yearly['approved_at'] = first_record.approved_at
+
+    # Add metadata fields if provided
+    if metadata:
+        yearly['department_id'] = metadata.department_id
+        yearly['project_id'] = metadata.project_id
+        yearly['project_name'] = metadata.project_name
+    else:
+        # Default values when no metadata
+        yearly['department_id'] = None
+        yearly['project_id'] = None
+        yearly['project_name'] = None
 
     return yearly
+
+
+# snapshot_header_to_yearly_view has been replaced by monthly_records_to_snapshot_view
+# since snapshots are now stored in the unified fdwh_forecast table
 
 
 def parse_forecast_key(forecast_key: str) -> Tuple[Optional[int], Optional[str], Optional[int], str]:

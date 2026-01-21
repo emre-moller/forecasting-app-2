@@ -178,10 +178,11 @@ def init_database():
             )
             db.add(metadata)
 
-            # Create 12 monthly forecast records
+            # Create 12 monthly LIVE forecast records
             for month in range(1, 13):
                 month_str = month_int_to_str(month)
-                pk = generate_pk(profitcenter, wbs, account_number, year, month_str)
+                # PK now includes record_type and snapshot_id: {pc}_{wbs}_{acc}_{year}_{month}_LIVE_0
+                pk = generate_pk(profitcenter, wbs, account_number, year, month_str, 'LIVE', '0')
                 period = generate_period(year, month_str)
 
                 forecast_record = FdwhForecast(
@@ -198,7 +199,17 @@ def init_database():
                     dbt_scd_id=None,
                     dbt_updated_at=None,
                     dbt_valid_from=None,
-                    dbt_valid_to=None
+                    dbt_valid_to=None,
+                    # LIVE record fields
+                    record_type='LIVE',
+                    snapshot_id='0',
+                    batch_id=None,
+                    is_approved=False,
+                    snapshot_date=None,
+                    submitted_by=None,
+                    approved_by=None,
+                    approved_at=None,
+                    source_forecast_key=None,
                 )
                 db.add(forecast_record)
 

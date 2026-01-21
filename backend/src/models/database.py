@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from sqlalchemy import Boolean, Column, Date, DateTime, Float, ForeignKey, Integer, String, Text, UniqueConstraint, Index
+from sqlalchemy import Boolean, Column, Date, DateTime, Float, ForeignKey, Integer, String, Index
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -34,13 +34,17 @@ class Project(Base):
 
 class FdwhForecast(Base):
     """
-    Main forecast table - matches Snowflake fdwh_forecast schema exactly.
+    Unified forecast table - stores both LIVE forecasts and SNAPSHOT copies.
     One record per month (12 records per forecast line).
     Grouped by (profitcenter, wbs, account_number, year) to form a forecast line.
+
+    Primary key format:
+    - LIVE: {pc}_{wbs}_{acc}_{year}_{month}_LIVE_0
+    - SNAP: {pc}_{wbs}_{acc}_{year}_{month}_SNAP_{snapshot_id}
     """
     __tablename__ = "fdwh_forecast"
 
-    # Primary key - composite format: {profitcenter}_{wbs}_{account}_{year}_{month}
+    # Primary key - composite format: {profitcenter}_{wbs}_{account}_{year}_{month}_{record_type}_{snapshot_id}
     pk = Column(String, primary_key=True)
 
     # Core identifying fields
@@ -64,9 +68,24 @@ class FdwhForecast(Base):
     # Period field (YYYY-MM format)
     period = Column(String, nullable=True)
 
+    # Record type discrimination (LIVE or SNAP)
+    record_type = Column(String(10), nullable=False, default='LIVE')  # 'LIVE' or 'SNAP'
+    snapshot_id = Column(String(50), nullable=False, default='0')     # '0' for LIVE, UUID for SNAP
+
+    # Snapshot-specific fields (NULL for LIVE records)
+    batch_id = Column(String(100), nullable=True, index=True)
+    is_approved = Column(Boolean, nullable=False, default=False)
+    snapshot_date = Column(DateTime, nullable=True)
+    submitted_by = Column(String(100), nullable=True)
+    approved_by = Column(String(100), nullable=True)
+    approved_at = Column(DateTime, nullable=True)
+    source_forecast_key = Column(String, nullable=True)  # Links snapshot to original forecast
+
     __table_args__ = (
         Index('idx_forecast_grouping', 'profitcenter', 'wbs', 'account_number', 'year'),
         Index('idx_forecast_period', 'period'),
+        Index('idx_forecast_record_type', 'record_type'),
+        Index('idx_forecast_snapshot_id', 'snapshot_id'),
     )
 
 
@@ -96,63 +115,6 @@ class ForecastMetadata(Base):
     project = relationship("Project", back_populates="forecast_metadata")
 
 
-class ForecastSnapshotHeader(Base):
-    """
-    Snapshot header - one record per forecast submission.
-    Contains approval metadata and links to monthly snapshot records.
-    Adapted for new schema - uses forecast_key instead of line_id.
-    """
-    __tablename__ = "forecast_snapshot_headers"
-
-    id = Column(Integer, primary_key=True, index=True)
-
-    # Reference to source forecast (composite key without month)
-    forecast_key = Column(String, nullable=False, index=True)
-
-    # Snowflake-compatible fields
-    profitcenter = Column(Integer, nullable=True)
-    wbs = Column(String, nullable=True)
-    account_number = Column(Integer, nullable=True)
-    year = Column(String, nullable=False)
-
-    # UI metadata (for display)
-    department_id = Column(Integer, nullable=True)
-    project_id = Column(Integer, nullable=True)
-    project_name = Column(String(200), nullable=True)
-
-    # Batch ID to group snapshots submitted together
-    batch_id = Column(String(100), nullable=False, index=True)
-
-    # Snapshot metadata
-    is_approved = Column(Boolean, nullable=False, default=False)
-    snapshot_date = Column(DateTime, nullable=False, default=datetime.utcnow)
-    submitted_by = Column(String(100), nullable=False)
-    approved_by = Column(String(100), nullable=True)
-    approved_at = Column(DateTime, nullable=True)
-
-    # Relationship to monthly records
-    monthly_snapshots = relationship("ForecastSnapshotMonth", back_populates="header", cascade="all, delete-orphan")
-
-
-class ForecastSnapshotMonth(Base):
-    """
-    Snapshot monthly records - one record per month per snapshot.
-    Contains frozen point-in-time data from when forecast was submitted.
-    Schema matches fdwh_forecast for consistency.
-    """
-    __tablename__ = "forecast_snapshot_months"
-
-    id = Column(Integer, primary_key=True, index=True)
-    snapshot_header_id = Column(Integer, ForeignKey("forecast_snapshot_headers.id"), nullable=False)
-
-    # Month data (matches fdwh_forecast structure)
-    month = Column(String, nullable=False)  # "01"-"12"
-    amount = Column(Float, nullable=True)
-    period = Column(String, nullable=True)  # "YYYY-MM"
-
-    # Relationship
-    header = relationship("ForecastSnapshotHeader", back_populates="monthly_snapshots")
-
-    __table_args__ = (
-        UniqueConstraint('snapshot_header_id', 'month', name='uq_snapshot_month'),
-    )
+# ForecastSnapshotHeader and ForecastSnapshotMonth have been removed.
+# Snapshots are now stored in fdwh_forecast table with record_type='SNAP'.
+# See FdwhForecast class for the unified storage model.
