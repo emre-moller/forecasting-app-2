@@ -1,15 +1,24 @@
+import os
 from datetime import date, datetime, UTC
 
 from src.config.database import SessionLocal, engine
 from src.models.database import Base, Department, Project, FdwhForecast
 from src.services.forecast_transformation import generate_pk, generate_forecast_key, generate_period, month_int_to_str
 
-# Drop and recreate tables (start fresh per user requirement)
-Base.metadata.drop_all(bind=engine)
-Base.metadata.create_all(bind=engine)
 
+def init_database(reset: bool = False):
+    """
+    Initialize database with test data.
 
-def init_database():
+    Args:
+        reset: If True, drop all tables first (destructive). Default False.
+    """
+    if reset:
+        print("Resetting database (dropping all tables)...")
+        Base.metadata.drop_all(bind=engine)
+
+    # Create tables (idempotent - safe to run multiple times)
+    Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
         # Check if data already exists
@@ -217,4 +226,6 @@ def init_database():
 
 
 if __name__ == "__main__":
-    init_database()
+    import sys
+    reset = "--reset" in sys.argv or os.environ.get("RESET_DB", "").lower() == "true"
+    init_database(reset=reset)

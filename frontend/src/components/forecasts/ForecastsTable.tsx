@@ -73,7 +73,7 @@ export const ForecastsTable = ({ data, onEdit, onDelete }: ForecastsTableProps) 
           };
           return (
             <div className="cell-content cell-capitalize">
-              {periodTypeMap[info.getValue() as string] || info.getValue()}
+              {periodTypeMap[info.getValue() as string] || String(info.getValue())}
             </div>
           );
         },
@@ -137,7 +137,7 @@ export const ForecastsTable = ({ data, onEdit, onDelete }: ForecastsTableProps) 
   });
 
   const totalAmount = useMemo(() => {
-    return data.reduce((sum, forecast) => sum + forecast.amount, 0);
+    return data.reduce((sum, forecast) => sum + forecast.total, 0);
   }, [data]);
 
   return (

@@ -10,6 +10,11 @@ services:
       - ./data:/app/data
     environment:
       - DATABASE_URL=sqlite:////app/data/forecasts.db
+      # Database seeding options (set via command line or .env file):
+      # - SEED_DB=true     Seeds database with test data on startup
+      # - RESET_DB=true    Drops all tables before seeding (use with SEED_DB=true)
+      - SEED_DB=${SEED_DB:-false}
+      - RESET_DB=${RESET_DB:-false}
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
       interval: 30s

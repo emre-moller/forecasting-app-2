@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Select, Button, Space, Card, Statistic, Row, Col } from 'antd';
+import { Select, Button } from 'antd';
 import { FundOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { LiveForecastsTable } from '../components/forecasts/LiveForecastsTable';
 import { SnapshotsTable } from '../components/forecasts/SnapshotsTable';
@@ -49,9 +49,6 @@ export const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingForecast, setEditingForecast] = useState<Forecast | null>(null);
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
-  const [selectedProject, setSelectedProject] = useState<string | null>(null);
-  const [forecastingDimension, setForecastingDimension] = useState<'account' | 'wbs' | 'project'>('account');
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadData();
@@ -59,7 +56,6 @@ export const Dashboard = () => {
 
   const loadData = async () => {
     try {
-      setLoading(true);
       const [forecastsData, departmentsData, projectsData, snapshotsData] = await Promise.all([
         forecastsAPI.getAll(),
         departmentsAPI.getAll(),
@@ -73,8 +69,6 @@ export const Dashboard = () => {
     } catch (error) {
       console.error('Failed to load data:', error);
       alert('Kunne ikke laste data. Sørg for at backend-serveren kjører.');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -85,38 +79,8 @@ export const Dashboard = () => {
       filtered = filtered.filter((f) => f.departmentId === selectedDepartment);
     }
 
-    if (selectedProject) {
-      filtered = filtered.filter((f) => f.projectId === selectedProject);
-    }
-
     return filtered;
-  }, [forecasts, selectedDepartment, selectedProject]);
-
-  const totalsByDepartment = useMemo(() => {
-    const totals = new Map<string, number>();
-    filteredForecasts.forEach((forecast) => {
-      if (forecast.departmentId) {
-        const current = totals.get(forecast.departmentId) || 0;
-        totals.set(forecast.departmentId, current + (forecast.total || 0));
-      }
-    });
-    return totals;
-  }, [filteredForecasts]);
-
-  const totalsByProject = useMemo(() => {
-    const totals = new Map<string, number>();
-    filteredForecasts.forEach((forecast) => {
-      if (forecast.projectId) {
-        const current = totals.get(forecast.projectId) || 0;
-        totals.set(forecast.projectId, current + (forecast.total || 0));
-      }
-    });
-    return totals;
-  }, [filteredForecasts]);
-
-  const grandTotal = useMemo(() => {
-    return filteredForecasts.reduce((sum, forecast) => sum + (forecast.total || 0), 0);
-  }, [filteredForecasts]);
+  }, [forecasts, selectedDepartment]);
 
   const handleCreateForecast = async (data: ForecastFormData) => {
     try {
@@ -219,20 +183,18 @@ export const Dashboard = () => {
     try {
       // Use selected filters, or default to first available department/project
       let deptId = selectedDepartment;
-      let projId = selectedProject;
+      let projId: string | null = null;
 
       if (!deptId && departments.length > 0) {
         deptId = departments[0].id;
       }
 
-      if (!projId) {
-        const availableProjects = deptId
-          ? projects.filter(p => p.departmentId === deptId)
-          : projects;
+      const availableProjects = deptId
+        ? projects.filter(p => p.departmentId === deptId)
+        : projects;
 
-        if (availableProjects.length > 0) {
-          projId = availableProjects[0].id;
-        }
+      if (availableProjects.length > 0) {
+        projId = availableProjects[0].id;
       }
 
       // If still no department/project, can't create forecast
@@ -340,15 +302,6 @@ export const Dashboard = () => {
     }
     setIsModalOpen(true);
   };
-
-  const handleClearFilters = () => {
-    setSelectedDepartment(null);
-    setSelectedProject(null);
-  };
-
-  const filteredProjects = selectedDepartment
-    ? projects.filter((p) => p.departmentId === selectedDepartment)
-    : projects;
 
   return (
     <div className="dashboard">

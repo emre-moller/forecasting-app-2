@@ -1,8 +1,8 @@
 # Spending Forecast Tracker - Complete Technical Documentation
 
-**Document Version:** 2.1
+**Document Version:** 2.3
 **Last Updated:** January 2026
-**Status:** Production-Ready Architecture (Unified Storage Model)
+**Status:** Production-Ready Architecture (Unified Storage Model + Docker Seeding)
 
 ---
 
@@ -16,6 +16,8 @@
 6. [Current Database Schema](#6-current-database-schema)
 7. [API Reference](#7-api-reference)
 8. [Snowflake Hybrid Table Migration Plan](#8-snowflake-hybrid-table-migration-plan)
+9. [Docker Containerization](#9-docker-containerization)
+   - [9.13 Database Seeding](#913-database-seeding)
 
 ---
 
@@ -1130,3 +1132,443 @@ The architecture prioritizes:
 - **Financial compliance** (audit trails, approval workflow)
 - **Developer experience** (clear patterns, testability)
 - **Production readiness** (containerized, health checks)
+
+---
+
+## 9. Docker Containerization
+
+### 9.1 Overview
+
+The application is fully containerized using Docker with a two-container architecture:
+
+| Container | Technology | Internal Port | External Port |
+|-----------|------------|---------------|---------------|
+| **Backend** | FastAPI + Python 3.12 | 8000 | 8000 |
+| **Frontend** | React + Nginx | 80 | 3000 |
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         DOCKER COMPOSE                                   │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   ┌─────────────────────────┐      ┌─────────────────────────┐          │
+│   │       FRONTEND          │      │        BACKEND          │          │
+│   │     (Port 3000:80)      │      │     (Port 8000:8000)    │          │
+│   ├─────────────────────────┤      ├─────────────────────────┤          │
+│   │  nginx:alpine           │      │  python:3.12-slim       │          │
+│   │  ┌───────────────────┐  │      │  ┌───────────────────┐  │          │
+│   │  │ React Build (Vite)│  │      │  │ FastAPI + Uvicorn │  │          │
+│   │  └───────────────────┘  │      │  └───────────────────┘  │          │
+│   │                         │      │                         │          │
+│   │  /api/* ────────────────┼─────►│  /api/*                 │          │
+│   │  (proxy to backend)     │      │  (REST endpoints)       │          │
+│   └─────────────────────────┘      └───────────┬─────────────┘          │
+│                                                │                         │
+│                                    ┌───────────▼─────────────┐          │
+│                                    │      VOLUME: ./data     │          │
+│                                    │   (SQLite persistence)  │          │
+│                                    └─────────────────────────┘          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 9.2 Prerequisites
+
+Before running the application with Docker, ensure you have:
+
+1. **Docker Desktop** installed and running
+2. **Docker Compose** (included with Docker Desktop)
+
+Verify installation:
+```bash
+docker --version        # Should show Docker version
+docker compose version  # Should show Docker Compose version
+```
+
+### 9.3 Quick Start
+
+**Start the application:**
+```bash
+# Navigate to project root
+cd C:\Dev\forecasting-app-2
+
+# Build and start containers (first time or after code changes)
+docker compose up --build
+
+# Or run in detached mode (background)
+docker compose up --build -d
+
+# With test data seeding (idempotent - won't duplicate if data exists)
+SEED_DB=true docker compose up --build                    # Linux/macOS/Git Bash
+set SEED_DB=true && docker compose up --build             # Windows CMD
+$env:SEED_DB="true"; docker compose up --build            # Windows PowerShell
+
+# Fresh reset (drops all tables, then seeds with test data)
+SEED_DB=true RESET_DB=true docker compose up --build      # Linux/macOS/Git Bash
+set SEED_DB=true && set RESET_DB=true && docker compose up --build  # Windows CMD
+```
+
+**Access the application:**
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8000/api
+- **Health Check**: http://localhost:8000/health
+
+**Stop the application:**
+```bash
+# Stop containers (keeps data)
+docker compose down
+
+# Stop and remove volumes (removes all data)
+docker compose down -v
+```
+
+### 9.4 Docker Compose Configuration
+
+**File**: `docker-compose.yml`
+
+```yaml
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      # Persist SQLite database between container restarts
+      - ./data:/app/data
+    environment:
+      - DATABASE_URL=sqlite:////app/data/forecasts.db
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # Nginx proxies /api to backend, so we use relative path
+        VITE_API_BASE_URL: /api
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+```
+
+**Key Configuration Points:**
+
+| Setting | Purpose |
+|---------|---------|
+| `volumes: ./data:/app/data` | Persists SQLite database on host machine |
+| `VITE_API_BASE_URL: /api` | Frontend uses relative URL, Nginx proxies to backend |
+| `depends_on: backend` | Frontend waits for backend to start |
+| `healthcheck` | Docker monitors backend health |
+
+### 9.5 Backend Dockerfile
+
+**File**: `backend/Dockerfile`
+
+```dockerfile
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Install system dependencies required for snowflake-connector-python
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc g++ libffi-dev libssl-dev && rm -rf /var/lib/apt/lists/*
+
+# Install Poetry for dependency management
+RUN pip install poetry
+
+# Copy dependency files first (for Docker layer caching)
+COPY pyproject.toml poetry.lock* ./
+
+# Configure Poetry to not create virtual env (we're in a container)
+RUN poetry config virtualenvs.create false
+
+# Install production dependencies only
+RUN poetry install --no-interaction --no-ansi --only main --no-root
+
+# Copy application code
+COPY src/ ./src/
+
+# Copy and prepare entrypoint script (handles optional database seeding)
+COPY entrypoint.sh ./
+RUN chmod +x entrypoint.sh
+
+# Create data directory for SQLite
+RUN mkdir -p /app/data
+
+EXPOSE 8000
+
+# Use entrypoint for optional seeding, then run the application
+ENTRYPOINT ["./entrypoint.sh"]
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+**Build Process:**
+1. Uses Python 3.12 slim image (~150MB base)
+2. Installs system dependencies for Snowflake connector
+3. Installs Poetry for dependency management
+4. Copies and installs only production dependencies (no dev/test)
+5. Copies application source code
+6. Copies entrypoint script that handles optional database seeding
+7. Creates data directory for SQLite persistence
+8. Uses entrypoint script + Uvicorn ASGI server
+
+**Entrypoint Script** (`backend/entrypoint.sh`):
+```bash
+#!/bin/bash
+set -e
+
+# Optional database seeding on startup
+if [ "$SEED_DB" = "true" ]; then
+    echo "=== Seeding database with test data ==="
+    python src/init_db.py
+    echo "=== Database seeding complete ==="
+fi
+
+# Execute the main command (uvicorn)
+exec "$@"
+```
+
+### 9.6 Frontend Dockerfile
+
+**File**: `frontend/Dockerfile`
+
+```dockerfile
+# Build stage - compiles TypeScript and bundles React
+FROM node:20-alpine AS build
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+
+# Build argument allows API URL configuration at build time
+ARG VITE_API_BASE_URL=http://localhost:8000/api
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+
+RUN npm run build
+
+# Production stage - serves static files with Nginx
+FROM nginx:alpine
+
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+**Multi-Stage Build Benefits:**
+- Build stage: Node.js for compiling TypeScript + Vite bundling
+- Production stage: Nginx (~25MB) serves static files
+- Final image is ~30MB instead of ~400MB with Node.js
+
+### 9.7 Nginx Configuration
+
+**File**: `frontend/nginx.conf`
+
+```nginx
+server {
+    listen 80;
+    server_name localhost;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # Gzip compression for faster loading
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript
+               application/javascript application/json application/xml;
+
+    # SPA routing - serve index.html for all routes
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Cache static assets for 1 year
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Proxy API requests to backend container
+    location /api/ {
+        proxy_pass http://backend:8000/api/;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+**Nginx Features:**
+- **SPA Routing**: All routes serve `index.html` (React Router handles client-side routing)
+- **API Proxy**: `/api/*` requests are forwarded to `backend:8000`
+- **Gzip**: Compresses text-based assets for faster transfer
+- **Caching**: Static assets cached for 1 year with immutable header
+
+### 9.8 Common Commands
+
+| Command | Description |
+|---------|-------------|
+| `docker compose up --build` | Build images and start containers |
+| `docker compose up -d` | Start containers in background |
+| `SEED_DB=true docker compose up --build` | Start with database seeding (Linux/macOS) |
+| `docker compose down` | Stop and remove containers |
+| `docker compose down -v` | Stop, remove containers and volumes |
+| `docker compose logs -f` | Follow container logs |
+| `docker compose logs backend` | View backend logs only |
+| `docker compose logs frontend` | View frontend logs only |
+| `docker compose ps` | List running containers |
+| `docker compose exec backend bash` | Shell into backend container |
+| `docker compose build --no-cache` | Rebuild without cache |
+
+### 9.9 Data Persistence
+
+The SQLite database is persisted on the host machine:
+
+```
+forecasting-app-2/
+└── data/
+    └── forecasts.db    # SQLite database (persisted)
+```
+
+**Important**: The `./data` directory is mounted as a volume. Database changes survive container restarts. To reset the database, delete the `data/forecasts.db` file.
+
+### 9.10 Troubleshooting
+
+**Container won't start:**
+```bash
+# Check container logs
+docker compose logs backend
+docker compose logs frontend
+
+# Verify port availability
+netstat -an | findstr 3000
+netstat -an | findstr 8000
+```
+
+**Database connection issues:**
+```bash
+# Verify volume mount
+docker compose exec backend ls -la /app/data
+
+# Check database file permissions
+docker compose exec backend cat /app/data/forecasts.db
+```
+
+**Rebuild after code changes:**
+```bash
+# Force rebuild without cache
+docker compose build --no-cache
+docker compose up
+```
+
+**Network issues between containers:**
+```bash
+# Test backend connectivity from frontend
+docker compose exec frontend ping backend
+docker compose exec frontend curl http://backend:8000/health
+```
+
+### 9.11 Development vs Production
+
+| Aspect | Development | Production |
+|--------|-------------|------------|
+| **Start Command** | `docker compose up --build` | `docker compose -f docker-compose.prod.yml up -d` |
+| **Database** | SQLite (local file) | Snowflake Hybrid Tables |
+| **Hot Reload** | Not enabled | Not applicable |
+| **Debug Logging** | Enabled | Reduced |
+| **SSL/TLS** | Not configured | Required |
+
+For local development with hot reload, you may prefer running services directly:
+
+```bash
+# Terminal 1: Backend with hot reload
+cd backend
+poetry install
+uvicorn src.main:app --reload --port 8000
+
+# Terminal 2: Frontend with hot reload
+cd frontend
+npm install
+npm run dev
+```
+
+### 9.12 Environment Variables
+
+**Backend Environment:**
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `DATABASE_URL` | `sqlite:////app/data/forecasts.db` | Database connection string |
+| `DATABASE_TYPE` | `sqlite` | Database type (`sqlite` or `snowflake`) |
+| `SEED_DB` | `false` | Set to `true` to seed database with test data on startup |
+| `RESET_DB` | `false` | Set to `true` to drop all tables before seeding (use with `SEED_DB=true`) |
+
+**Frontend Build Args:**
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `VITE_API_BASE_URL` | `/api` | API endpoint URL (baked into build) |
+
+To override at build time:
+```bash
+docker compose build --build-arg VITE_API_BASE_URL=https://api.example.com
+```
+
+### 9.13 Database Seeding
+
+The application supports optional database seeding with test data via environment variables. This is useful for development, testing, and demos.
+
+**Seeding Options:**
+
+| Mode | Command | Behavior |
+|------|---------|----------|
+| **Normal** | `docker compose up --build` | No seeding, empty database (tables created) |
+| **Seed** | `SEED_DB=true docker compose up --build` | Seeds if database is empty, skips if data exists |
+| **Reset + Seed** | `SEED_DB=true RESET_DB=true docker compose up --build` | Drops all tables, recreates, and seeds fresh data |
+
+**Test Data Created:**
+
+When seeding, the following test data is created:
+- **5 Departments**: Teknologi, Markedsføring, Salg, Drift, Økonomi
+- **10 Projects**: Linked to departments (2 per department)
+- **8 Forecasts**: With realistic monthly amounts (96 total monthly records)
+
+**Platform-Specific Commands:**
+
+```bash
+# Linux / macOS / Git Bash
+SEED_DB=true docker compose up --build
+SEED_DB=true RESET_DB=true docker compose up --build
+
+# Windows CMD
+set SEED_DB=true && docker compose up --build
+set SEED_DB=true && set RESET_DB=true && docker compose up --build
+
+# Windows PowerShell
+$env:SEED_DB="true"; docker compose up --build
+$env:SEED_DB="true"; $env:RESET_DB="true"; docker compose up --build
+```
+
+**Manual Seeding (without Docker):**
+
+```bash
+cd backend
+python src/init_db.py           # Seed only (idempotent)
+python src/init_db.py --reset   # Drop tables and reseed
+RESET_DB=true python src/init_db.py  # Same as --reset
+```
