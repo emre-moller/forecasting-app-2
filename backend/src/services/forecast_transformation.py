@@ -97,7 +97,8 @@ def yearly_forecast_to_monthly_records(
     year: str = "2026",
     record_type: str = 'LIVE',
     snapshot_id: str = '0',
-    snapshot_metadata: Optional[Dict[str, Any]] = None
+    snapshot_metadata: Optional[Dict[str, Any]] = None,
+    ui_metadata: Optional[Dict[str, Any]] = None
 ) -> List[Dict[str, Any]]:
     """
     Convert yearly forecast with 12 month fields to 12 monthly record dictionaries.
@@ -109,6 +110,7 @@ def yearly_forecast_to_monthly_records(
         record_type: 'LIVE' for editable records, 'SNAP' for snapshots
         snapshot_id: '0' for LIVE records, UUID for SNAP records
         snapshot_metadata: Optional dict with batch_id, submitted_by, snapshot_date, source_forecast_key
+        ui_metadata: Optional dict with department_id, project_id, project_name, created_by, created_at, updated_at
 
     Returns:
         List of 12 dictionaries matching fdwh_forecast schema
@@ -119,6 +121,14 @@ def yearly_forecast_to_monthly_records(
     account_number = yearly_data.get('account_number') or yearly_data.get('accountNumber')
     source = yearly_data.get('source', 'MANUAL')
     load_start_ts = datetime.utcnow().isoformat()
+
+    # Extract UI metadata (can come from yearly_data or ui_metadata parameter)
+    department_id = (ui_metadata or {}).get('department_id') or yearly_data.get('department_id') or yearly_data.get('departmentId')
+    project_id = (ui_metadata or {}).get('project_id') or yearly_data.get('project_id') or yearly_data.get('projectId')
+    project_name = (ui_metadata or {}).get('project_name') or yearly_data.get('project_name') or yearly_data.get('projectName')
+    created_by = (ui_metadata or {}).get('created_by') or yearly_data.get('created_by') or yearly_data.get('createdBy')
+    created_at = (ui_metadata or {}).get('created_at') or yearly_data.get('created_at')
+    updated_at = (ui_metadata or {}).get('updated_at') or yearly_data.get('updated_at') or date.today()
 
     records = []
 
@@ -156,6 +166,13 @@ def yearly_forecast_to_monthly_records(
             'approved_by': snapshot_metadata.get('approved_by') if snapshot_metadata else None,
             'approved_at': snapshot_metadata.get('approved_at') if snapshot_metadata else None,
             'source_forecast_key': snapshot_metadata.get('source_forecast_key') if snapshot_metadata else None,
+            # UI metadata fields (duplicated on each monthly record for Snowflake persistence)
+            'department_id': department_id,
+            'project_id': project_id,
+            'project_name': project_name,
+            'created_by': created_by,
+            'created_at': created_at,
+            'updated_at': updated_at,
         }
         records.append(record)
 
@@ -188,13 +205,13 @@ def extract_metadata_from_yearly(yearly_data: Dict[str, Any], year: str = "2026"
     }
 
 
-def monthly_records_to_yearly_forecast(monthly_records: List[Any], metadata: Any = None) -> Dict[str, Any]:
+def monthly_records_to_yearly_forecast(monthly_records: List[Any]) -> Dict[str, Any]:
     """
     Convert 12 monthly records to yearly forecast dictionary with jan-dec fields.
+    Metadata is now extracted directly from the monthly records.
 
     Args:
-        monthly_records: List of FdwhForecast objects
-        metadata: Optional ForecastMetadata object for UI fields
+        monthly_records: List of FdwhForecast objects (with embedded metadata)
 
     Returns:
         Dictionary with yearly view (jan, feb, mar... dec, total, yearly_sum)
@@ -249,33 +266,24 @@ def monthly_records_to_yearly_forecast(monthly_records: List[Any], metadata: Any
         first_record.year
     )
 
-    # Add metadata fields if provided
-    if metadata:
-        yearly['department_id'] = metadata.department_id
-        yearly['project_id'] = metadata.project_id
-        yearly['project_name'] = metadata.project_name
-        yearly['created_by'] = metadata.created_by
-        yearly['created_at'] = metadata.created_at
-        yearly['updated_at'] = metadata.updated_at
-    else:
-        # Default values when no metadata
-        yearly['department_id'] = None
-        yearly['project_id'] = None
-        yearly['project_name'] = None
-        yearly['created_by'] = None
-        yearly['created_at'] = None
-        yearly['updated_at'] = None
+    # Extract metadata directly from the forecast records
+    yearly['department_id'] = first_record.department_id
+    yearly['project_id'] = first_record.project_id
+    yearly['project_name'] = first_record.project_name
+    yearly['created_by'] = first_record.created_by
+    yearly['created_at'] = first_record.created_at
+    yearly['updated_at'] = first_record.updated_at
 
     return yearly
 
 
-def monthly_records_to_snapshot_view(monthly_records: List[Any], metadata: Any = None) -> Dict[str, Any]:
+def monthly_records_to_snapshot_view(monthly_records: List[Any]) -> Dict[str, Any]:
     """
     Convert 12 monthly SNAP records to yearly snapshot view with approval metadata.
+    Metadata is now extracted directly from the monthly records.
 
     Args:
-        monthly_records: List of FdwhForecast objects with record_type='SNAP'
-        metadata: Optional ForecastMetadata object for UI fields
+        monthly_records: List of FdwhForecast objects with record_type='SNAP' (with embedded metadata)
 
     Returns:
         Dictionary with yearly view including snapshot-specific fields
@@ -334,16 +342,10 @@ def monthly_records_to_snapshot_view(monthly_records: List[Any], metadata: Any =
     yearly['approved_by'] = first_record.approved_by
     yearly['approved_at'] = first_record.approved_at
 
-    # Add metadata fields if provided
-    if metadata:
-        yearly['department_id'] = metadata.department_id
-        yearly['project_id'] = metadata.project_id
-        yearly['project_name'] = metadata.project_name
-    else:
-        # Default values when no metadata
-        yearly['department_id'] = None
-        yearly['project_id'] = None
-        yearly['project_name'] = None
+    # Extract metadata directly from the snapshot records
+    yearly['department_id'] = first_record.department_id
+    yearly['project_id'] = first_record.project_id
+    yearly['project_name'] = first_record.project_name
 
     return yearly
 

@@ -11,6 +11,9 @@ import {
  * Tests creating, reading, updating, and deleting forecasts
  */
 
+// Run tests in this file serially to avoid race conditions with shared database
+test.describe.configure({ mode: 'serial' });
+
 test.describe('Forecast CRUD Operations', () => {
   let testDepartments: any[];
   let testProjects: any[];
@@ -37,6 +40,40 @@ test.describe('Forecast CRUD Operations', () => {
     // Verify "ADD ROW" and "SUBMIT ALL FORECASTS" buttons are present
     await expect(page.locator('button:has-text("ADD ROW")')).toBeVisible();
     await expect(page.locator('button:has-text("SUBMIT ALL FORECASTS")')).toBeVisible();
+  });
+
+  test('should load forecasts with embedded metadata from API', async ({ page }) => {
+    // This test verifies that forecasts with embedded metadata (department_id, project_id, project_name)
+    // are correctly loaded from the backend and displayed in the frontend.
+
+    // Fetch forecasts directly from the API
+    const response = await page.request.get('http://localhost:8000/api/forecasts');
+    expect(response.ok()).toBeTruthy();
+
+    const forecasts = await response.json();
+    expect(forecasts.length).toBeGreaterThan(0);
+
+    // Verify that forecasts have embedded metadata fields
+    const forecast = forecasts[0];
+    expect(forecast).toHaveProperty('department_id');
+    expect(forecast).toHaveProperty('project_id');
+    expect(forecast).toHaveProperty('project_name');
+    expect(forecast).toHaveProperty('id');
+
+    // Verify the ID format is correct (profitcenter_wbs_account_year)
+    expect(forecast.id).toMatch(/^\d+_[^_]+_\d+_\d{4}$/);
+
+    // Verify monthly values are present
+    const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+    for (const month of months) {
+      expect(forecast).toHaveProperty(month);
+      expect(typeof forecast[month]).toBe('number');
+    }
+
+    // Verify totals are calculated
+    expect(forecast).toHaveProperty('total');
+    expect(forecast).toHaveProperty('yearly_sum');
+    expect(forecast.total).toBe(forecast.yearly_sum);
   });
 
 

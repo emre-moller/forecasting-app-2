@@ -1,8 +1,8 @@
 # Spending Forecast Tracker - Complete Technical Documentation
 
-**Document Version:** 2.0
+**Document Version:** 2.1
 **Last Updated:** January 2026
-**Status:** Production-Ready Architecture
+**Status:** Production-Ready Architecture (Unified Storage Model)
 
 ---
 
@@ -33,7 +33,7 @@ The **Spending Forecast Tracker** is a full-stack financial forecasting system d
 | **Localization** | Norwegian language and NOK currency |
 | **Scale** | Designed for 100+ concurrent users, 10,000+ forecast records |
 | **Database Strategy** | SQLite for development, Snowflake Hybrid Tables for production |
-| **Architecture** | Dual-storage model: Snowflake-compatible core data + local UI metadata |
+| **Architecture** | Unified storage model: All data (including UI metadata) syncs to Snowflake |
 
 ### Technology Stack Summary
 
@@ -165,8 +165,8 @@ The frontend provides:
 │  │                              │                                   │    │
 │  │  ┌────────────────────────────────────────────────────────────┐ │    │
 │  │  │ ORM MODELS (SQLAlchemy 2.0)                                 │ │    │
-│  │  │ FdwhForecast, ForecastMetadata, Departments, Projects       │ │    │
-│  │  │ ForecastSnapshotHeader, ForecastSnapshotMonth               │ │    │
+│  │  │ FdwhForecast (with embedded UI metadata)                     │ │    │
+│  │  │ Departments, Projects (lookup tables)                       │ │    │
 │  │  └────────────────────────────────────────────────────────────┘ │    │
 │  └─────────────────────────────────────────────────────────────────┘    │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -178,14 +178,14 @@ The frontend provides:
 │   Development: SQLite (forecasts.db)                                     │
 │   Production:  Snowflake Hybrid Tables                                   │
 │                                                                          │
-│   ┌─────────────────────┐    ┌─────────────────────────────────────┐    │
-│   │ SNOWFLAKE-SYNCED    │    │ LOCAL ONLY (NOT SYNCED)             │    │
-│   │ ─────────────────── │    │ ─────────────────────────────────── │    │
-│   │ fdwh_forecast       │    │ forecast_metadata                   │    │
-│   │ (12 records/line)   │    │ departments, projects               │    │
-│   └─────────────────────┘    │ forecast_snapshot_headers           │    │
-│                              │ forecast_snapshot_months            │    │
-│                              └─────────────────────────────────────┘    │
+│   ┌───────────────────────────────────────────────────────────────┐    │
+│   │ SNOWFLAKE-SYNCED                                               │    │
+│   │ fdwh_forecast (LIVE + SNAP records with embedded UI metadata)  │    │
+│   └───────────────────────────────────────────────────────────────┘    │
+│   ┌───────────────────────────────────────────────────────────────┐    │
+│   │ LOCAL ONLY (lookup tables)                                     │    │
+│   │ departments, projects                                          │    │
+│   └───────────────────────────────────────────────────────────────┘    │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -288,37 +288,43 @@ class FdwhForecast(Base):
 
 ---
 
-### 4.2 Dual Storage Model (Snowflake Core + Local Metadata)
+### 4.2 Unified Storage Model (All Data in Snowflake-Synced Table)
 
-**Decision**: Separate data into two tables - Snowflake-synced core data and local-only UI metadata.
+**Decision**: Embed all UI metadata directly in the `fdwh_forecast` table so all data syncs to Snowflake. This ensures data persistence across container restarts.
 
 **Implementation**:
 ```
-┌─────────────────────────────┐    ┌─────────────────────────────┐
-│       fdwh_forecast         │    │     forecast_metadata       │
-│   (Syncs to Snowflake)      │    │    (Local Only)             │
-├─────────────────────────────┤    ├─────────────────────────────┤
-│ pk (composite)              │    │ forecast_key (composite)    │
-│ profitcenter               │    │ department_id (FK)          │
-│ wbs                        │    │ project_id (FK)             │
-│ account_number             │    │ project_name                │
-│ year, month                │    │ created_by                  │
-│ amount                     │    │ created_at, updated_at      │
-│ source                     │    └─────────────────────────────┘
-│ dbt_scd_id, dbt_*          │
-│ period                     │
-└─────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                       fdwh_forecast                              │
+│              (Syncs to Snowflake - includes UI metadata)         │
+├─────────────────────────────────────────────────────────────────┤
+│ pk (composite)              │ Core identifying fields            │
+│ profitcenter, wbs           │                                    │
+│ account_number              │                                    │
+│ year, month, amount         │                                    │
+│ source, period              │                                    │
+│ dbt_scd_id, dbt_*           │ DBT SCD tracking                   │
+│ record_type, snapshot_id    │ LIVE vs SNAP discrimination        │
+│ batch_id, is_approved, ...  │ Snapshot/approval fields           │
+├─────────────────────────────┼────────────────────────────────────┤
+│ department_id               │ UI metadata (embedded)             │
+│ project_id, project_name    │                                    │
+│ created_by                  │                                    │
+│ created_at, updated_at      │                                    │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
 **Why This Design**:
 
 | Reason | Explanation |
 |--------|-------------|
-| **Schema Compliance** | `fdwh_forecast` matches the target Snowflake table exactly - no UI-specific columns |
-| **Sync Simplicity** | Only one table needs to sync to Snowflake; no filtering required |
-| **UI Flexibility** | UI metadata can change without affecting Snowflake sync |
-| **Foreign Keys** | Local metadata maintains referential integrity to departments/projects |
-| **Audit Trail** | UI-side audit fields don't pollute warehouse data |
+| **Container Persistence** | All data survives container restarts - no local-only state |
+| **Snowflake Sync** | Single table sync includes all data needed for reporting |
+| **Simplified Architecture** | No separate metadata table, no dual-database operations |
+| **Data Consistency** | Metadata is always present with forecast data |
+| **Audit in Snowflake** | Audit fields (`created_by`, etc.) are available for warehouse reporting |
+
+**Trade-off Accepted**: Metadata is duplicated across 12 monthly records per forecast. This minor denormalization is acceptable for the benefits of unified storage and container persistence.
 
 ---
 
@@ -507,9 +513,8 @@ dbt_valid_to = Column(String)         # When this version was superseded
 ┌──────────────────────────────────────────────────────────────────────────┐
 │ 4. Repository.create()                                                    │
 │    ├── yearly_forecast_to_monthly_records() → 12 monthly dicts           │
-│    ├── extract_metadata_from_yearly() → metadata dict                    │
-│    ├── INSERT 12 FdwhForecast records                                    │
-│    └── INSERT 1 ForecastMetadata record                                  │
+│    │   (includes embedded UI metadata: department_id, project_id, etc.)  │
+│    └── INSERT 12 FdwhForecast records (with metadata in each record)     │
 └──────────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
@@ -526,11 +531,10 @@ dbt_valid_to = Column(String)         # When this version was superseded
 | Function | Purpose | Input → Output |
 |----------|---------|----------------|
 | `generate_forecast_key()` | Create composite key without month | (pc, wbs, acc, year) → `"1000_WBS_4210_2026"` |
-| `generate_pk()` | Create full primary key | (pc, wbs, acc, year, month) → `"1000_WBS_4210_2026_03"` |
-| `yearly_forecast_to_monthly_records()` | Convert yearly to 12 monthly | `{jan: 100, feb: 200...}` → `[{pk, month: "01", amount: 100}, ...]` |
-| `monthly_records_to_yearly_forecast()` | Convert 12 monthly to yearly | `[FdwhForecast, ...]` → `{jan: 100, feb: 200, total: ...}` |
-| `extract_metadata_from_yearly()` | Extract UI metadata | `{departmentId, projectId...}` → `{forecast_key, department_id...}` |
-| `snapshot_header_to_yearly_view()` | Convert snapshot to yearly | `ForecastSnapshotHeader` → `{jan, feb..., isApproved, submittedBy...}` |
+| `generate_pk()` | Create full primary key | (pc, wbs, acc, year, month, type, snap_id) → `"1000_WBS_4210_2026_03_LIVE_0"` |
+| `yearly_forecast_to_monthly_records()` | Convert yearly to 12 monthly (with metadata) | `{jan: 100, feb: 200, department_id: 1...}` → `[{pk, month: "01", amount: 100, department_id: 1}, ...]` |
+| `monthly_records_to_yearly_forecast()` | Convert 12 monthly to yearly | `[FdwhForecast, ...]` → `{jan: 100, feb: 200, total: ..., department_id: 1}` |
+| `monthly_records_to_snapshot_view()` | Convert SNAP records to yearly | `[FdwhForecast(SNAP), ...]` → `{jan, feb..., isApproved, submittedBy...}` |
 
 ### 5.3 Example Transformation
 
@@ -552,20 +556,16 @@ dbt_valid_to = Column(String)         # When this version was superseded
 
 **Transformed to Database Records**:
 
-`fdwh_forecast` (12 records):
+`fdwh_forecast` (12 records with embedded metadata):
 ```
-pk                           | month | amount | year | profitcenter | wbs    | account_number
-1000_PROJ-A_4210_2026_01    | 01    | 5000   | 2026 | 1000         | PROJ-A | 4210
-1000_PROJ-A_4210_2026_02    | 02    | 5000   | 2026 | 1000         | PROJ-A | 4210
-1000_PROJ-A_4210_2026_03    | 03    | 6000   | 2026 | 1000         | PROJ-A | 4210
-... (9 more rows)
+pk                                  | month | amount | profitcenter | wbs    | account_number | department_id | project_id | created_by
+1000_PROJ-A_4210_2026_01_LIVE_0    | 01    | 5000   | 1000         | PROJ-A | 4210           | 1             | 3          | System
+1000_PROJ-A_4210_2026_02_LIVE_0    | 02    | 5000   | 1000         | PROJ-A | 4210           | 1             | 3          | System
+1000_PROJ-A_4210_2026_03_LIVE_0    | 03    | 6000   | 1000         | PROJ-A | 4210           | 1             | 3          | System
+... (9 more rows, all with same metadata)
 ```
 
-`forecast_metadata` (1 record):
-```
-forecast_key              | department_id | project_id | created_by
-1000_PROJ-A_4210_2026    | 1             | 3          | System
-```
+Note: UI metadata (`department_id`, `project_id`, `project_name`, `created_by`, `created_at`, `updated_at`) is duplicated across all 12 monthly records. This ensures metadata persists with the forecast data when synced to Snowflake.
 
 ---
 
@@ -576,34 +576,22 @@ forecast_key              | department_id | project_id | created_by
 ```
 ┌─────────────────────────┐       ┌─────────────────────────┐
 │      departments        │       │       projects          │
+│    (Lookup table)       │       │    (Lookup table)       │
 ├─────────────────────────┤       ├─────────────────────────┤
 │ id (PK, INTEGER)        │───┐   │ id (PK, INTEGER)        │
 │ name (VARCHAR)          │   │   │ name (VARCHAR)          │
 │ code (VARCHAR, UNIQUE)  │   └──►│ department_id (FK)      │
 └─────────────────────────┘       │ code (VARCHAR, UNIQUE)  │
-         │                        └─────────────────────────┘
-         │                                    │
-         ▼                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                        forecast_metadata                                │
-│                  (LOCAL ONLY - UI metadata, not synced)                │
-├────────────────────────────────────────────────────────────────────────┤
-│ forecast_key (PK, VARCHAR) ── Format: {pc}_{wbs}_{acc}_{year}          │
-│ department_id (FK → departments.id)                                     │
-│ project_id (FK → projects.id)                                           │
-│ project_name (VARCHAR)                                                  │
-│ created_by (VARCHAR)                                                    │
-│ created_at (DATE)                                                       │
-│ updated_at (DATE)                                                       │
-└────────────────────────────────────────────────────────────────────────┘
-         │ (linked by forecast_key / source_forecast_key)
-         ▼
+                                  └─────────────────────────┘
+
 ┌────────────────────────────────────────────────────────────────────────┐
 │                          fdwh_forecast                                  │
-│       (SNOWFLAKE-SYNCED - Unified storage for LIVE and SNAP)           │
+│     (SNOWFLAKE-SYNCED - Unified storage for LIVE and SNAP)             │
+│     (UI metadata embedded directly for container persistence)           │
 ├────────────────────────────────────────────────────────────────────────┤
 │ pk (PK, VARCHAR) ───────── Format: {pc}_{wbs}_{acc}_{year}_{month}     │
 │                            _{record_type}_{snapshot_id}                 │
+│ ─── Core Identifying Fields ───                                         │
 │ profitcenter (INTEGER)                                                  │
 │ wbs (VARCHAR)                                                           │
 │ account_number (INTEGER)                                                │
@@ -612,11 +600,13 @@ forecast_key              | department_id | project_id | created_by
 │ amount (FLOAT)                                                          │
 │ source (VARCHAR(7)) ────── "MANUAL" or "IMPORT"                         │
 │ load_start_ts (VARCHAR)                                                 │
-│ dbt_scd_id (VARCHAR(32)) ─ DBT SCD tracking                            │
+│ period (VARCHAR) ───────── "2026-01" (YYYY-MM)                         │
+│                                                                         │
+│ ─── DBT SCD Tracking ───                                                │
+│ dbt_scd_id (VARCHAR(32))                                                │
 │ dbt_updated_at (VARCHAR)                                                │
 │ dbt_valid_from (VARCHAR)                                                │
 │ dbt_valid_to (VARCHAR)                                                  │
-│ period (VARCHAR) ───────── "2026-01" (YYYY-MM)                         │
 │                                                                         │
 │ ─── Record Type Discrimination ───                                      │
 │ record_type (VARCHAR) ──── "LIVE" or "SNAP"                            │
@@ -630,6 +620,14 @@ forecast_key              | department_id | project_id | created_by
 │ approved_by (VARCHAR)                                                   │
 │ approved_at (DATETIME)                                                  │
 │ source_forecast_key ────── Links snapshot to original LIVE forecast     │
+│                                                                         │
+│ ─── UI Metadata (embedded for Snowflake persistence) ───               │
+│ department_id (INTEGER) ── References departments.id                    │
+│ project_id (INTEGER) ───── References projects.id                       │
+│ project_name (VARCHAR)                                                  │
+│ created_by (VARCHAR)                                                    │
+│ created_at (DATE)                                                       │
+│ updated_at (DATE)                                                       │
 ├────────────────────────────────────────────────────────────────────────┤
 │ INDEX idx_forecast_grouping (profitcenter, wbs, account_number, year)  │
 │ INDEX idx_forecast_period (period)                                      │
@@ -639,18 +637,18 @@ forecast_key              | department_id | project_id | created_by
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Note**: The old `forecast_snapshot_headers` and `forecast_snapshot_months` tables have been removed. Snapshots are now stored in `fdwh_forecast` with `record_type='SNAP'`.
+**Note**: The `forecast_metadata` table has been removed. UI metadata is now embedded directly in `fdwh_forecast` records to ensure persistence across container restarts and Snowflake sync.
 
 ### 6.2 Key Relationships
 
 | Relationship | Type | Description |
 |--------------|------|-------------|
 | Department → Projects | 1:N | Department has many projects |
-| Department → ForecastMetadata | 1:N | Department has many forecast metadata records |
-| Project → ForecastMetadata | 1:N | Project has many forecast metadata records |
-| ForecastMetadata → FdwhForecast (LIVE) | 1:12 | One metadata links to 12 LIVE monthly records (by forecast_key) |
+| FdwhForecast grouping | 12:1 | 12 monthly records share same (profitcenter, wbs, account_number, year) |
 | FdwhForecast (LIVE) → FdwhForecast (SNAP) | 1:N | One LIVE forecast can have multiple snapshots (via source_forecast_key) |
 | Snapshot (by snapshot_id) | 1:12 | One snapshot_id groups 12 monthly SNAP records |
+
+**Note**: `department_id` and `project_id` in `fdwh_forecast` are denormalized references (not foreign keys) to maintain Snowflake compatibility and avoid cross-table joins during sync.
 
 ---
 
@@ -776,12 +774,11 @@ Snowflake Hybrid Tables provide:
 │                                  └─────────────────────┘                │
 │                                                                          │
 │  SYNCED TO SNOWFLAKE (fdwh_forecast):                                    │
-│  - LIVE forecasts (record_type='LIVE')                                   │
-│  - SNAP forecasts (record_type='SNAP') with approval metadata            │
+│  - LIVE forecasts (record_type='LIVE') with embedded UI metadata         │
+│  - SNAP forecasts (record_type='SNAP') with approval + UI metadata       │
 │                                                                          │
-│  LOCAL-ONLY TABLES (remain in application database):                     │
-│  - forecast_metadata (UI metadata)                                       │
-│  - departments, projects (lookup tables)                                 │
+│  LOCAL-ONLY TABLES (lookup tables, not synced):                          │
+│  - departments, projects                                                 │
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -818,8 +815,10 @@ GRANT USAGE ON WAREHOUSE FORECASTING_WH TO ROLE FORECASTING_APP_ROLE;
 
 ```sql
 -- Create Hybrid Table matching current fdwh_forecast schema exactly
+-- Includes embedded UI metadata for container persistence
 CREATE HYBRID TABLE FORECASTING_PROD.OPERATIONAL.FDWH_FORECAST (
     PK VARCHAR(500) NOT NULL PRIMARY KEY,
+    -- Core identifying fields
     PROFITCENTER NUMBER(38,0),
     WBS VARCHAR(500),
     ACCOUNT_NUMBER NUMBER(38,0),
@@ -828,15 +827,38 @@ CREATE HYBRID TABLE FORECASTING_PROD.OPERATIONAL.FDWH_FORECAST (
     SOURCE VARCHAR(7),
     LOAD_START_TS VARCHAR(50),
     AMOUNT FLOAT,
+    PERIOD VARCHAR(10),
+    -- DBT SCD tracking
     DBT_SCD_ID VARCHAR(32),
     DBT_UPDATED_AT VARCHAR(50),
     DBT_VALID_FROM VARCHAR(50),
     DBT_VALID_TO VARCHAR(50),
-    PERIOD VARCHAR(10),
+    -- Record type discrimination
+    RECORD_TYPE VARCHAR(10) NOT NULL DEFAULT 'LIVE',
+    SNAPSHOT_ID VARCHAR(50) NOT NULL DEFAULT '0',
+    -- Snapshot-specific fields (NULL for LIVE)
+    BATCH_ID VARCHAR(100),
+    IS_APPROVED BOOLEAN DEFAULT FALSE,
+    SNAPSHOT_DATE TIMESTAMP_NTZ,
+    SUBMITTED_BY VARCHAR(100),
+    APPROVED_BY VARCHAR(100),
+    APPROVED_AT TIMESTAMP_NTZ,
+    SOURCE_FORECAST_KEY VARCHAR(500),
+    -- UI metadata (embedded for persistence)
+    DEPARTMENT_ID NUMBER(38,0),
+    PROJECT_ID NUMBER(38,0),
+    PROJECT_NAME VARCHAR(200),
+    CREATED_BY VARCHAR(100),
+    CREATED_AT DATE,
+    UPDATED_AT DATE,
 
     -- Secondary indexes for common query patterns
     INDEX IDX_GROUPING (PROFITCENTER, WBS, ACCOUNT_NUMBER, YEAR),
-    INDEX IDX_PERIOD (PERIOD)
+    INDEX IDX_PERIOD (PERIOD),
+    INDEX IDX_RECORD_TYPE (RECORD_TYPE),
+    INDEX IDX_SNAPSHOT_ID (SNAPSHOT_ID),
+    INDEX IDX_BATCH (BATCH_ID),
+    INDEX IDX_DEPARTMENT (DEPARTMENT_ID)
 );
 
 -- Grant permissions
@@ -888,39 +910,46 @@ def get_db():
         db.close()
 ```
 
-#### Phase 4: Update Repository for Dual-Database (Day 2-3)
+#### Phase 4: Update Repository (Day 2-3)
 
 **Key Changes to `forecast_repository.py`**:
 
+With embedded metadata, the repository is simplified - no dual-database operations needed:
+
 ```python
 class ForecastRepository:
-    def __init__(self, snowflake_db: Session, local_db: Session = None):
-        self.sf_db = snowflake_db
-        self.local_db = local_db or snowflake_db  # Same DB in SQLite mode
-        self.is_snowflake = os.environ.get("DATABASE_TYPE") == "snowflake"
+    def __init__(self, db: Session):
+        self.db = db
 
     def create(self, forecast_data: dict, created_by: str = "System"):
-        # Transform to monthly records
+        # Transform to monthly records with embedded UI metadata
         year = forecast_data.get('year', '2026')
-        monthly_records = yearly_forecast_to_monthly_records(forecast_data, year)
-        metadata = extract_metadata_from_yearly(forecast_data, year)
+        ui_metadata = {
+            'created_by': created_by,
+            'created_at': date.today(),
+            'updated_at': date.today(),
+        }
+        monthly_records = yearly_forecast_to_monthly_records(
+            forecast_data, year=year, ui_metadata=ui_metadata
+        )
 
-        # Insert monthly records to Snowflake (or SQLite)
+        # Insert monthly records (metadata is embedded in each record)
         for record in monthly_records:
             db_record = FdwhForecast(**record)
-            self.sf_db.add(db_record)
+            self.db.add(db_record)
 
-        # Insert metadata to local database
-        metadata['created_by'] = created_by
-        db_metadata = ForecastMetadata(**metadata)
-        self.local_db.add(db_metadata)
+        self.db.commit()
 
-        self.sf_db.commit()
-        if self.local_db != self.sf_db:
-            self.local_db.commit()
-
-        return self.get_by_id(metadata['forecast_key'])
+        forecast_key = generate_forecast_key(
+            forecast_data.get('profitcenter'),
+            forecast_data.get('wbs'),
+            forecast_data.get('account_number'),
+            year
+        )
+        return self.get_by_id(forecast_key)
 ```
+
+**Note**: The repository no longer needs separate `ForecastMetadata` operations. All metadata is embedded in the `FdwhForecast` records.
 
 #### Phase 5: Data Migration Script (Day 3)
 
@@ -928,7 +957,7 @@ class ForecastRepository:
 # scripts/migrate_to_snowflake.py
 import snowflake.connector
 import sqlite3
-from datetime import datetime
+import os
 
 def migrate_forecasts():
     """Migrate fdwh_forecast data from SQLite to Snowflake Hybrid Table"""
@@ -949,24 +978,36 @@ def migrate_forecasts():
     sf_cursor = sf_conn.cursor()
 
     try:
-        # Read from SQLite
+        # Read from SQLite (including embedded metadata columns)
         sqlite_cursor.execute("""
             SELECT pk, profitcenter, wbs, account_number, year, month,
-                   source, load_start_ts, amount, dbt_scd_id,
-                   dbt_updated_at, dbt_valid_from, dbt_valid_to, period
+                   source, load_start_ts, amount, period,
+                   dbt_scd_id, dbt_updated_at, dbt_valid_from, dbt_valid_to,
+                   record_type, snapshot_id,
+                   batch_id, is_approved, snapshot_date, submitted_by,
+                   approved_by, approved_at, source_forecast_key,
+                   department_id, project_id, project_name,
+                   created_by, created_at, updated_at
             FROM fdwh_forecast
         """)
         records = sqlite_cursor.fetchall()
 
         print(f"Migrating {len(records)} records...")
 
-        # Batch insert to Snowflake
+        # Batch insert to Snowflake (all columns including metadata)
         sf_cursor.executemany("""
             INSERT INTO FDWH_FORECAST
             (PK, PROFITCENTER, WBS, ACCOUNT_NUMBER, YEAR, MONTH,
-             SOURCE, LOAD_START_TS, AMOUNT, DBT_SCD_ID,
-             DBT_UPDATED_AT, DBT_VALID_FROM, DBT_VALID_TO, PERIOD)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+             SOURCE, LOAD_START_TS, AMOUNT, PERIOD,
+             DBT_SCD_ID, DBT_UPDATED_AT, DBT_VALID_FROM, DBT_VALID_TO,
+             RECORD_TYPE, SNAPSHOT_ID,
+             BATCH_ID, IS_APPROVED, SNAPSHOT_DATE, SUBMITTED_BY,
+             APPROVED_BY, APPROVED_AT, SOURCE_FORECAST_KEY,
+             DEPARTMENT_ID, PROJECT_ID, PROJECT_NAME,
+             CREATED_BY, CREATED_AT, UPDATED_AT)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """, records)
 
         sf_conn.commit()
@@ -1078,12 +1119,13 @@ docker-compose restart backend
 This document describes a well-architected financial forecasting application with:
 
 1. **Clear separation of concerns**: Routes → Transformation → Repository → Database
-2. **Snowflake-ready schema**: Core data table matches Snowflake exactly
-3. **Dual storage model**: Snowflake-synced data + local UI metadata
+2. **Snowflake-ready schema**: Single table with all data (including UI metadata)
+3. **Unified storage model**: All data syncs to Snowflake for container persistence
 4. **Approval workflow**: Batch-based snapshot system for financial compliance
 5. **Migration path**: Clear plan to move from SQLite to Snowflake Hybrid Tables
 
 The architecture prioritizes:
+- **Container persistence** (all data survives restarts via Snowflake sync)
 - **Database portability** (SQLite ↔ Snowflake)
 - **Financial compliance** (audit trails, approval workflow)
 - **Developer experience** (clear patterns, testability)

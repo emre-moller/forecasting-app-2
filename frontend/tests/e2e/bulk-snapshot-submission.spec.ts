@@ -13,6 +13,9 @@ import {
  * Tests the new bulk snapshot submission workflow
  */
 
+// Run tests in this file serially to avoid race conditions with shared database
+test.describe.configure({ mode: 'serial' });
+
 test.describe('Bulk Snapshot Submission', () => {
   let testDepartments: any[];
   let testProjects: any[];
@@ -20,19 +23,18 @@ test.describe('Bulk Snapshot Submission', () => {
   test.beforeAll(async () => {
     testDepartments = await getDepartments();
     testProjects = await getProjects();
+    // Clean up at start of test suite
+    await cleanupTestSnapshots();
+    await cleanupTestForecasts();
   });
 
   test.beforeEach(async ({ page }) => {
-    // Clean up before each test
-    await cleanupTestSnapshots();
-    await cleanupTestForecasts();
-
     await page.goto('/');
     await waitForDashboardLoad(page);
   });
 
-  test.afterEach(async () => {
-    // Clean up after each test
+  test.afterAll(async () => {
+    // Clean up after all tests complete
     await cleanupTestSnapshots();
     await cleanupTestForecasts();
   });
@@ -107,9 +109,10 @@ test.describe('Bulk Snapshot Submission', () => {
     await page.locator(`.ant-select-item-option:has-text("${dept.name}")`).first().click();
     await page.waitForTimeout(500);
 
-    // Get the number of live forecasts
+    // Get the number of live forecasts (exclude placeholder row which has 'add-row' class)
     const liveTable = page.locator('.forecast-input-section table');
-    const liveForecasts = liveTable.locator('tbody tr').filter({hasNotText: 'Click to add'});
+    // Count rows that contain test data (WBS-BULK pattern)
+    const liveForecasts = liveTable.locator('tbody tr:has-text("WBS-BULK")');
     const forecastCount = await liveForecasts.count();
     expect(forecastCount).toBeGreaterThan(0);
 

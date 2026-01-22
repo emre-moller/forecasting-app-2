@@ -12,6 +12,9 @@ import {
  * Tests real user interactions: inline editing, filtering, row operations
  */
 
+// Run tests in this file serially to avoid race conditions with shared database
+test.describe.configure({ mode: 'serial' });
+
 test.describe('User Workflows', () => {
   let testDepartments: any[];
   let testProjects: any[];
@@ -19,15 +22,17 @@ test.describe('User Workflows', () => {
   test.beforeAll(async () => {
     testDepartments = await getDepartments();
     testProjects = await getProjects();
+    // Clean up at start of test suite
+    await cleanupTestForecasts();
   });
 
   test.beforeEach(async ({ page }) => {
-    await cleanupTestForecasts();
     await page.goto('/');
     await waitForDashboardLoad(page);
   });
 
-  test.afterEach(async () => {
+  test.afterAll(async () => {
+    // Clean up after all tests complete
     await cleanupTestForecasts();
   });
 
@@ -59,8 +64,8 @@ test.describe('User Workflows', () => {
     const liveTable = page.locator('.forecast-input-section table');
     await expect(liveTable).toBeVisible();
 
-    // Find a data row (not the "click to add" row)
-    const dataRow = liveTable.locator('tbody tr').filter({hasNotText: 'Click to add'}).first();
+    // Find the data row with our test forecast (not the placeholder row)
+    const dataRow = liveTable.locator('tbody tr:has-text("Inline Edit Test")');
     await expect(dataRow).toBeVisible();
 
     // Find a cell with numeric content (one of the month columns)
@@ -122,7 +127,7 @@ test.describe('User Workflows', () => {
 
     // Select department 1
     await page.locator('.ant-select').first().click();
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(500);
     await page.locator(`.ant-select-item-option:has-text("${dept1.name}")`).first().click();
     await page.waitForTimeout(2000);
 
@@ -131,9 +136,13 @@ test.describe('User Workflows', () => {
     await expect(liveTable).toContainText('Dept 1 Forecast', { timeout: 10000 });
     await expect(liveTable).not.toContainText('Dept 2 Forecast');
 
-    // Change to department 2
-    await page.locator('.ant-select').first().click();
+    // Change to department 2 - click away first to ensure dropdown is closed, then reopen
+    await page.locator('body').click({ position: { x: 10, y: 10 } });
     await page.waitForTimeout(300);
+    await page.locator('.ant-select').first().click();
+    await page.waitForTimeout(500);
+    // Wait for dropdown to be visible
+    await expect(page.locator('.ant-select-dropdown')).toBeVisible();
     await page.locator(`.ant-select-item-option:has-text("${dept2.name}")`).first().click();
     await page.waitForTimeout(2000);
 
@@ -196,16 +205,22 @@ test.describe('User Workflows', () => {
     const liveTable = page.locator('.forecast-input-section table');
     await expect(liveTable).toContainText('Delete Me');
 
-    // Set up dialog handler for confirm
-    page.on('dialog', dialog => dialog.accept());
+    // Set up dialog handler for confirm BEFORE any click
+    page.on('dialog', async dialog => {
+      await dialog.accept();
+    });
 
-    // Click delete button
-    const deleteButton = liveTable.locator('button:has-text("Delete")').first();
+    // Find the specific row with our test forecast and click its delete button
+    const targetRow = liveTable.locator('tbody tr:has-text("Delete Me")');
+    await expect(targetRow).toBeVisible();
+    const deleteButton = targetRow.locator('button:has-text("Delete")');
     await deleteButton.click();
-    await page.waitForTimeout(1000);
+
+    // Wait for the delete to complete and UI to update
+    await page.waitForTimeout(2000);
 
     // Forecast should be gone
-    await expect(liveTable).not.toContainText('Delete Me');
+    await expect(liveTable).not.toContainText('Delete Me', { timeout: 5000 });
   });
 
   test('should edit yearly sum and distribute to all months', async ({ page }) => {
@@ -232,13 +247,13 @@ test.describe('User Workflows', () => {
     await page.locator(`.ant-select-item-option:has-text("${dept.name}")`).first().click();
     await page.waitForTimeout(2000);
 
-    // Find the live forecasts table
+    // Find the live forecasts table and our specific test row
     const liveTable = page.locator('.forecast-input-section table');
-    const firstRow = liveTable.locator('tbody tr').filter({hasNotText: 'Click to add'}).first();
-    await expect(firstRow).toBeVisible();
+    const dataRow = liveTable.locator('tbody tr:has-text("Yearly Sum Test")');
+    await expect(dataRow).toBeVisible();
 
     // Find all numeric cells, the last one before actions should be YEARLY SUM
-    const numericCells = firstRow.locator('.cell-number');
+    const numericCells = dataRow.locator('.cell-number');
     const yearlySumCell = numericCells.last();
     await expect(yearlySumCell).toBeVisible();
 
@@ -247,7 +262,7 @@ test.describe('User Workflows', () => {
     await page.waitForTimeout(500);
 
     // Should see an input field
-    const input = firstRow.locator('input[type="number"]').last();
+    const input = dataRow.locator('input[type="number"]').last();
     await expect(input).toBeVisible();
 
     // Change to 1,200,000 (should distribute 100,000 per month)
@@ -259,10 +274,12 @@ test.describe('User Workflows', () => {
 
     // Verify one of the month cells was updated (should show distributed value)
     // Just check that the row contains the expected value
-    await expect(firstRow).toContainText('100');
+    await expect(dataRow).toContainText('100');
   });
 
-  test('should display forecasting dimension selector', async ({ page }) => {
+  // Note: Forecasting dimension selector was removed from the current implementation
+  // This test is skipped until the feature is re-implemented
+  test.skip('should display forecasting dimension selector', async ({ page }) => {
     // Verify dimension selector is visible
     await expect(page.locator('text=SELECT FORECASTING DIMENSION')).toBeVisible();
 

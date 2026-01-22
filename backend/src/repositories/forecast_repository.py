@@ -13,7 +13,6 @@ from src.services.forecast_transformation import (
     generate_snapshot_id,
     month_int_to_str,
     yearly_forecast_to_monthly_records,
-    extract_metadata_from_yearly,
     monthly_records_to_yearly_forecast,
     monthly_records_to_snapshot_view,
     parse_forecast_key,
@@ -34,6 +33,7 @@ class ForecastRepository:
         """
         Get all LIVE forecasts as yearly views.
         Queries all monthly records with record_type='LIVE', groups by composite key, and transforms to yearly format.
+        Metadata is now embedded in the forecast records.
         """
         # Query all LIVE monthly records only
         monthly_records = self.db.query(database.FdwhForecast)\
@@ -49,16 +49,11 @@ class ForecastRepository:
             key = generate_forecast_key(record.profitcenter, record.wbs, record.account_number, record.year)
             grouped[key].append(record)
 
-        # Get all metadata records for lookup
-        metadata_records = self.db.query(database.ForecastMetadata).all()
-        metadata_lookup = {m.forecast_key: m for m in metadata_records}
-
-        # Convert each group to yearly forecast
+        # Convert each group to yearly forecast (metadata is embedded in records)
         forecasts = []
         for forecast_key, months in grouped.items():
             if len(months) > 0:
-                metadata = metadata_lookup.get(forecast_key)
-                yearly_dict = monthly_records_to_yearly_forecast(months, metadata)
+                yearly_dict = monthly_records_to_yearly_forecast(months)
                 forecast = schemas.Forecast(**yearly_dict)
                 forecasts.append(forecast)
 
@@ -68,6 +63,7 @@ class ForecastRepository:
         """
         Get LIVE forecast by composite key.
         Fetches 12 monthly records with record_type='LIVE' and transforms to yearly view.
+        Metadata is now embedded in the forecast records.
         """
         # Parse the forecast_id (which is the composite key without month)
         try:
@@ -101,31 +97,31 @@ class ForecastRepository:
         if len(months) == 0:
             return None
 
-        # Get metadata
-        metadata = self.db.query(database.ForecastMetadata)\
-            .filter(database.ForecastMetadata.forecast_key == forecast_id)\
-            .first()
-
-        # Transform to yearly view
-        yearly_dict = monthly_records_to_yearly_forecast(months, metadata)
+        # Transform to yearly view (metadata is embedded in records)
+        yearly_dict = monthly_records_to_yearly_forecast(months)
         return schemas.Forecast(**yearly_dict)
 
     def create(self, forecast: schemas.ForecastCreate, created_by: str) -> schemas.Forecast:
         """
         Create a new LIVE forecast from yearly data.
         Transforms yearly data to 12 monthly records and bulk inserts with record_type='LIVE'.
-        Also creates metadata record for UI fields.
+        Metadata is now embedded in each forecast record for Snowflake persistence.
         """
         # Get the year from forecast data (default to "2026")
         year = forecast.year if forecast.year else "2026"
 
-        # Transform yearly data to monthly records (LIVE records)
+        # Transform yearly data to monthly records (LIVE records with embedded metadata)
         forecast_data = forecast.model_dump()
+        ui_metadata = {
+            'created_by': created_by,
+            'created_at': date.today(),
+            'updated_at': date.today(),
+        }
         monthly_data = yearly_forecast_to_monthly_records(
-            forecast_data, year=year, record_type='LIVE', snapshot_id='0'
+            forecast_data, year=year, record_type='LIVE', snapshot_id='0', ui_metadata=ui_metadata
         )
 
-        # Create 12 FdwhForecast database records
+        # Create 12 FdwhForecast database records with embedded metadata
         db_records = []
         for month_data in monthly_data:
             db_record = database.FdwhForecast(
@@ -153,35 +149,26 @@ class ForecastRepository:
                 approved_by=None,
                 approved_at=None,
                 source_forecast_key=None,
+                # UI metadata fields (embedded for Snowflake persistence)
+                department_id=month_data['department_id'],
+                project_id=month_data['project_id'],
+                project_name=month_data['project_name'],
+                created_by=month_data['created_by'],
+                created_at=month_data['created_at'],
+                updated_at=month_data['updated_at'],
             )
             db_records.append(db_record)
 
         # Bulk insert forecast records
         self.db.add_all(db_records)
-
-        # Create metadata record
-        metadata_data = extract_metadata_from_yearly(forecast_data, year=year)
-        metadata_data['created_by'] = created_by
-        db_metadata = database.ForecastMetadata(
-            forecast_key=metadata_data['forecast_key'],
-            department_id=metadata_data['department_id'],
-            project_id=metadata_data['project_id'],
-            project_name=metadata_data['project_name'],
-            created_by=metadata_data['created_by'],
-            created_at=metadata_data['created_at'],
-            updated_at=metadata_data['updated_at'],
-        )
-        self.db.add(db_metadata)
-
         self.db.commit()
 
         # Refresh all records
         for record in db_records:
             self.db.refresh(record)
-        self.db.refresh(db_metadata)
 
-        # Return as yearly view
-        yearly_dict = monthly_records_to_yearly_forecast(db_records, db_metadata)
+        # Return as yearly view (metadata is embedded in records)
+        yearly_dict = monthly_records_to_yearly_forecast(db_records)
         return schemas.Forecast(**yearly_dict)
 
     def update(self, forecast_id: str, forecast: schemas.ForecastUpdate) -> Optional[schemas.Forecast]:
@@ -189,6 +176,7 @@ class ForecastRepository:
         Update a LIVE forecast by deleting old monthly records and inserting new ones.
         This is simpler than selective updates and maintains data integrity.
         Only updates LIVE records (record_type='LIVE').
+        Metadata is now embedded in each forecast record for Snowflake persistence.
         """
         # Parse the forecast_id
         try:
@@ -219,34 +207,32 @@ class ForecastRepository:
         if not existing_months:
             return None
 
-        # Get existing metadata
-        existing_metadata = self.db.query(database.ForecastMetadata)\
-            .filter(database.ForecastMetadata.forecast_key == forecast_id)\
-            .first()
-
-        created_by = existing_metadata.created_by if existing_metadata else "System"
-        created_at = existing_metadata.created_at if existing_metadata else date.today()
+        # Preserve existing metadata from records
+        first_existing = existing_months[0]
+        created_by = first_existing.created_by or "System"
+        created_at = first_existing.created_at or date.today()
 
         # Delete existing LIVE forecast records
         for record in existing_months:
             self.db.delete(record)
-
-        # Delete existing metadata
-        if existing_metadata:
-            self.db.delete(existing_metadata)
 
         self.db.flush()
 
         # Get year from updated forecast (or keep old)
         year = forecast.year if forecast.year else old_year
 
-        # Transform updated data to monthly records (LIVE records)
+        # Transform updated data to monthly records (LIVE records with preserved metadata)
         forecast_data = forecast.model_dump()
+        ui_metadata = {
+            'created_by': created_by,
+            'created_at': created_at,
+            'updated_at': date.today(),
+        }
         monthly_data = yearly_forecast_to_monthly_records(
-            forecast_data, year=year, record_type='LIVE', snapshot_id='0'
+            forecast_data, year=year, record_type='LIVE', snapshot_id='0', ui_metadata=ui_metadata
         )
 
-        # Insert new records
+        # Insert new records with embedded metadata
         db_records = []
         for month_data in monthly_data:
             db_record = database.FdwhForecast(
@@ -274,39 +260,32 @@ class ForecastRepository:
                 approved_by=None,
                 approved_at=None,
                 source_forecast_key=None,
+                # UI metadata fields (embedded for Snowflake persistence)
+                department_id=month_data['department_id'],
+                project_id=month_data['project_id'],
+                project_name=month_data['project_name'],
+                created_by=month_data['created_by'],
+                created_at=month_data['created_at'],
+                updated_at=month_data['updated_at'],
             )
             db_records.append(db_record)
 
         self.db.add_all(db_records)
-
-        # Create new metadata record
-        metadata_data = extract_metadata_from_yearly(forecast_data, year=year)
-        db_metadata = database.ForecastMetadata(
-            forecast_key=metadata_data['forecast_key'],
-            department_id=metadata_data['department_id'],
-            project_id=metadata_data['project_id'],
-            project_name=metadata_data['project_name'],
-            created_by=created_by,
-            created_at=created_at,
-            updated_at=date.today(),
-        )
-        self.db.add(db_metadata)
-
         self.db.commit()
 
         # Refresh all records
         for record in db_records:
             self.db.refresh(record)
-        self.db.refresh(db_metadata)
 
-        # Return as yearly view
-        yearly_dict = monthly_records_to_yearly_forecast(db_records, db_metadata)
+        # Return as yearly view (metadata is embedded in records)
+        yearly_dict = monthly_records_to_yearly_forecast(db_records)
         return schemas.Forecast(**yearly_dict)
 
     def delete(self, forecast_id: str) -> bool:
         """
-        Delete a LIVE forecast by removing all 12 monthly records and metadata.
+        Delete a LIVE forecast by removing all 12 monthly records.
         Only deletes LIVE records (record_type='LIVE').
+        Metadata is embedded in records so no separate deletion needed.
         """
         try:
             profitcenter, wbs, account_number, year = parse_forecast_key(forecast_id)
@@ -331,13 +310,8 @@ class ForecastRepository:
         else:
             query = query.filter(database.FdwhForecast.account_number.is_(None))
 
-        # Delete LIVE forecast records
+        # Delete LIVE forecast records (metadata is embedded, deleted with records)
         result = query.delete()
-
-        # Delete metadata
-        self.db.query(database.ForecastMetadata)\
-            .filter(database.ForecastMetadata.forecast_key == forecast_id)\
-            .delete()
 
         self.db.commit()
         return result > 0
@@ -356,6 +330,7 @@ class ForecastSnapshotRepository:
         """
         Get all snapshots as yearly views.
         Queries SNAP records, groups by snapshot_id, and transforms to yearly format.
+        Metadata is embedded in the snapshot records.
         """
         # Query all SNAP records
         snap_records = self.db.query(database.FdwhForecast)\
@@ -371,18 +346,11 @@ class ForecastSnapshotRepository:
         for record in snap_records:
             grouped[record.snapshot_id].append(record)
 
-        # Get all metadata records for lookup
-        metadata_records = self.db.query(database.ForecastMetadata).all()
-        metadata_lookup = {m.forecast_key: m for m in metadata_records}
-
-        # Convert each group to yearly snapshot view
+        # Convert each group to yearly snapshot view (metadata is embedded in records)
         snapshots = []
         for snapshot_id, months in grouped.items():
             if len(months) > 0:
-                # Get metadata using source_forecast_key
-                source_key = months[0].source_forecast_key
-                metadata = metadata_lookup.get(source_key) if source_key else None
-                yearly_dict = monthly_records_to_snapshot_view(months, metadata)
+                yearly_dict = monthly_records_to_snapshot_view(months)
                 snapshot = schemas.ForecastSnapshot(**yearly_dict)
                 snapshots.append(snapshot)
 
@@ -392,7 +360,8 @@ class ForecastSnapshotRepository:
         return snapshots
 
     def get_by_id(self, snapshot_id: str) -> Optional[schemas.ForecastSnapshot]:
-        """Get snapshot by snapshot_id (string) and return as yearly view."""
+        """Get snapshot by snapshot_id (string) and return as yearly view.
+        Metadata is embedded in the snapshot records."""
         # Query 12 months for this snapshot
         snap_records = self.db.query(database.FdwhForecast)\
             .filter(
@@ -405,19 +374,13 @@ class ForecastSnapshotRepository:
         if not snap_records:
             return None
 
-        # Get metadata using source_forecast_key
-        source_key = snap_records[0].source_forecast_key
-        metadata = None
-        if source_key:
-            metadata = self.db.query(database.ForecastMetadata)\
-                .filter(database.ForecastMetadata.forecast_key == source_key)\
-                .first()
-
-        yearly_dict = monthly_records_to_snapshot_view(snap_records, metadata)
+        # Metadata is embedded in records
+        yearly_dict = monthly_records_to_snapshot_view(snap_records)
         return schemas.ForecastSnapshot(**yearly_dict)
 
     def get_by_forecast_id(self, forecast_id: str) -> List[schemas.ForecastSnapshot]:
-        """Get all snapshots for a specific forecast."""
+        """Get all snapshots for a specific forecast.
+        Metadata is embedded in the snapshot records."""
         # Query SNAP records with matching source_forecast_key
         snap_records = self.db.query(database.FdwhForecast)\
             .filter(
@@ -435,16 +398,11 @@ class ForecastSnapshotRepository:
         for record in snap_records:
             grouped[record.snapshot_id].append(record)
 
-        # Get metadata
-        metadata = self.db.query(database.ForecastMetadata)\
-            .filter(database.ForecastMetadata.forecast_key == forecast_id)\
-            .first()
-
-        # Convert each group to yearly snapshot view
+        # Convert each group to yearly snapshot view (metadata is embedded in records)
         snapshots = []
         for snapshot_id, months in grouped.items():
             if len(months) > 0:
-                yearly_dict = monthly_records_to_snapshot_view(months, metadata)
+                yearly_dict = monthly_records_to_snapshot_view(months)
                 snapshot = schemas.ForecastSnapshot(**yearly_dict)
                 snapshots.append(snapshot)
 
@@ -457,6 +415,7 @@ class ForecastSnapshotRepository:
         """
         Create a snapshot from a LIVE forecast identified by forecast_key.
         Copies LIVE records to new SNAP records with unique snapshot_id.
+        Metadata is copied from the source LIVE records.
         """
         # Parse forecast key
         try:
@@ -487,16 +446,11 @@ class ForecastSnapshotRepository:
         if not source_months:
             raise ValueError(f"Forecast not found for key={forecast_key}")
 
-        # Get metadata for UI fields
-        metadata = self.db.query(database.ForecastMetadata)\
-            .filter(database.ForecastMetadata.forecast_key == forecast_key)\
-            .first()
-
         # Generate unique snapshot_id
         new_snapshot_id = generate_snapshot_id()
         snapshot_date = datetime.now(UTC)
 
-        # Create 12 SNAP records by copying from LIVE records
+        # Create 12 SNAP records by copying from LIVE records (including embedded metadata)
         snap_records = []
         for source_record in source_months:
             snap_record = database.FdwhForecast(
@@ -532,6 +486,13 @@ class ForecastSnapshotRepository:
                 approved_by=None,
                 approved_at=None,
                 source_forecast_key=forecast_key,
+                # Copy UI metadata from source record
+                department_id=source_record.department_id,
+                project_id=source_record.project_id,
+                project_name=source_record.project_name,
+                created_by=source_record.created_by,
+                created_at=source_record.created_at,
+                updated_at=source_record.updated_at,
             )
             snap_records.append(snap_record)
 
@@ -542,32 +503,44 @@ class ForecastSnapshotRepository:
         for record in snap_records:
             self.db.refresh(record)
 
-        yearly_dict = monthly_records_to_snapshot_view(snap_records, metadata)
+        # Metadata is embedded in snapshot records
+        yearly_dict = monthly_records_to_snapshot_view(snap_records)
         return schemas.ForecastSnapshot(**yearly_dict)
 
     def create_bulk_snapshots(self, department_id: int, submitted_by: str) -> List[schemas.ForecastSnapshot]:
         """
         Create snapshots for all forecasts in a department.
         All snapshots will share the same batch_id.
+        Department is now stored in the forecast records.
         """
         from uuid import uuid4
 
         # Generate a unique batch ID
         batch_id = f"{department_id}_{int(datetime.now(UTC).timestamp())}_{uuid4().hex[:8]}"
 
-        # Get all unique forecast keys for this department from metadata
-        metadata_records = self.db.query(database.ForecastMetadata)\
-            .filter(database.ForecastMetadata.department_id == department_id)\
+        # Get all unique forecast keys for this department from LIVE forecast records
+        # Query distinct forecast groupings by department_id
+        live_records = self.db.query(database.FdwhForecast)\
+            .filter(
+                database.FdwhForecast.record_type == 'LIVE',
+                database.FdwhForecast.department_id == department_id
+            )\
             .all()
 
-        if not metadata_records:
+        if not live_records:
             raise ValueError(f"No forecasts found for department_id={department_id}")
 
+        # Get unique forecast keys
+        forecast_keys = set()
+        for record in live_records:
+            key = generate_forecast_key(record.profitcenter, record.wbs, record.account_number, record.year)
+            forecast_keys.add(key)
+
         snapshots = []
-        for metadata in metadata_records:
+        for forecast_key in forecast_keys:
             try:
                 snapshot = self.create_from_forecast(
-                    forecast_key=metadata.forecast_key,
+                    forecast_key=forecast_key,
                     submitted_by=submitted_by,
                     batch_id=batch_id
                 )
@@ -582,7 +555,8 @@ class ForecastSnapshotRepository:
         return snapshots
 
     def approve(self, snapshot_id: str, approved_by: str) -> Optional[schemas.ForecastSnapshot]:
-        """Approve a snapshot by updating approval fields on all 12 records."""
+        """Approve a snapshot by updating approval fields on all 12 records.
+        Metadata is embedded in the snapshot records."""
         # Query all 12 SNAP records for this snapshot
         snap_records = self.db.query(database.FdwhForecast)\
             .filter(
@@ -607,15 +581,8 @@ class ForecastSnapshotRepository:
         for record in snap_records:
             self.db.refresh(record)
 
-        # Get metadata using source_forecast_key
-        source_key = snap_records[0].source_forecast_key
-        metadata = None
-        if source_key:
-            metadata = self.db.query(database.ForecastMetadata)\
-                .filter(database.ForecastMetadata.forecast_key == source_key)\
-                .first()
-
-        yearly_dict = monthly_records_to_snapshot_view(snap_records, metadata)
+        # Metadata is embedded in snapshot records
+        yearly_dict = monthly_records_to_snapshot_view(snap_records)
         return schemas.ForecastSnapshot(**yearly_dict)
 
     def delete(self, snapshot_id: str) -> bool:

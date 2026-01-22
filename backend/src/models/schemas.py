@@ -38,7 +38,7 @@ class ForecastBase(BaseModel):
     year: str = "2026"  # VARCHAR in Snowflake
     source: str = "MANUAL"
 
-    # UI metadata fields (stored in separate table, not in Snowflake)
+    # UI metadata fields (embedded in forecast records for Snowflake persistence)
     department_id: Optional[int] = None
     project_id: Optional[int] = None
     project_name: Optional[str] = None
@@ -80,7 +80,7 @@ class Forecast(ForecastBase):
     dbt_valid_to: Optional[str] = None
     period: Optional[str] = None
 
-    # Audit metadata (from forecast_metadata table)
+    # Audit metadata (embedded in forecast records)
     created_by: Optional[str] = None
     created_at: Optional[date] = None
     updated_at: Optional[date] = None
@@ -148,7 +148,7 @@ class ForecastSnapshotApprove(BaseModel):
 # These schemas map directly to the Snowflake-compatible database tables
 
 class FdwhForecastRecord(BaseModel):
-    """Internal schema for fdwh_forecast table records (unified LIVE and SNAP storage)."""
+    """Internal schema for fdwh_forecast table records (unified LIVE and SNAP storage with embedded metadata)."""
     pk: str  # Composite: {profitcenter}_{wbs}_{account}_{year}_{month}_{record_type}_{snapshot_id}
     profitcenter: Optional[int] = None
     wbs: Optional[str] = None
@@ -174,12 +174,7 @@ class FdwhForecastRecord(BaseModel):
     approved_by: Optional[str] = None
     approved_at: Optional[datetime] = None
     source_forecast_key: Optional[str] = None
-    model_config = ConfigDict(from_attributes=True)
-
-
-class ForecastMetadataRecord(BaseModel):
-    """Internal schema for forecast_metadata table records."""
-    forecast_key: str  # Composite: {profitcenter}_{wbs}_{account}_{year}
+    # UI metadata fields (embedded for Snowflake persistence)
     department_id: Optional[int] = None
     project_id: Optional[int] = None
     project_name: Optional[str] = None
@@ -188,6 +183,10 @@ class ForecastMetadataRecord(BaseModel):
     updated_at: Optional[date] = None
     model_config = ConfigDict(from_attributes=True)
 
+
+# ForecastMetadataRecord has been removed.
+# UI metadata (department_id, project_id, project_name, created_by, etc.)
+# is now embedded directly in FdwhForecastRecord for Snowflake persistence.
 
 # SnapshotHeaderRecord and SnapshotMonthRecord have been removed.
 # Snapshots are now stored in fdwh_forecast table with record_type='SNAP'.

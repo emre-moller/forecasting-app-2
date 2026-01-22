@@ -413,8 +413,9 @@ export const Dashboard = () => {
             icon={<CheckCircleOutlined />}
             size="large"
             onClick={handleSubmitAllForecasts}
+            disabled={!selectedDepartment || filteredForecasts.length === 0}
             style={{
-              backgroundColor: '#52c41a',
+              backgroundColor: (!selectedDepartment || filteredForecasts.length === 0) ? '#d9d9d9' : '#52c41a',
               color: 'white',
               fontWeight: 'bold'
             }}

@@ -1,7 +1,7 @@
 from datetime import date, datetime, UTC
 
 from src.config.database import SessionLocal, engine
-from src.models.database import Base, Department, Project, FdwhForecast, ForecastMetadata
+from src.models.database import Base, Department, Project, FdwhForecast
 from src.services.forecast_transformation import generate_pk, generate_forecast_key, generate_period, month_int_to_str
 
 # Drop and recreate tables (start fresh per user requirement)
@@ -45,7 +45,7 @@ def init_database():
         db.commit()
 
         # Add forecasts with Snowflake-compatible fdwh_forecast structure
-        # Each forecast becomes 12 monthly records in fdwh_forecast + 1 metadata record
+        # Each forecast becomes 12 monthly records in fdwh_forecast with embedded UI metadata
 
         forecast_configs = [
             {
@@ -156,29 +156,15 @@ def init_database():
 
         load_start_ts = datetime.now(UTC).isoformat()
 
-        # Create 12 monthly fdwh_forecast records + 1 metadata record for each forecast
+        # Create 12 monthly fdwh_forecast records for each forecast
+        # UI metadata is now embedded directly in each monthly record
         for config in forecast_configs:
             profitcenter = config['profitcenter']
             wbs = config['wbs']
             account_number = config['account_number']
             year = config['year']
 
-            # Generate forecast_key for metadata
-            forecast_key = generate_forecast_key(profitcenter, wbs, account_number, year)
-
-            # Create metadata record (UI fields)
-            metadata = ForecastMetadata(
-                forecast_key=forecast_key,
-                department_id=config['department_id'],
-                project_id=config['project_id'],
-                project_name=config['project_name'],
-                created_by=config['created_by'],
-                created_at=config['created_at'],
-                updated_at=config['created_at']
-            )
-            db.add(metadata)
-
-            # Create 12 monthly LIVE forecast records
+            # Create 12 monthly LIVE forecast records with embedded metadata
             for month in range(1, 13):
                 month_str = month_int_to_str(month)
                 # PK now includes record_type and snapshot_id: {pc}_{wbs}_{acc}_{year}_{month}_LIVE_0
@@ -210,6 +196,13 @@ def init_database():
                     approved_by=None,
                     approved_at=None,
                     source_forecast_key=None,
+                    # UI metadata fields (embedded for Snowflake persistence)
+                    department_id=config['department_id'],
+                    project_id=config['project_id'],
+                    project_name=config['project_name'],
+                    created_by=config['created_by'],
+                    created_at=config['created_at'],
+                    updated_at=config['created_at'],
                 )
                 db.add(forecast_record)
 
@@ -217,7 +210,7 @@ def init_database():
 
         print("Database initialized successfully!")
         print(f"Created {len(forecast_configs)} forecasts with 12 monthly records each (96 total fdwh_forecast records)")
-        print(f"Created {len(forecast_configs)} forecast_metadata records")
+        print("UI metadata is now embedded in each forecast record for Snowflake persistence")
 
     finally:
         db.close()

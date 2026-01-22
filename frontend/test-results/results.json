@@ -1,0 +1,724 @@
+{
+  "config": {
+    "configFile": "C:\\Dev\\forecasting-app-2\\frontend\\playwright.config.ts",
+    "rootDir": "C:/Dev/forecasting-app-2/frontend/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 3
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        null
+      ],
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "C:/Dev/forecasting-app-2/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 3
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Dev/forecasting-app-2/frontend/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.57.0",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "bulk-snapshot-submission.spec.ts",
+      "file": "bulk-snapshot-submission.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Bulk Snapshot Submission",
+          "file": "bulk-snapshot-submission.spec.ts",
+          "line": 13,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should display \"Submit All Forecasts\" button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2110,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-22T09:36:22.146Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "77a052502288514c23ab-0d8157c98ac48a0b8c9b",
+              "file": "bulk-snapshot-submission.spec.ts",
+              "line": 34,
+              "column": 3
+            },
+            {
+              "title": "should disable submit button when no department is selected",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1812,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-22T09:36:24.519Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "77a052502288514c23ab-a7eba04697f19d1984b2",
+              "file": "bulk-snapshot-submission.spec.ts",
+              "line": 40,
+              "column": 3
+            },
+            {
+              "title": "should enable submit button when department is selected and forecasts exist",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5239,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Created forecast: {\n  profitcenter: \u001b[33m1\u001b[39m,\n  wbs: \u001b[32m'WBS-BULK-TEST'\u001b[39m,\n  account_number: \u001b[33m1\u001b[39m,\n  year: \u001b[32m'2026'\u001b[39m,\n  source: \u001b[32m'MANUAL'\u001b[39m,\n  department_id: \u001b[33m5\u001b[39m,\n  project_id: \u001b[33m9\u001b[39m,\n  project_name: \u001b[32m'Test Bulk Submission'\u001b[39m,\n  jan: \u001b[33m100000\u001b[39m,\n  feb: \u001b[33m100000\u001b[39m,\n  mar: \u001b[33m100000\u001b[39m,\n  apr: \u001b[33m100000\u001b[39m,\n  may: \u001b[33m100000\u001b[39m,\n  jun: \u001b[33m100000\u001b[39m,\n  jul: \u001b[33m100000\u001b[39m,\n  aug: \u001b[33m100000\u001b[39m,\n  sep: \u001b[33m100000\u001b[39m,\n  oct: \u001b[33m100000\u001b[39m,\n  nov: \u001b[33m100000\u001b[39m,\n  dec: \u001b[33m100000\u001b[39m,\n  total: \u001b[33m1200000\u001b[39m,\n  yearly_sum: \u001b[33m1200000\u001b[39m,\n  id: \u001b[32m'1_WBS-BULK-TEST_1_2026'\u001b[39m,\n  dbt_updated_at: \u001b[1mnull\u001b[22m,\n  dbt_valid_from: \u001b[1mnull\u001b[22m,\n  dbt_valid_to: \u001b[1mnull\u001b[22m,\n  period: \u001b[32m'2026-01'\u001b[39m,\n  created_by: \u001b[32m'Current User'\u001b[39m,\n  created_at: \u001b[32m'2026-01-22'\u001b[39m,\n  updated_at: \u001b[32m'2026-01-22'\u001b[39m\n}\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-22T09:36:26.355Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "77a052502288514c23ab-fa8ccc357331e7ed68ad",
+              "file": "bulk-snapshot-submission.spec.ts",
+              "line": 47,
+              "column": 3
+            },
+            {
+              "title": "should submit all forecasts for selected department",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7622,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Created forecast: {\n  profitcenter: \u001b[33m1\u001b[39m,\n  wbs: \u001b[32m'WBS-BULK-1'\u001b[39m,\n  account_number: \u001b[33m1\u001b[39m,\n  year: \u001b[32m'2026'\u001b[39m,\n  source: \u001b[32m'MANUAL'\u001b[39m,\n  department_id: \u001b[33m5\u001b[39m,\n  project_id: \u001b[33m9\u001b[39m,\n  project_name: \u001b[32m'Test Forecast 1'\u001b[39m,\n  jan: \u001b[33m100000\u001b[39m,\n  feb: \u001b[33m100000\u001b[39m,\n  mar: \u001b[33m100000\u001b[39m,\n  apr: \u001b[33m100000\u001b[39m,\n  may: \u001b[33m100000\u001b[39m,\n  jun: \u001b[33m100000\u001b[39m,\n  jul: \u001b[33m100000\u001b[39m,\n  aug: \u001b[33m100000\u001b[39m,\n  sep: \u001b[33m100000\u001b[39m,\n  oct: \u001b[33m100000\u001b[39m,\n  nov: \u001b[33m100000\u001b[39m,\n  dec: \u001b[33m100000\u001b[39m,\n  total: \u001b[33m1200000\u001b[39m,\n  yearly_sum: \u001b[33m1200000\u001b[39m,\n  id: \u001b[32m'1_WBS-BULK-1_1_2026'\u001b[39m,\n  dbt_updated_at: \u001b[1mnull\u001b[22m,\n  dbt_valid_from: \u001b[1mnull\u001b[22m,\n  dbt_valid_to: \u001b[1mnull\u001b[22m,\n  period: \u001b[32m'2026-01'\u001b[39m,\n  created_by: \u001b[32m'Current User'\u001b[39m,\n  created_at: \u001b[32m'2026-01-22'\u001b[39m,\n  updated_at: \u001b[32m'2026-01-22'\u001b[39m\n}\n"
+                        },
+                        {
+                          "text": "Created forecast: {\n  profitcenter: \u001b[33m2\u001b[39m,\n  wbs: \u001b[32m'WBS-BULK-2'\u001b[39m,\n  account_number: \u001b[33m2\u001b[39m,\n  year: \u001b[32m'2026'\u001b[39m,\n  source: \u001b[32m'MANUAL'\u001b[39m,\n  department_id: \u001b[33m5\u001b[39m,\n  project_id: \u001b[33m10\u001b[39m,\n  project_name: \u001b[32m'Test Forecast 2'\u001b[39m,\n  jan: \u001b[33m100000\u001b[39m,\n  feb: \u001b[33m100000\u001b[39m,\n  mar: \u001b[33m100000\u001b[39m,\n  apr: \u001b[33m100000\u001b[39m,\n  may: \u001b[33m100000\u001b[39m,\n  jun: \u001b[33m100000\u001b[39m,\n  jul: \u001b[33m100000\u001b[39m,\n  aug: \u001b[33m100000\u001b[39m,\n  sep: \u001b[33m100000\u001b[39m,\n  oct: \u001b[33m100000\u001b[39m,\n  nov: \u001b[33m100000\u001b[39m,\n  dec: \u001b[33m100000\u001b[39m,\n  total: \u001b[33m1200000\u001b[39m,\n  yearly_sum: \u001b[33m1200000\u001b[39m,\n  id: \u001b[32m'2_WBS-BULK-2_2_2026'\u001b[39m,\n  dbt_updated_at: \u001b[1mnull\u001b[22m,\n  dbt_valid_from: \u001b[1mnull\u001b[22m,\n  dbt_valid_to: \u001b[1mnull\u001b[22m,\n  period: \u001b[32m'2026-01'\u001b[39m,\n  created_by: \u001b[32m'Current User'\u001b[39m,\n  created_at: \u001b[32m'2026-01-22'\u001b[39m,\n  updated_at: \u001b[32m'2026-01-22'\u001b[39m\n}\n"
+                        },
+                        {
+                          "text": "Dialog message: Submit all 4 forecast(s) for this department?\n"
+                        },
+                        {
+                          "text": "Dialog message: Successfully submitted 4 forecast(s) for approval!\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-22T09:36:31.609Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "77a052502288514c23ab-0fe1a6fca25468a2c765",
+              "file": "bulk-snapshot-submission.spec.ts",
+              "line": 83,
+              "column": 3
+            },
+            {
+              "title": "should not show individual Submit buttons in live forecasts table",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1650,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-22T09:36:39.245Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "77a052502288514c23ab-470e08c3c1ec2f363e7d",
+              "file": "bulk-snapshot-submission.spec.ts",
+              "line": 129,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "forecast-crud.spec.ts",
+      "file": "forecast-crud.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Forecast CRUD Operations",
+          "file": "forecast-crud.spec.ts",
+          "line": 13,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should display the dashboard with statistics",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2228,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-22T09:36:22.146Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b069b7b70f9d4473966f-c8fc80e9797a9759a6a1",
+              "file": "forecast-crud.spec.ts",
+              "line": 27,
+              "column": 3
+            },
+            {
+              "title": "should load forecasts with embedded metadata from API",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2123,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-22T09:36:24.649Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b069b7b70f9d4473966f-494521e7429206ae47ab",
+              "file": "forecast-crud.spec.ts",
+              "line": 41,
+              "column": 3
+            },
+            {
+              "title": "should display all 12 monthly columns in the table",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1773,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-22T09:36:26.789Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b069b7b70f9d4473966f-6513192dd610d352ba99",
+              "file": "forecast-crud.spec.ts",
+              "line": 75,
+              "column": 3
+            },
+            {
+              "title": "should show empty state when no forecasts exist",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1641,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-22T09:36:28.577Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b069b7b70f9d4473966f-e2f49556fedbb020032e",
+              "file": "forecast-crud.spec.ts",
+              "line": 96,
+              "column": 3
+            },
+            {
+              "title": "should persist data after page reload",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2623,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-22T09:36:30.233Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b069b7b70f9d4473966f-393702affb19a990d2ff",
+              "file": "forecast-crud.spec.ts",
+              "line": 106,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "user-workflows.spec.ts",
+      "file": "user-workflows.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "User Workflows",
+          "file": "user-workflows.spec.ts",
+          "line": 13,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should edit cell values inline by clicking",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 8300,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Created forecast: {\n  profitcenter: \u001b[33m1\u001b[39m,\n  wbs: \u001b[32m'WBS-EDIT'\u001b[39m,\n  account_number: \u001b[33m1\u001b[39m,\n  year: \u001b[32m'2026'\u001b[39m,\n  source: \u001b[32m'MANUAL'\u001b[39m,\n  department_id: \u001b[33m5\u001b[39m,\n  project_id: \u001b[33m9\u001b[39m,\n  project_name: \u001b[32m'Inline Edit Test'\u001b[39m,\n  jan: \u001b[33m100000\u001b[39m,\n  feb: \u001b[33m100000\u001b[39m,\n  mar: \u001b[33m100000\u001b[39m,\n  apr: \u001b[33m100000\u001b[39m,\n  may: \u001b[33m100000\u001b[39m,\n  jun: \u001b[33m100000\u001b[39m,\n  jul: \u001b[33m100000\u001b[39m,\n  aug: \u001b[33m100000\u001b[39m,\n  sep: \u001b[33m100000\u001b[39m,\n  oct: \u001b[33m100000\u001b[39m,\n  nov: \u001b[33m100000\u001b[39m,\n  dec: \u001b[33m100000\u001b[39m,\n  total: \u001b[33m1200000\u001b[39m,\n  yearly_sum: \u001b[33m1200000\u001b[39m,\n  id: \u001b[32m'1_WBS-EDIT_1_2026'\u001b[39m,\n  dbt_updated_at: \u001b[1mnull\u001b[22m,\n  dbt_valid_from: \u001b[1mnull\u001b[22m,\n  dbt_valid_to: \u001b[1mnull\u001b[22m,\n  period: \u001b[32m'2026-01'\u001b[39m,\n  created_by: \u001b[32m'Current User'\u001b[39m,\n  created_at: \u001b[32m'2026-01-22'\u001b[39m,\n  updated_at: \u001b[32m'2026-01-22'\u001b[39m\n}\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-22T09:36:22.148Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a6a647dfb9a4c813362b-2503089f04e3f2ea3d8f",
+              "file": "user-workflows.spec.ts",
+              "line": 32,
+              "column": 3
+            },
+            {
+              "title": "should filter forecasts by department selection",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 8414,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Created forecast: {\n  profitcenter: \u001b[33m1001\u001b[39m,\n  wbs: \u001b[32m'WBS-D1'\u001b[39m,\n  account_number: \u001b[33m1001\u001b[39m,\n  year: \u001b[32m'2026'\u001b[39m,\n  source: \u001b[32m'MANUAL'\u001b[39m,\n  department_id: \u001b[33m1\u001b[39m,\n  project_id: \u001b[33m1\u001b[39m,\n  project_name: \u001b[32m'Dept 1 Forecast'\u001b[39m,\n  jan: \u001b[33m100000\u001b[39m,\n  feb: \u001b[33m100000\u001b[39m,\n  mar: \u001b[33m100000\u001b[39m,\n  apr: \u001b[33m100000\u001b[39m,\n  may: \u001b[33m100000\u001b[39m,\n  jun: \u001b[33m100000\u001b[39m,\n  jul: \u001b[33m100000\u001b[39m,\n  aug: \u001b[33m100000\u001b[39m,\n  sep: \u001b[33m100000\u001b[39m,\n  oct: \u001b[33m100000\u001b[39m,\n  nov: \u001b[33m100000\u001b[39m,\n  dec: \u001b[33m100000\u001b[39m,\n  total: \u001b[33m1200000\u001b[39m,\n  yearly_sum: \u001b[33m1200000\u001b[39m,\n  id: \u001b[32m'1001_WBS-D1_1001_2026'\u001b[39m,\n  dbt_updated_at: \u001b[1mnull\u001b[22m,\n  dbt_valid_from: \u001b[1mnull\u001b[22m,\n  dbt_valid_to: \u001b[1mnull\u001b[22m,\n  period: \u001b[32m'2026-01'\u001b[39m,\n  created_by: \u001b[32m'Current User'\u001b[39m,\n  created_at: \u001b[32m'2026-01-22'\u001b[39m,\n  updated_at: \u001b[32m'2026-01-22'\u001b[39m\n}\n"
+                        },
+                        {
+                          "text": "Created forecast: {\n  profitcenter: \u001b[33m2001\u001b[39m,\n  wbs: \u001b[32m'WBS-D2'\u001b[39m,\n  account_number: \u001b[33m2001\u001b[39m,\n  year: \u001b[32m'2026'\u001b[39m,\n  source: \u001b[32m'MANUAL'\u001b[39m,\n  department_id: \u001b[33m2\u001b[39m,\n  project_id: \u001b[33m3\u001b[39m,\n  project_name: \u001b[32m'Dept 2 Forecast'\u001b[39m,\n  jan: \u001b[33m100000\u001b[39m,\n  feb: \u001b[33m100000\u001b[39m,\n  mar: \u001b[33m100000\u001b[39m,\n  apr: \u001b[33m100000\u001b[39m,\n  may: \u001b[33m100000\u001b[39m,\n  jun: \u001b[33m100000\u001b[39m,\n  jul: \u001b[33m100000\u001b[39m,\n  aug: \u001b[33m100000\u001b[39m,\n  sep: \u001b[33m100000\u001b[39m,\n  oct: \u001b[33m100000\u001b[39m,\n  nov: \u001b[33m100000\u001b[39m,\n  dec: \u001b[33m100000\u001b[39m,\n  total: \u001b[33m1200000\u001b[39m,\n  yearly_sum: \u001b[33m1200000\u001b[39m,\n  id: \u001b[32m'2001_WBS-D2_2001_2026'\u001b[39m,\n  dbt_updated_at: \u001b[1mnull\u001b[22m,\n  dbt_valid_from: \u001b[1mnull\u001b[22m,\n  dbt_valid_to: \u001b[1mnull\u001b[22m,\n  period: \u001b[32m'2026-01'\u001b[39m,\n  created_by: \u001b[32m'Current User'\u001b[39m,\n  created_at: \u001b[32m'2026-01-22'\u001b[39m,\n  updated_at: \u001b[32m'2026-01-22'\u001b[39m\n}\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-22T09:36:30.701Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a6a647dfb9a4c813362b-625f4af5f0d1afb5c092",
+              "file": "user-workflows.spec.ts",
+              "line": 87,
+              "column": 3
+            },
+            {
+              "title": "should add a new row when clicking ADD ROW button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 4289,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-22T09:36:39.133Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a6a647dfb9a4c813362b-a9263d7512216e7b2915",
+              "file": "user-workflows.spec.ts",
+              "line": 154,
+              "column": 3
+            },
+            {
+              "title": "should delete a forecast row",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 7113,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Created forecast: {\n  profitcenter: \u001b[33m1\u001b[39m,\n  wbs: \u001b[32m'WBS-DEL'\u001b[39m,\n  account_number: \u001b[33m1\u001b[39m,\n  year: \u001b[32m'2026'\u001b[39m,\n  source: \u001b[32m'MANUAL'\u001b[39m,\n  department_id: \u001b[33m5\u001b[39m,\n  project_id: \u001b[33m9\u001b[39m,\n  project_name: \u001b[32m'Delete Me'\u001b[39m,\n  jan: \u001b[33m100000\u001b[39m,\n  feb: \u001b[33m100000\u001b[39m,\n  mar: \u001b[33m100000\u001b[39m,\n  apr: \u001b[33m100000\u001b[39m,\n  may: \u001b[33m100000\u001b[39m,\n  jun: \u001b[33m100000\u001b[39m,\n  jul: \u001b[33m100000\u001b[39m,\n  aug: \u001b[33m100000\u001b[39m,\n  sep: \u001b[33m100000\u001b[39m,\n  oct: \u001b[33m100000\u001b[39m,\n  nov: \u001b[33m100000\u001b[39m,\n  dec: \u001b[33m100000\u001b[39m,\n  total: \u001b[33m1200000\u001b[39m,\n  yearly_sum: \u001b[33m1200000\u001b[39m,\n  id: \u001b[32m'1_WBS-DEL_1_2026'\u001b[39m,\n  dbt_updated_at: \u001b[1mnull\u001b[22m,\n  dbt_valid_from: \u001b[1mnull\u001b[22m,\n  dbt_valid_to: \u001b[1mnull\u001b[22m,\n  period: \u001b[32m'2026-01'\u001b[39m,\n  created_by: \u001b[32m'Current User'\u001b[39m,\n  created_at: \u001b[32m'2026-01-22'\u001b[39m,\n  updated_at: \u001b[32m'2026-01-22'\u001b[39m\n}\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-22T09:36:43.434Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a6a647dfb9a4c813362b-62285fc8e464d33dde13",
+              "file": "user-workflows.spec.ts",
+              "line": 187,
+              "column": 3
+            },
+            {
+              "title": "should edit yearly sum and distribute to all months",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 8743,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Created forecast: {\n  profitcenter: \u001b[33m1\u001b[39m,\n  wbs: \u001b[32m'WBS-YEAR'\u001b[39m,\n  account_number: \u001b[33m1\u001b[39m,\n  year: \u001b[32m'2026'\u001b[39m,\n  source: \u001b[32m'MANUAL'\u001b[39m,\n  department_id: \u001b[33m5\u001b[39m,\n  project_id: \u001b[33m9\u001b[39m,\n  project_name: \u001b[32m'Yearly Sum Test'\u001b[39m,\n  jan: \u001b[33m100000\u001b[39m,\n  feb: \u001b[33m100000\u001b[39m,\n  mar: \u001b[33m100000\u001b[39m,\n  apr: \u001b[33m100000\u001b[39m,\n  may: \u001b[33m100000\u001b[39m,\n  jun: \u001b[33m100000\u001b[39m,\n  jul: \u001b[33m100000\u001b[39m,\n  aug: \u001b[33m100000\u001b[39m,\n  sep: \u001b[33m100000\u001b[39m,\n  oct: \u001b[33m100000\u001b[39m,\n  nov: \u001b[33m100000\u001b[39m,\n  dec: \u001b[33m100000\u001b[39m,\n  total: \u001b[33m1200000\u001b[39m,\n  yearly_sum: \u001b[33m1200000\u001b[39m,\n  id: \u001b[32m'1_WBS-YEAR_1_2026'\u001b[39m,\n  dbt_updated_at: \u001b[1mnull\u001b[22m,\n  dbt_valid_from: \u001b[1mnull\u001b[22m,\n  dbt_valid_to: \u001b[1mnull\u001b[22m,\n  period: \u001b[32m'2026-01'\u001b[39m,\n  created_by: \u001b[32m'Current User'\u001b[39m,\n  created_at: \u001b[32m'2026-01-22'\u001b[39m,\n  updated_at: \u001b[32m'2026-01-22'\u001b[39m\n}\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-22T09:36:50.560Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a6a647dfb9a4c813362b-f3c97e8713fb5a054119",
+              "file": "user-workflows.spec.ts",
+              "line": 235,
+              "column": 3
+            },
+            {
+              "title": "should display forecasting dimension selector",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\user-workflows.spec.ts",
+                        "line": 282,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-22T09:36:59.315Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "location": {
+                            "file": "C:\\Dev\\forecasting-app-2\\frontend\\tests\\e2e\\user-workflows.spec.ts",
+                            "line": 282,
+                            "column": 8
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "a6a647dfb9a4c813362b-bd0c1419b4778c633a09",
+              "file": "user-workflows.spec.ts",
+              "line": 292,
+              "column": 8
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-01-22T09:36:17.672Z",
+    "duration": 42150.661,
+    "expected": 15,
+    "skipped": 1,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

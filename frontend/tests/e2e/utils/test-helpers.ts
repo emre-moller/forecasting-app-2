@@ -42,7 +42,15 @@ export async function createTestForecast(data: {
 
   const total = monthlyValues.reduce((sum, val) => sum + val, 0);
   const year = data.year || new Date().getFullYear();
-  const forecastId = `${data.projectId}_${year}`;
+
+  // Parse profitCenter and account to integers (backend expects int | null)
+  const profitcenter = data.profitCenter ? parseInt(data.profitCenter.replace(/\D/g, '')) || null : null;
+  const accountNumber = data.account ? parseInt(data.account.replace(/\D/g, '')) || null : null;
+
+  // Generate correct forecast ID format: {profitcenter}_{wbs}_{account}_{year}
+  const pc = profitcenter !== null ? profitcenter.toString() : '0';
+  const acc = accountNumber !== null ? accountNumber.toString() : '0';
+  const forecastId = `${pc}_${data.wbs}_${acc}_${year}`;
 
   // Delete existing forecast if it exists
   try {
@@ -60,9 +68,11 @@ export async function createTestForecast(data: {
       department_id: parseInt(data.departmentId),
       project_id: parseInt(data.projectId),
       project_name: data.projectName,
-      profit_center: data.profitCenter,
+      profitcenter: profitcenter,
       wbs: data.wbs,
-      account: data.account,
+      account_number: accountNumber,
+      year: year.toString(),
+      source: 'MANUAL',
       ...monthlyData,
       total,
       yearly_sum: total,
@@ -276,13 +286,16 @@ export async function tableRowExists(page: Page, rowData: Partial<{
 
 /**
  * Get forecast count from table
+ * Excludes the placeholder row (which has class 'add-row') by counting only rows with actual data
  */
 export async function getForecastCount(page: Page, tableType: 'live' | 'snapshot' = 'live') {
   const tableSelector = tableType === 'live'
     ? '.forecast-input-section table'
     : '.dashboard-section table';
 
-  const rows = page.locator(`${tableSelector} tbody tr`).filter({hasNotText: 'Click to add'});
+  // Count rows that are NOT the placeholder row (placeholder has 'add-row' class or contains 'Project Name' placeholder)
+  // We count rows that have actual data cells (.cell-number with real values)
+  const rows = page.locator(`${tableSelector} tbody tr:not(.add-row)`);
   return rows.count();
 }
 

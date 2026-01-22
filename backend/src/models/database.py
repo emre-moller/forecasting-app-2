@@ -16,7 +16,6 @@ class Department(Base):
     code = Column(String(10), nullable=False, unique=True)
 
     projects = relationship("Project", back_populates="department")
-    forecast_metadata = relationship("ForecastMetadata", back_populates="department")
 
 
 class Project(Base):
@@ -29,7 +28,6 @@ class Project(Base):
     department_id = Column(Integer, ForeignKey("departments.id"), nullable=False)
 
     department = relationship("Department", back_populates="projects")
-    forecast_metadata = relationship("ForecastMetadata", back_populates="project")
 
 
 class FdwhForecast(Base):
@@ -81,6 +79,15 @@ class FdwhForecast(Base):
     approved_at = Column(DateTime, nullable=True)
     source_forecast_key = Column(String, nullable=True)  # Links snapshot to original forecast
 
+    # UI metadata fields (synced to Snowflake for persistence)
+    # These are duplicated across all 12 monthly records for simplicity
+    department_id = Column(Integer, nullable=True)
+    project_id = Column(Integer, nullable=True)
+    project_name = Column(String(200), nullable=True)
+    created_by = Column(String(100), nullable=True)
+    created_at = Column(Date, nullable=True)
+    updated_at = Column(Date, nullable=True)
+
     __table_args__ = (
         Index('idx_forecast_grouping', 'profitcenter', 'wbs', 'account_number', 'year'),
         Index('idx_forecast_period', 'period'),
@@ -89,31 +96,9 @@ class FdwhForecast(Base):
     )
 
 
-class ForecastMetadata(Base):
-    """
-    Local UI metadata for forecasts - NOT synced to Snowflake.
-    Stores department, project, and audit information for display purposes.
-    Links to fdwh_forecast by forecast_key (composite key without month).
-    """
-    __tablename__ = "forecast_metadata"
-
-    # Key format: {profitcenter}_{wbs}_{account}_{year}
-    forecast_key = Column(String, primary_key=True)
-
-    # UI reference fields
-    department_id = Column(Integer, ForeignKey("departments.id"), nullable=True)
-    project_id = Column(Integer, ForeignKey("projects.id"), nullable=True)
-    project_name = Column(String(200), nullable=True)
-
-    # Audit fields
-    created_by = Column(String(100), nullable=True)
-    created_at = Column(Date, nullable=True, default=date.today)
-    updated_at = Column(Date, nullable=True, default=date.today, onupdate=date.today)
-
-    # Relationships
-    department = relationship("Department", back_populates="forecast_metadata")
-    project = relationship("Project", back_populates="forecast_metadata")
-
+# ForecastMetadata table has been removed.
+# UI metadata (department_id, project_id, project_name, created_by, etc.)
+# is now stored directly in FdwhForecast records for Snowflake persistence.
 
 # ForecastSnapshotHeader and ForecastSnapshotMonth have been removed.
 # Snapshots are now stored in fdwh_forecast table with record_type='SNAP'.
